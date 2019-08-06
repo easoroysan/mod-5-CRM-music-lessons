@@ -9,6 +9,8 @@ class CreateStudents < ActiveRecord::Migration[5.2]
       t.text :misc_notes
       t.integer :phone_number
       t.string :email
+      t.references :school, foreign_key: true
+      t.references :family, foreign_key: true
 
       t.timestamps
     end

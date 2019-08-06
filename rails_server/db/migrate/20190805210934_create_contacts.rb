@@ -9,6 +9,8 @@ class CreateContacts < ActiveRecord::Migration[5.2]
       t.string :email
       t.string :billing_address
       t.string :billing_info
+      t.references :school, foreign_key: true
+      t.references :family, foreign_key: true
 
       t.timestamps
     end

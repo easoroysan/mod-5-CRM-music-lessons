@@ -13,7 +13,8 @@ class CreateInstructors < ActiveRecord::Migration[5.2]
       t.string :instrument_2
       t.string :instrument_3
       t.text :misc_notes
-      t.integer :rate_per_hour
+      t.integer :pay_rate
+      t.boolean :active
 
       t.timestamps
     end
