@@ -10,25 +10,6 @@ skiles = User.create({ first_name: "Skiles", last_name: "Kelley", username: "ski
 UserSchool.create({school: rrml, user: skiles})
 UserSchool.create({school: river_oaks, user: skiles})
 
-20.times do |num|
-    Faker::Config.locale = 'en-US'
-    phone_number = "#{Faker::PhoneNumber.area_code}#{Faker::PhoneNumber.exchange_code}#{Faker::PhoneNumber.subscriber_number}".to_i
-
-    first_name = Faker::Name.first_name
-    last_name = Faker::Name.last_name
-    family = Family.create({family_name: last_name})
-
-    student = Student.create({first_name: first_name, last_name: last_name, date_of_birth: Faker::Date.birthday(min_age: 10, max_age: 60), phone_number: phone_number, email: "#{first_name}@gmail.com", school: rrml, family: family})
-    age = Date.today.year - student.date_of_birth.to_s.split(" ")[-1].to_i
-
-    if age > 20
-        Contact.create({first_name: first_name, last_name: last_name, relation_to_students: 'Student', phone_number: phone_number, email: "#{first_name}@gmail.com", school: rrml, family: family})
-    else
-        parent_first_name = Faker::Name.first_name
-        Contact.create({first_name: parent_first_name, last_name: last_name, relation_to_students: 'Parent', phone_number: phone_number, email: "#{parent_first_name}@gmail.com", school: rrml, family: family})
-    end
-end
-
 10.times do |num|
     Faker::Config.locale = 'en-US'
     phone_number = "#{Faker::PhoneNumber.area_code}#{Faker::PhoneNumber.exchange_code}#{Faker::PhoneNumber.subscriber_number}".to_i
@@ -49,4 +30,26 @@ Instructor.all.each do |instructor|
             ClassTime.create(start_time: start_times[index], end_time: end_times[index], day: day, instructor: instructor, school: rrml, active: true)
         end
     end
+end
+
+20.times do |num|
+    Faker::Config.locale = 'en-US'
+    phone_number = "#{Faker::PhoneNumber.area_code}#{Faker::PhoneNumber.exchange_code}#{Faker::PhoneNumber.subscriber_number}".to_i
+
+    first_name = Faker::Name.first_name
+    last_name = Faker::Name.last_name
+    family = Family.create({family_name: last_name})
+
+    student = Student.create({first_name: first_name, last_name: last_name, date_of_birth: Faker::Date.birthday(min_age: 10, max_age: 60), phone_number: phone_number, email: "#{first_name}@gmail.com", school: rrml, family: family})
+    age = Date.today.year - student.date_of_birth.to_s.split(" ")[-1].to_i
+
+    if age > 20
+        Contact.create({first_name: first_name, last_name: last_name, relation_to_students: 'Student', phone_number: phone_number, email: "#{first_name}@gmail.com", school: rrml, family: family})
+    else
+        parent_first_name = Faker::Name.first_name
+        Contact.create({first_name: parent_first_name, last_name: last_name, relation_to_students: 'Parent', phone_number: phone_number, email: "#{parent_first_name}@gmail.com", school: rrml, family: family})
+    end
+
+    instructor = Instructor.all.sample
+    Lesson.create({active:true, student: student, class_time: instructor.class_times.sample, instrument: instructor.instrument_1, school: rrml, price: 100})
 end
