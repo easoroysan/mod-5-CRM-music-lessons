@@ -4,7 +4,6 @@ class CreateLessons < ActiveRecord::Migration[5.2]
       t.boolean :active
       t.text :misc_notes
       t.text :instructor_notes
-      t.text :attendance #make it as a long string of dates seperated by commas?
       t.string :instrument
       t.integer :price
       t.references :school, foreign_key: true

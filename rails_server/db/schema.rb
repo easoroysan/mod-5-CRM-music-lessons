@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_06_152732) do
+ActiveRecord::Schema.define(version: 2019_08_12_154314) do
+
+  create_table "attendances", force: :cascade do |t|
+    t.integer "lesson_id"
+    t.date "date"
+    t.string "attendance"
+    t.boolean "make_up"
+    t.string "cancelled_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lesson_id"], name: "index_attendances_on_lesson_id"
+  end
 
   create_table "class_times", force: :cascade do |t|
     t.string "day"
@@ -82,7 +93,6 @@ ActiveRecord::Schema.define(version: 2019_08_06_152732) do
     t.boolean "active"
     t.text "misc_notes"
     t.text "instructor_notes"
-    t.text "attendance"
     t.string "instrument"
     t.integer "price"
     t.integer "school_id"

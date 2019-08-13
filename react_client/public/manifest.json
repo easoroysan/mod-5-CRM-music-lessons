@@ -1,9 +1,9 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Easo Scheduler",
+  "name": "Easo's Music Lessons Scheduler",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "music-organizer.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }

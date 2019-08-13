@@ -9,5 +9,6 @@ Rails.application.routes.draw do
   resources :students
   resources :families
   resources :contacts
+  resources :attendances
 
 end

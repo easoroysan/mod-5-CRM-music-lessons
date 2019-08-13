@@ -1,18 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-      </header>
-    </div>
-  );
+import { Home } from './containers/home'
+import { SidebarClass } from './components/sidebar'
+import Students from './containers/students.js'
+import Instructors from './containers/instructors.js';
+
+
+
+class App extends React.Component{
+  render(){
+    return (
+      <BrowserRouter>
+        <Route path="/" render={()=><SidebarClass/>}/>
+        <Route exact path="/home" render={()=><Home/>}/>
+        <Route exact path="/students" render={()=><Students />} />
+        <Route exact path="/instructors" render={()=><Instructors />} />
+      </BrowserRouter>
+    )
+  }
 }
 
 export default App;
