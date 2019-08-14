@@ -12,6 +12,7 @@ class App extends React.Component{
   render(){
     return (
       <BrowserRouter>
+        {/* Only show sidebar if someone is logged in */}
         <Route path="/" render={()=><SidebarClass/>}/>
         <Route exact path="/home" render={()=><Home/>}/>
         <Route exact path="/students" render={()=><Students />} />
