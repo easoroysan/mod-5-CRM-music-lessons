@@ -15,6 +15,7 @@ export default class LoginForm extends React.Component{
     })
     .then(r => r.json())
     .then(result => {
+      console.log(result)
       localStorage.setItem('token',result.token)
     })
   }

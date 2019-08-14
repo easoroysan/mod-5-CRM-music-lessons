@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
     def login
         user = User.find_by(username: params[:username])
-        if user && user.password == params[:password]
+        if user && user.authenticate(params[:password])
             render json: {message: "Confirmed", token: "this should be a real token"}
         else
             render json: {message: "Incorrect username or password", token: "ZGlzIHRva2VuIGJlIGZha2UgOjM="}
