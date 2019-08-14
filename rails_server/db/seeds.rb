@@ -6,6 +6,10 @@ require 'faker'
 rrml = School.create({name: "Rockin' Robin Music Lessons", location: "9029 Hwy. 6 Suite 160 Missouri City, TX 77459, USA" })
 river_oaks = School.create({name: "River Oaks Music School", location: "1701 S Shepherd Dr suite e, Houston, TX 77019" })
 
+roy = User.create({ first_name: "Roysan", last_name: "Easo", username: "roysan", password: "123", email: "roy.example@gmail.com", permissions:"all"})
+UserSchool.create({school: rrml, user: roy})
+UserSchool.create({school: river_oaks, user: roy})
+
 skiles = User.create({ first_name: "Skiles", last_name: "Kelley", username: "skilesk", password: "123", email: "skilesk.example@gmail.com", permissions:"all"})
 UserSchool.create({school: rrml, user: skiles})
 UserSchool.create({school: river_oaks, user: skiles})
