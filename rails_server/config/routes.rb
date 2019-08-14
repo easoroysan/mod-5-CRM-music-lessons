@@ -11,4 +11,6 @@ Rails.application.routes.draw do
   resources :contacts
   resources :attendances
 
+  post '/login', to: 'users#login'
+
 end

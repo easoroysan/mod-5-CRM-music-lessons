@@ -4,7 +4,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :first_name
       t.string :last_name
       t.string :username
-      t.string :password #this will probably need to change for security
+      t.string :password_digest
       t.string :email
       t.string :permissions #this might need to change depending on how I set up the permissions
 
