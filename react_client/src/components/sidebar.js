@@ -9,7 +9,8 @@ class SidebarClass extends React.Component {
         visible: false,
         homeButton: {background: 'black'},
         instructorButton: {background: 'black'},
-        studentButton: {background: 'black'}
+        studentButton: {background: 'black'},
+        familyButton: {background: 'black'}
     }
 
     handleHideClick = () => this.setState({ visible: false })
@@ -59,12 +60,22 @@ class SidebarClass extends React.Component {
                         </Link>
                         <Link to="/instructors" onClick={this.handleHideClick}>
                             <Menu.Item
-                            style={this.state.instructorButton}
-                            onMouseEnter={()=> this.setState({ instructorButton: {background:'gray'}})}
-                            onMouseLeave={()=> this.setState({ instructorButton: {background:'black'}})}
+                                style={this.state.instructorButton}
+                                onMouseEnter={()=> this.setState({ instructorButton: {background:'gray'}})}
+                                onMouseLeave={()=> this.setState({ instructorButton: {background:'black'}})}
                             >
                                 <Icon name='microphone' />
                                 Instructors
+                            </Menu.Item>
+                        </Link>
+                        <Link to="/families" onClick={this.handleHideClick}>
+                            <Menu.Item
+                                style={this.state.familyButton}
+                                onMouseEnter={()=> this.setState({ familyButton: {background:'gray'}})}
+                                onMouseLeave={()=> this.setState({ familyButton: {background:'black'}})}
+                            >
+                                <Icon name='group' />
+                                Families
                             </Menu.Item>
                         </Link>
                     </Sidebar>
@@ -77,4 +88,4 @@ class SidebarClass extends React.Component {
     }
 }
 
-export default connect(state => ({ authorized: state.users }))(SidebarClass);
+export default connect(state => ({ authorized: state.currentUser.authorized }))(SidebarClass);

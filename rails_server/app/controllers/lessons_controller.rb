@@ -2,7 +2,15 @@ class LessonsController < ApplicationController
     before_action :check_authorization
 
     def index
-        render json: Lesson.all, methods: [:school, :class_time, :student]
+        lessons = []
+
+        school_ids = @current_user.schools.each do |school| 
+            Lesson.all.where("school_id = '#{school.id}'").each do |lesson|
+                lessons << lesson
+            end
+        end
+
+        render json: lessons, methods: [:school, :class_time, :student, :instructor]
     end
 
     def show

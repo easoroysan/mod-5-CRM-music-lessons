@@ -1,23 +1,58 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import { fetchInstructors } from '../actions/instructors'
+import { authFail } from '../actions/current_user';
+import { Header, Icon, Table } from 'semantic-ui-react'
+
 
 class Instructors extends React.Component{
     render(){
         return(
             <div>
-                All Instructors
-                <ul>
-                    {this.props.instructors.map( instructor => <li key={instructor.id}>{instructor.first_name} {instructor.last_name}</li> )}
-                </ul>
+                <Header as='h2' icon textAlign='center'>
+                    <Icon name='microphone' />
+                    <Header.Content>Instructors</Header.Content>
+                </Header>
+                <Table celled>
+
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>Name</Table.HeaderCell>
+                            <Table.HeaderCell>Active</Table.HeaderCell>
+                            <Table.HeaderCell>Phone Number</Table.HeaderCell>
+                            <Table.HeaderCell>Emergancy Number</Table.HeaderCell>
+                            <Table.HeaderCell>Email</Table.HeaderCell>
+                            <Table.HeaderCell>Date of Birth</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+
+                    <Table.Body>
+                        {this.props.instructors.map( instructor =>(
+                            <Table.Row key={instructor.id}>
+                                <Table.Cell>{instructor.first_name} {instructor.last_name}</Table.Cell>
+                                <Table.Cell>{instructor.active ? "Active": "Inactive"}</Table.Cell>
+                                <Table.Cell>{instructor.phone_number}</Table.Cell>
+                                <Table.Cell>{instructor.emergency_number}</Table.Cell>
+                                <Table.Cell>{instructor.email}</Table.Cell>
+                                <Table.Cell>{instructor.date_of_birth}</Table.Cell>
+                            </Table.Row>
+                        ))}
+                    </Table.Body>
+                </Table>
             </div>
         )
     }
 
     componentDidMount(){
-        fetch('http://localhost:5000/instructors')
+        fetch('http://localhost:5000/instructors',{
+            method:"GET",
+            headers: {
+                'Content-Type':'application/json',
+                'Authorization': localStorage.getItem('token')
+            }
+        })
         .then(r=> r.json())
-        .then(instructors => this.props.dispatch(fetchInstructors(instructors)))
+        .then(instructors => instructors.error ? this.props.dispatch(authFail()) : this.props.dispatch(fetchInstructors(instructors)))
     }
 }
 

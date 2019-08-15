@@ -57,8 +57,10 @@ ActiveRecord::Schema.define(version: 2019_08_12_154314) do
     t.string "family_name"
     t.text "misc_notes"
     t.integer "billing_total"
+    t.integer "school_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["school_id"], name: "index_families_on_school_id"
   end
 
   create_table "instructor_schools", force: :cascade do |t|

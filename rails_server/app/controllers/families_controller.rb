@@ -2,7 +2,7 @@ class FamiliesController < ApplicationController
     before_action :check_authorization
 
     def index
-        render json: Family.all
+        render json: Family.all, methods: [:students, :contacts]
     end
 
     def show

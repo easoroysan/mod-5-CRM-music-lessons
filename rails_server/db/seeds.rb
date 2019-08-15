@@ -45,7 +45,7 @@ end
 
     first_name = Faker::Name.first_name
     last_name = Faker::Name.last_name
-    family = Family.create({family_name: last_name})
+    family = Family.create({family_name: last_name, school: rrml})
 
     student = Student.create({first_name: first_name, last_name: last_name, date_of_birth: Faker::Date.birthday(min_age: 10, max_age: 60), phone_number: phone_number, email: "#{first_name}@gmail.com", school: rrml, family: family})
     age = Date.today.year - student.date_of_birth.to_s.split(" ")[-1].to_i
