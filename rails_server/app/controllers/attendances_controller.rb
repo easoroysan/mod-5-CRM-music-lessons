@@ -1,4 +1,5 @@
 class AttendancesController < ApplicationController
+    before_action :check_authorization
 
     def index
         render json: Attendance.all, methods: [:lessons]

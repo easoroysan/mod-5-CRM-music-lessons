@@ -5,11 +5,11 @@ class User < ApplicationRecord
 
     def auth_token
         my_secret_key = "9304u'jhgylyfjkdjsrte,.hihrwkljsfdfi4tn4qi3njo.,cmv,;pqwmfwea[;,l4q3f.aqiweyhfdanskjn4q8wreh[;.'uflajsk"
-        JWT.encode({ id: self.id, type: 'user'}, my_secret_key,'HS384')
+        JWT.encode({ id: self.id, type: 'admin'}, my_secret_key,'HS384')
     end 
 
-    # def as_json(*)
-    #     super.except('password_digest')
-    # end
+    def as_json(*)
+        super.except('password_digest')
+    end
 
 end

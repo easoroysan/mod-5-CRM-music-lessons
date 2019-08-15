@@ -1,8 +1,11 @@
-import React from 'react'
+import React from 'react';
 import { connect } from 'react-redux';
-import { fetchStudents } from '../actions/students'
+import { fetchStudents } from '../actions/students';
+import { authFail } from '../actions/users';
+
 
 class Students extends React.Component{
+
     render(){
         return(
             <div>
@@ -15,9 +18,17 @@ class Students extends React.Component{
     }
 
     componentDidMount(){
-        fetch('http://localhost:5000/students')
+        fetch('http://localhost:5000/students',{
+            method:"GET",
+            headers: {
+                'Content-Type':'application/json',
+                'Authorization': localStorage.getItem('token')
+            }
+        })
         .then(r=> r.json())
-        .then(students => this.props.dispatch(fetchStudents(students)))
+        .then(students => {
+            students.error ? this.props.dispatch(authFail()) : this.props.dispatch(fetchStudents(students))
+        })
     }
 }
 

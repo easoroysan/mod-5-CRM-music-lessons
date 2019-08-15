@@ -1,4 +1,5 @@
 class ContactsController < ApplicationController
+    before_action :check_authorization
 
     def index
         render json: Contact.all, methods: [:school, :family]

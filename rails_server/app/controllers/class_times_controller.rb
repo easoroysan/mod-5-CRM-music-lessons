@@ -1,4 +1,5 @@
 class ClassTimesController < ApplicationController
+    before_action :check_authorization
 
     def index
         render json: ClassTime.all, methods: [:instructor,:school, :students]

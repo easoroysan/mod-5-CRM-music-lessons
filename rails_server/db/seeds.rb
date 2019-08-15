@@ -3,6 +3,9 @@
 
 require 'faker'
 
+#put destroy all stuff for for each thing to make seeding more consistent
+#example: User.destroy_all
+
 rrml = School.create({name: "Rockin' Robin Music Lessons", location: "9029 Hwy. 6 Suite 160 Missouri City, TX 77459, USA" })
 river_oaks = School.create({name: "River Oaks Music School", location: "1701 S Shepherd Dr suite e, Houston, TX 77019" })
 

@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
+    before_action :check_authorization, except: :authenticate
 
-    def login
+    def authenticate
         user = User.find_by(username: params[:username])
         if user && user.authenticate(params[:password])
             puts user

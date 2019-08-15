@@ -1,4 +1,5 @@
 class StudentsController < ApplicationController
+    before_action :check_authorization
 
     def index
         render json: Student.all, methods: [:school, :family, :class_times]
