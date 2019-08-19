@@ -19,12 +19,13 @@ UserSchool.create({school: river_oaks, user: skiles})
 
 10.times do |num|
     Faker::Config.locale = 'en-US'
-    phone_number = "#{Faker::PhoneNumber.area_code}#{Faker::PhoneNumber.exchange_code}#{Faker::PhoneNumber.subscriber_number}".to_i
+    phone_number = "(#{Faker::PhoneNumber.area_code}) #{Faker::PhoneNumber.exchange_code}-#{Faker::PhoneNumber.subscriber_number}"
     instruments = ["Piano", "Guitar", "Drums", "Voice", "Saxophone", "Violin", "Flute"]
 
     first_name = Faker::Name.first_name
-    instructor = Instructor.create({first_name: first_name, last_name: Faker::Name.last_name, date_of_birth: Faker::Date.birthday(min_age: 22, max_age: 60), phone_number: phone_number, email: "#{first_name}@gmail.com", instrument_1: instruments.sample, instrument_2: instruments.sample, pay_rate: 30, biography: Faker::Quote.matz, active: true})
+    instructor = Instructor.create({first_name: first_name, last_name: Faker::Name.last_name, billing_address:"", date_of_birth: Faker::Date.birthday(min_age: 22, max_age: 60), phone_number: phone_number, emergency_number: "", email: "#{first_name}@gmail.com", instrument_1: instruments.sample, instrument_2: instruments.sample, instrument_3: "", pay_rate: 30, biography: Faker::Quote.matz, misc_notes: "", active: true})
     InstructorSchool.create({ school: rrml, instructor: instructor })
+    InstructorSchool.create({ school: river_oaks, instructor: instructor })
 end
 
 Instructor.all.each do |instructor|
@@ -41,13 +42,13 @@ end
 
 20.times do |num|
     Faker::Config.locale = 'en-US'
-    phone_number = "#{Faker::PhoneNumber.area_code}#{Faker::PhoneNumber.exchange_code}#{Faker::PhoneNumber.subscriber_number}".to_i
+    phone_number = "(#{Faker::PhoneNumber.area_code})#{Faker::PhoneNumber.exchange_code}-#{Faker::PhoneNumber.subscriber_number}"
 
     first_name = Faker::Name.first_name
     last_name = Faker::Name.last_name
-    family = Family.create({family_name: last_name, school: rrml})
+    family = Family.create({family_name: last_name, school: rrml, misc_notes: ""})
 
-    student = Student.create({first_name: first_name, last_name: last_name, date_of_birth: Faker::Date.birthday(min_age: 10, max_age: 60), phone_number: phone_number, email: "#{first_name}@gmail.com", school: rrml, family: family})
+    student = Student.create({first_name: first_name, last_name: last_name, date_of_birth: Faker::Date.birthday(min_age: 10, max_age: 60), phone_number: phone_number, email: "#{first_name}@gmail.com", school: rrml, family: family, medical_notes: "", billing_notes: "", misc_notes: ""})
     age = Date.today.year - student.date_of_birth.to_s.split(" ")[-1].to_i
 
     if age > 20

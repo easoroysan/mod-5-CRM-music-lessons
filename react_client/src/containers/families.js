@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchFamilies } from '../actions/families';
 import { authFail } from '../actions/current_user';
-import { Header, Icon, Table } from 'semantic-ui-react'
+import { Header, Icon, Table } from 'semantic-ui-react';
+import { Link } from 'react-router-dom'
 
 
 class Families extends React.Component{
@@ -21,6 +22,7 @@ class Families extends React.Component{
                             <Table.HeaderCell>Family Name</Table.HeaderCell>
                             <Table.HeaderCell>Contacts</Table.HeaderCell>
                             <Table.HeaderCell>Students</Table.HeaderCell>
+                            <Table.HeaderCell>School</Table.HeaderCell>
                             <Table.HeaderCell>Billing Total</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
@@ -28,7 +30,7 @@ class Families extends React.Component{
                     <Table.Body>
                         {this.props.families.map( family =>(
                             <Table.Row key={family.id}>
-                                <Table.Cell>{family.family_name}</Table.Cell>
+                                <Table.Cell><Link to={`/families/${family.id}`} >{family.family_name}</Link></Table.Cell>
                                 <Table.Cell>{family.contacts.map( contact => (
                                     family.contacts[contact.id] ?
                                     `${contact.first_name}, ` :
@@ -39,6 +41,7 @@ class Families extends React.Component{
                                     `${student.first_name}, ` :
                                     `${student.first_name}`
                                 ))}</Table.Cell>
+                                <Table.Cell>{family.school.name}</Table.Cell>
                                 <Table.Cell>{family.billing_total}</Table.Cell>
                             </Table.Row>
                         ))}
@@ -56,9 +59,14 @@ class Families extends React.Component{
                 'Authorization': localStorage.getItem('token')
             }
         })
-        .then(r=> r.json())
+        //give error option for everything?
+        .then(r=> r.status===200 ? r.json() : console.log('error'))
         .then(families => {
-            families.error ? this.props.dispatch(authFail()) : this.props.dispatch(fetchFamilies(families))
+            if(families){
+                families.error ? this.props.dispatch(authFail()) : this.props.dispatch(fetchFamilies(families))
+            }else{
+                alert("There was an error retrieving the date. If this persists, please contact customer support")
+            }
         })
     }
 }

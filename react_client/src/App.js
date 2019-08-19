@@ -1,14 +1,19 @@
 import React from 'react';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { authFail,authSuccess } from './actions/current_user';
-
 
 import Home from './containers/home';
 import SidebarClass from './components/sidebar';
 import Students from './containers/students.js';
+import StudentPage from './containers/studentPage';
 import Instructors from './containers/instructors.js';
+import InstructorPage from './containers/instructorPage.js';
 import Families from './containers/families';
+import FamilyPage from './containers/familyPage';
+import Clients from './containers/clients';
+
+import Default from './containers/default';
 
 
 
@@ -17,12 +22,18 @@ class App extends React.Component{
   render(){
     return (
       <BrowserRouter>
-        <Route path="/" render={()=><SidebarClass/>}/>
-        <Route exact path="/" render={()=><Redirect to='/home'/>}/>
-        <Route exact path="/home" render={()=><Home/>}/>
-        <Route exact path="/students" render={()=><Students />} />
-        <Route exact path="/instructors" render={()=><Instructors />} />
-        <Route exact path="/families" render={()=><Families />} />
+        <SidebarClass/>
+        <Switch>
+          <Route exact path="/" render={()=><Home/>}/>
+          <Route exact path="/students" render={()=><Students/>} />
+          <Route path="/students" render={()=><StudentPage/>} />
+          <Route exact path="/instructors" render={()=><Instructors/>} />
+          <Route path="/instructors" render={()=><InstructorPage/>} />
+          <Route exact path="/families" render={()=><Families/>} />
+          <Route path="/families" render={()=><FamilyPage/>} />
+          <Route exact path="/clients" render={()=><Clients/>} />
+          <Route component={()=><Default/>} />
+        </Switch>
       </BrowserRouter>
     )
   }
@@ -40,10 +51,10 @@ class App extends React.Component{
     })
     .then(r=> r.json())
     .then(res =>{
-      if(!res.error){
-        this.props.dispatch(authSuccess(res))
-      }else{
+      if(res.error){
         this.props.dispatch(authFail())
+      }else{
+        this.props.dispatch(authSuccess(res))
       }
     })
   }

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Header, Icon, Table, Divider } from 'semantic-ui-react'
 import { fetchLessons } from '../actions/lessons';
 import { authFail } from '../actions/current_user';
+import { Link } from 'react-router-dom'
 
 
 class MainPage extends React.Component{
@@ -39,6 +40,7 @@ class MainPage extends React.Component{
                                     <Table.HeaderCell>Instructor</Table.HeaderCell>
                                     <Table.HeaderCell>Time</Table.HeaderCell>
                                     <Table.HeaderCell>Student</Table.HeaderCell>
+                                    <Table.HeaderCell>Instrument</Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
 
@@ -46,9 +48,10 @@ class MainPage extends React.Component{
                                 {this.props.lessons.filter(lesson => lesson.class_time.day === dayNames[date.getDay()] && lesson.school.name === school.name)
                                 .map( lesson =>(
                                     <Table.Row key={lesson.id}>
-                                        <Table.Cell>{lesson.instructor.first_name} {lesson.instructor.last_name}</Table.Cell>
+                                        <Table.Cell><Link to={`/instructors/${lesson.instructor.id}`} >{lesson.instructor.first_name} {lesson.instructor.last_name}</Link></Table.Cell>
                                         <Table.Cell>{lesson.class_time.start_time}-{lesson.class_time.end_time}</Table.Cell>
-                                        <Table.Cell>{lesson.student.first_name} {lesson.student.last_name}</Table.Cell>
+                                        <Table.Cell><Link to={`/students/${lesson.student.id}`} >{lesson.student.first_name} {lesson.student.last_name}</Link></Table.Cell>
+                                        <Table.Cell>{lesson.instrument}</Table.Cell>
                                     </Table.Row>
                                 ))}
                             </Table.Body>

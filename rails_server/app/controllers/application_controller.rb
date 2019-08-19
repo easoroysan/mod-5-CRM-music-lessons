@@ -20,13 +20,13 @@ class ApplicationController < ActionController::API
                 #this means someone has the secret or user was deleted
                 render json: {
                     error:true,
-                    message: 'Authentication Error'
+                    message: 'Authorization Error'
                 }
             end
         rescue
             render json: {
                 error: true,
-                message: 'Authentication Error'
+                message: 'Authorization Error'
             }
         end
         

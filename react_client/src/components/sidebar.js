@@ -10,7 +10,8 @@ class SidebarClass extends React.Component {
         homeButton: {background: 'black'},
         instructorButton: {background: 'black'},
         studentButton: {background: 'black'},
-        familyButton: {background: 'black'}
+        familyButton: {background: 'black'},
+        clientButton: {background: 'black'}
     }
 
     handleHideClick = () => this.setState({ visible: false })
@@ -38,7 +39,7 @@ class SidebarClass extends React.Component {
                         visible={visible}
                         width='thin'
                     >
-                        <Link to="/home" onClick={this.handleHideClick}>
+                        <Link to="/" onClick={this.handleHideClick}>
                             <Menu.Item
                             style={this.state.homeButton}
                             onMouseEnter={()=> this.setState({ homeButton: {background:'gray'}})}
@@ -46,16 +47,6 @@ class SidebarClass extends React.Component {
                             >
                                 <Icon name='home' />
                                 Home
-                            </Menu.Item>
-                        </Link>
-                        <Link to="/students" onClick={this.handleHideClick}>
-                            <Menu.Item
-                            style={this.state.studentButton}
-                            onMouseEnter={()=> this.setState({ studentButton: {background:'gray'}})}
-                            onMouseLeave={()=> this.setState({ studentButton: {background:'black'}})}
-                            >
-                                <Icon name='headphones' />
-                                Students
                             </Menu.Item>
                         </Link>
                         <Link to="/instructors" onClick={this.handleHideClick}>
@@ -68,6 +59,16 @@ class SidebarClass extends React.Component {
                                 Instructors
                             </Menu.Item>
                         </Link>
+                        <Link to="/students" onClick={this.handleHideClick}>
+                            <Menu.Item
+                            style={this.state.studentButton}
+                            onMouseEnter={()=> this.setState({ studentButton: {background:'gray'}})}
+                            onMouseLeave={()=> this.setState({ studentButton: {background:'black'}})}
+                            >
+                                <Icon name='headphones' />
+                                Students
+                            </Menu.Item>
+                        </Link>
                         <Link to="/families" onClick={this.handleHideClick}>
                             <Menu.Item
                                 style={this.state.familyButton}
@@ -78,12 +79,22 @@ class SidebarClass extends React.Component {
                                 Families
                             </Menu.Item>
                         </Link>
+                        <Link to="/clients" onClick={this.handleHideClick}>
+                            <Menu.Item
+                                style={this.state.clientButton}
+                                onMouseEnter={()=> this.setState({ clientButton: {background:'gray'}})}
+                                onMouseLeave={()=> this.setState({ clientButton: {background:'black'}})}
+                            >
+                                <Icon name='universal access' />
+                                Clients
+                            </Menu.Item>
+                        </Link>
                     </Sidebar>
                 </div>
             )
         }
         else{
-            return <Redirect to='/home' />
+            return <Redirect to='/' />
         }
     }
 }

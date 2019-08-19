@@ -4,7 +4,7 @@ class LessonsController < ApplicationController
     def index
         lessons = []
 
-        school_ids = @current_user.schools.each do |school| 
+        @current_user.schools.each do |school| 
             Lesson.all.where("school_id = '#{school.id}'").each do |lesson|
                 lessons << lesson
             end

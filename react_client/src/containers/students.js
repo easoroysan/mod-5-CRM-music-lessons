@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fetchStudents } from '../actions/students';
 import { authFail } from '../actions/current_user';
 import { Header, Icon, Table } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 
 class Students extends React.Component{
@@ -19,6 +20,7 @@ class Students extends React.Component{
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>Name</Table.HeaderCell>
+                            <Table.HeaderCell>Family Name</Table.HeaderCell>
                             <Table.HeaderCell>Phone Number</Table.HeaderCell>
                             <Table.HeaderCell>Email</Table.HeaderCell>
                             <Table.HeaderCell>Date of Birth</Table.HeaderCell>
@@ -28,7 +30,8 @@ class Students extends React.Component{
                     <Table.Body>
                         {this.props.students.map( student =>(
                             <Table.Row key={student.id}>
-                                <Table.Cell>{student.first_name} {student.last_name}</Table.Cell>
+                                <Table.Cell><Link to={`/students/${student.id}`} >{student.first_name} {student.last_name}</Link></Table.Cell>
+                                <Table.Cell>{student.family.family_name}</Table.Cell>
                                 <Table.Cell>{student.phone_number}</Table.Cell>
                                 <Table.Cell>{student.email}</Table.Cell>
                                 <Table.Cell>{student.date_of_birth}</Table.Cell>

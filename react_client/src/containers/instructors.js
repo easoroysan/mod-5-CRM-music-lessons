@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux';
 import { fetchInstructors } from '../actions/instructors'
 import { authFail } from '../actions/current_user';
-import { Header, Icon, Table } from 'semantic-ui-react'
+import { Header, Icon, Table } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 
 class Instructors extends React.Component{
@@ -18,6 +19,7 @@ class Instructors extends React.Component{
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>Name</Table.HeaderCell>
+                            <Table.HeaderCell>Schools</Table.HeaderCell>
                             <Table.HeaderCell>Active</Table.HeaderCell>
                             <Table.HeaderCell>Phone Number</Table.HeaderCell>
                             <Table.HeaderCell>Emergancy Number</Table.HeaderCell>
@@ -29,7 +31,14 @@ class Instructors extends React.Component{
                     <Table.Body>
                         {this.props.instructors.map( instructor =>(
                             <Table.Row key={instructor.id}>
-                                <Table.Cell>{instructor.first_name} {instructor.last_name}</Table.Cell>
+                                <Table.Cell><Link to={`/instructors/${instructor.id}`} >{instructor.first_name} {instructor.last_name}</Link></Table.Cell>
+                                <Table.Cell>{instructor.schools.map( school=> (
+                                            <div key={school.id}>
+                                                {school.name}
+                                                <br/>
+                                            </div>
+                                        )
+                                )}</Table.Cell>
                                 <Table.Cell>{instructor.active ? "Active": "Inactive"}</Table.Cell>
                                 <Table.Cell>{instructor.phone_number}</Table.Cell>
                                 <Table.Cell>{instructor.emergency_number}</Table.Cell>

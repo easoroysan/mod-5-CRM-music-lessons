@@ -18,7 +18,7 @@ class LoginForm extends React.Component{
     .then(r => r.json())
     .then(result => {
       localStorage.setItem('token',result.token)
-      result.message === "Confirmed" ? this.props.dispatch(authSuccess(result.current_user)) : this.props.dispatch(authFail())
+      result.message === "Confirmed" ? this.props.dispatch(authSuccess({ ...result.current_user, schools: result.schools })) : this.props.dispatch(authFail())
     })
   }
 
