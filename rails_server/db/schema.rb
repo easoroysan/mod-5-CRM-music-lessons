@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2019_08_12_154314) do
     t.string "last_name"
     t.string "relation_to_students"
     t.string "phone_number"
-    t.string "emergency_phone_number"
+    t.string "emergency_number"
     t.string "email"
     t.string "billing_address"
     t.string "billing_info"

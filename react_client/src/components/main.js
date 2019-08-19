@@ -46,6 +46,7 @@ class MainPage extends React.Component{
 
                             <Table.Body>
                                 {this.props.lessons.filter(lesson => lesson.class_time.day === dayNames[date.getDay()] && lesson.school.name === school.name)
+                                .sort( (a,b) => a.instructor.last_name > b.instructor.last_name ? 1 : a.instructor.last_name < b.instructor.last_name ? -1 : 0)
                                 .map( lesson =>(
                                     <Table.Row key={lesson.id}>
                                         <Table.Cell><Link to={`/instructors/${lesson.instructor.id}`} >{lesson.instructor.first_name} {lesson.instructor.last_name}</Link></Table.Cell>

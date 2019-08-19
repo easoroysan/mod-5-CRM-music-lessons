@@ -12,6 +12,7 @@ import InstructorPage from './containers/instructorPage.js';
 import Families from './containers/families';
 import FamilyPage from './containers/familyPage';
 import Clients from './containers/clients';
+import ContactPage from './containers/contactPage';
 
 import Default from './containers/default';
 
@@ -32,6 +33,7 @@ class App extends React.Component{
           <Route exact path="/families" render={()=><Families/>} />
           <Route path="/families" render={()=><FamilyPage/>} />
           <Route exact path="/clients" render={()=><Clients/>} />
+          <Route path="/contacts" render={()=><ContactPage/>} />
           <Route component={()=><Default/>} />
         </Switch>
       </BrowserRouter>

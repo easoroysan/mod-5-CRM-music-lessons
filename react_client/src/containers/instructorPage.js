@@ -3,12 +3,15 @@ import { connect } from "react-redux";
 import { Header, Icon, Form, Button, Divider, Message } from 'semantic-ui-react';
 import { fetchDesiredInstructor, updateDesiredInstructor } from '../actions/instructors';
 import { authFail } from '../actions/current_user';
+import { Link } from 'react-router-dom'
+import InstructorSchedule from './instructorSchedule'
 
 class InstructorPage extends React.Component{
 
     state={
         old_instructor:{},
-        success: false
+        success: false,
+        schedule: false
     }
 
     handleChange = (key,info) => this.props.dispatch(updateDesiredInstructor(key,info))
@@ -43,9 +46,11 @@ class InstructorPage extends React.Component{
                 <Header as='h2' icon textAlign='center'>
                     <Icon name='microphone' />
                     <Header.Content>{this.state.old_instructor.first_name} {this.state.old_instructor.last_name}</Header.Content>
+                    <Link to='/instructors' ><Button>Return to Instructors</Button></Link>
+                    <Button onClick={()=> this.setState({ schedule: !this.state.schedule })}>{this.state.schedule ? 'Hide' : 'Show'} Schedule</Button>
                 </Header>
 
-                <Divider/>
+                {this.state.schedule ? <InstructorSchedule /> : <Divider/>}
 
                 <Form success style={{margin: '10px'}} onSubmit={()=>this.handleSubmit}>
                     <Form.Group widths='equal'>

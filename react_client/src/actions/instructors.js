@@ -9,3 +9,7 @@ export function fetchDesiredInstructor(instructor){
 export function updateDesiredInstructor(key,value){
     return {type: "INSTRUCTOR_ONCHANGE", key, value}
 }
+
+export function fetchInstructorClassTimes(class_times){
+    return {type: "FETCH_INSTRUCTOR_CLASSTIMES", class_times}
+}

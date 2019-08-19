@@ -1,32 +1,32 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Header, Icon, Form, Button, Divider, Message } from 'semantic-ui-react';
-import { fetchDesiredStudent, updateDesiredStudent } from '../actions/students';
+import { fetchDesiredContact, updateDesiredContact } from '../actions/contacts';
 import { authFail } from '../actions/current_user';
 import { Link } from 'react-router-dom'
 
-class StudentPage extends React.Component{
+class ContactPage extends React.Component{
 
     state={
-        old_student:{},
+        old_contact:{},
         success: false
     }
 
-    handleChange = (key,info) => this.props.dispatch(updateDesiredStudent(key,info))
+    handleChange = (key,info) => this.props.dispatch(updateDesiredContact(key,info))
     handleSubmit = () => {
-        fetch(`http://localhost:5000/students/${this.props.student.id}`,{
+        fetch(`http://localhost:5000/contacts/${this.props.contact.id}`,{
             method:"PATCH",
             headers: {
                 'Content-Type':'application/json',
                 'Authorization': localStorage.getItem('token')
             },
-            body: JSON.stringify(this.props.student)
+            body: JSON.stringify(this.props.contact)
         })
         .then(r=>r.json())
-        .then( student =>{
+        .then( contact =>{
             this.setState({
                 success: true,
-                old_student: student
+                old_contact: contact
             })
             setInterval(() => {
                 this.setState({
@@ -37,13 +37,13 @@ class StudentPage extends React.Component{
     }
 
     render(){
-        let {first_name,last_name, phone_number, email, date_of_birth, misc_notes, medical_notes, billing_notes, family_id} = this.props.student
+        let {first_name,last_name, relation_to_students, phone_number, emergency_number, email, billing_address, family_id} = this.props.contact
 
         return(
             <div>
                 <Header as='h2' icon textAlign='center'>
-                    <Icon name='headphones' />
-                    <Header.Content>{this.state.old_student.first_name} {this.state.old_student.last_name}</Header.Content>
+                    <Icon name='phone' />
+                    <Header.Content>{this.state.old_contact.first_name} {this.state.old_contact.last_name}</Header.Content>
                     <Link to={`/families/${family_id}`} ><Button>Return to Family Page</Button></Link>
                 </Header>
 
@@ -53,17 +53,18 @@ class StudentPage extends React.Component{
                     <Form.Group widths='equal'>
                         <Form.Input fluid label='First name' value={first_name} onChange={(e)=>this.handleChange('first_name',e.target.value)}/>
                         <Form.Input fluid label='Last name' value={last_name} onChange={(e)=>this.handleChange('last_name',e.target.value)}/>
-                        <Form.Input fluid label='Date of birth' onFocus={ e => e.target.type='date'} onBlur={ e => e.target.type='text'} value={date_of_birth} onChange={(e)=>this.handleChange('date_of_birth',e.target.value)}/>
+                        <Form.Input fluid label='Relation to Students' value={relation_to_students} onChange={(e)=>this.handleChange('relation_to_students',e.target.value)}/>
+                    </Form.Group>
+                    <Form.Group widths='equal'>
+                        <Form.Input fluid label='Billing Address' value={billing_address} onChange={(e)=>this.handleChange('billing_address',e.target.value)}/>
                     </Form.Group>
                     <Form.Group widths='equal'>
                         <Form.Input fluid label='Phone Number' type='text' value={phone_number} onChange={(e)=>this.handleChange('phone_number',e.target.value)}/>
+                        <Form.Input fluid label='Emergency Number' type='tel' value={emergency_number} onChange={(e)=>this.handleChange('emergency_number',e.target.value)}/>
                         <Form.Input fluid label='Email' type='email' value={email} onChange={(e)=>this.handleChange('email',e.target.value)}/>
                     </Form.Group>
-                    <Form.TextArea label='Medical Notes' value={medical_notes} onChange={(e)=>this.handleChange('medical_notes',e.target.value)}></Form.TextArea>
-                    <Form.TextArea label='Billing Notes' value={billing_notes} onChange={(e)=>this.handleChange('billing_notes',e.target.value)}></Form.TextArea>
-                    <Form.TextArea label='Miscellaneous Notes' value={misc_notes} onChange={(e)=>this.handleChange('misc_notes',e.target.value)}></Form.TextArea>
                     <Button type='submit' onClick={this.handleSubmit}>Save Changes</Button>
-                    <Button onClick={()=> this.props.dispatch(fetchDesiredStudent(this.state.old_student))}>Revert Changes</Button>
+                    <Button onClick={()=> this.props.dispatch(fetchDesiredContact(this.state.old_contact))}>Revert Changes</Button>
                     {this.state.success ? <Message success header='Changes have been saved' /> : null}
                 </Form>
             </div>
@@ -72,7 +73,7 @@ class StudentPage extends React.Component{
 
     componentDidMount(){
         let id = window.location.href.split("/").pop()
-        fetch(`http://localhost:5000/students/${id}`,{
+        fetch(`http://localhost:5000/contacts/${id}`,{
             method:"GET",
             headers: {
                 'Content-Type':'application/json',
@@ -80,11 +81,11 @@ class StudentPage extends React.Component{
             }
         })
         .then(r=> r.json())
-        .then(student => {
-            this.setState({ old_student: student })
-            student.error ? this.props.dispatch(authFail()) : this.props.dispatch(fetchDesiredStudent(student))
+        .then(contact => {
+            this.setState({ old_contact:contact })
+            contact.error ? this.props.dispatch(authFail()) : this.props.dispatch(fetchDesiredContact(contact))
         })
     }
 }
 
-export default connect(state => ({ student: state.desiredStudent }))(StudentPage);
+export default connect(state => ({ contact: state.desiredContact }))(ContactPage);

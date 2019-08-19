@@ -45,6 +45,7 @@ class FamilyPage extends React.Component{
                     <Icon name='group' />
                     <Header.Content>{this.state.old_family.family_name}</Header.Content>
                     <Header.Subheader>{this.props.family.school.name}</Header.Subheader>
+                    <Link to="/families"><Button>Return to Families</Button></Link>
                 </Header>
 
                 <Divider/>

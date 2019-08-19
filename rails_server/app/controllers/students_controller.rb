@@ -11,7 +11,7 @@ class StudentsController < ApplicationController
         end
 
         ordered_students = students.sort_by(&:last_name)
-        render json: ordered_students, methods: [:school, :family, :class_times]
+        render json: ordered_students, methods: [:school, :family]
     end
 
     def show
@@ -31,7 +31,7 @@ class StudentsController < ApplicationController
         student = Student.find(params[:id])
         if @current_user.schools.include?(student.school)
             student.update(allowed_params)
-            render json: student, methods: [:school, :family, :class_times]
+            render json: student, methods: [:school, :family, :class_times, :lessons]
         else
             render json: {message: 'this student does not exist or you do not have access to this student'}
         end

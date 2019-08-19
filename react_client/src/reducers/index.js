@@ -7,7 +7,8 @@ import families from './families';
 import contacts from './contacts';
 import desiredInstructor from "./desiredInstructor";
 import desiredStudent from "./desiredStudent";
-import desiredFamily from "./desiredFamily"
+import desiredFamily from "./desiredFamily";
+import desiredContact from "./desiredContact";
 
 export default combineReducers({
   students,
@@ -18,5 +19,6 @@ export default combineReducers({
   contacts,
   desiredInstructor,
   desiredStudent,
-  desiredFamily
+  desiredFamily,
+  desiredContact
 });

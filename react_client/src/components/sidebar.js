@@ -20,7 +20,7 @@ class SidebarClass extends React.Component {
 
     render() {
         const { visible } = this.state
-        if(this.props.authorized){
+        if(this.props.currentUser.authorized){
             return (
                 <div>
                     <Button.Group>
@@ -99,4 +99,4 @@ class SidebarClass extends React.Component {
     }
 }
 
-export default connect(state => ({ authorized: state.currentUser.authorized }))(SidebarClass);
+export default connect(state => ({ currentUser: state.currentUser }))(SidebarClass);
