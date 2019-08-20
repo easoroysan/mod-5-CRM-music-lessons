@@ -18,8 +18,6 @@ export default (state={
             return action.instructor
         case("INSTRUCTOR_ONCHANGE"):
             return {...state, [action.key]: action.value}
-        case("FETCH_INSTRUCTOR_CLASSTIMES"):
-            return {...state, class_times: action.class_times}
         default:
             return state;
     }

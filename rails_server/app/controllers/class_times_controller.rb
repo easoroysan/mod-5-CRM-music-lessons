@@ -13,7 +13,7 @@ class ClassTimesController < ApplicationController
                 class_times << class_time
             end
         end
-
+        
         render json: class_times, methods: [:school, :lessons, :students, :instructor, :contacts]
 
     end

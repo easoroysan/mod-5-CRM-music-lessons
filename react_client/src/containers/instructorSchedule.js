@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Header, Table, Divider } from 'semantic-ui-react';
 import { Link } from 'react-router-dom'
-import { fetchInstructorClassTimes } from '../actions/instructors';
+import { fetchDesiredClassTimes } from '../actions/class_times';
 import { authFail } from '../actions/current_user';
 
 
@@ -15,7 +15,7 @@ class InstructorSchedule extends React.Component{
                 <Header as='h2' textAlign='center'>
                     <Header.Content>Schedule</Header.Content>
                 </Header>
-                <Table celled>
+                <Table celled style={{margin: '10px'}}>
 
                     <Table.Header>
                         <Table.Row>
@@ -41,16 +41,16 @@ class InstructorSchedule extends React.Component{
 
                                         let {first_name,last_name} = student
                                         return(
-                                            <div key={student.id}>
+                                            <Link to={`/students/${student.id}`} key={student.id}>
                                                 {first_name} {last_name}
                                                 {classTime.students[classTime.students.length-1].id === student.id ? <br/> : <Divider/>}
-                                            </div>
+                                            </Link>
                                         )
                                     })}</Table.Cell>
                                     <Table.Cell>{classTime.contacts.map( contact => {
                                         let {first_name,last_name, phone_number, email} = contact
                                         return(
-                                            <div key={contact.id}>
+                                            <Link to={`/contacts/${contact.id}`} key={contact.id}>
                                                 {first_name} {last_name}
                                                 <br/>
                                                 {phone_number}
@@ -58,7 +58,7 @@ class InstructorSchedule extends React.Component{
                                                 {email}
                                                 <br/>
                                                 {classTime.contacts[classTime.contacts.length-1].id === contact.id ? <br/> : <Divider/>}
-                                            </div>
+                                            </Link>
                                         )
                                     })}</Table.Cell>
                                     <Table.Cell>{classTime.lessons.map( lesson => {
@@ -89,12 +89,11 @@ class InstructorSchedule extends React.Component{
         })
         .then(r=> r.json())
         .then(class_times => {
-            console.log(class_times)
-            class_times.error ? this.props.dispatch(authFail()) : this.props.dispatch(fetchInstructorClassTimes(class_times))
+            class_times.error ? this.props.dispatch(authFail()) : this.props.dispatch(fetchDesiredClassTimes(class_times))
         })
     }
 
 }
 
 
-export default connect(state => ({ class_times: state.desiredInstructor.class_times, instructor_id: state.desiredInstructor.id }))(InstructorSchedule);
+export default connect(state => ({ class_times: state.desiredClassTimes, instructor_id: state.desiredInstructor.id }))(InstructorSchedule);

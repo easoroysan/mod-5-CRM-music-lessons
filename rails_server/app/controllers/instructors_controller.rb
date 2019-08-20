@@ -12,7 +12,7 @@ class InstructorsController < ApplicationController
     def show
         instructor = Instructor.find(params[:id])
         if (instructor.schools & @current_user.schools).present?
-            render json: instructor, methods: [:class_times, :schools]
+            render json: instructor, methods: [:schools]
         else
             render json: {message: 'this instructor does not exist or you do not have access to this instructor'}
         end
@@ -26,7 +26,7 @@ class InstructorsController < ApplicationController
         instructor = Instructor.find(params[:id])
         if (instructor.schools & @current_user.schools).present?
             instructor.update(allowed_params)
-            render json: instructor, methods: [:class_times, :schools]
+            render json: instructor, methods: [:schools]
         else
             render json: {message: 'this instructor does not exist or you do not have access to this instructor'}
         end
