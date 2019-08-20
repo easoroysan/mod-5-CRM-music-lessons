@@ -1,4 +1,5 @@
 export default (state=[{
+    id: 1,
     school: {},
     students: [],
     contacts: [],

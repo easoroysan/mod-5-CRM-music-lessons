@@ -3,13 +3,15 @@ import { connect } from "react-redux";
 import { Header, Icon, Form, Button, Divider, Message } from 'semantic-ui-react';
 import { fetchDesiredStudent, updateDesiredStudent } from '../actions/students';
 import { authFail } from '../actions/current_user';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import StudentLessons from '../components/studentLessons';
 
 class StudentPage extends React.Component{
 
     state={
         old_student:{},
-        success: false
+        success: false,
+        showLessons: false
     }
 
     handleChange = (key,info) => this.props.dispatch(updateDesiredStudent(key,info))
@@ -45,9 +47,10 @@ class StudentPage extends React.Component{
                     <Icon name='headphones' />
                     <Header.Content>{this.state.old_student.first_name} {this.state.old_student.last_name}</Header.Content>
                     <Link to={`/families/${family_id}`} ><Button>Return to Family Page</Button></Link>
+                    <Button onClick={()=> this.setState({ showLessons: !this.state.showLessons })}>{this.state.showLessons ? 'Hide' : 'Show'} Lessons</Button>
                 </Header>
 
-                <Divider/>
+                {this.state.showLessons ? <StudentLessons /> : <Divider/>}
 
                 <Form success style={{margin: '10px'}} onSubmit={()=>this.handleSubmit}>
                     <Form.Group widths='equal'>

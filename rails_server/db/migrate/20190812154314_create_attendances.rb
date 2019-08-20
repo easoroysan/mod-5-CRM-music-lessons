@@ -3,7 +3,7 @@ class CreateAttendances < ActiveRecord::Migration[5.2]
     create_table :attendances do |t|
       t.references :lesson, foreign_key: true
       t.date :date
-      t.string :attendance
+      t.string :status
       t.boolean :make_up
       t.string :cancelled_date
 

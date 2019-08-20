@@ -15,7 +15,7 @@ class InstructorSchedule extends React.Component{
                 <Header as='h2' textAlign='center'>
                     <Header.Content>Schedule</Header.Content>
                 </Header>
-                <Table celled style={{margin: '10px'}}>
+                <Table celled>
 
                     <Table.Header>
                         <Table.Row>
@@ -41,10 +41,10 @@ class InstructorSchedule extends React.Component{
 
                                         let {first_name,last_name} = student
                                         return(
-                                            <Link to={`/students/${student.id}`} key={student.id}>
-                                                {first_name} {last_name}
+                                            <div key={student.id}>
+                                                <Link to={`/students/${student.id}`}>{first_name} {last_name}</Link> | <Link to={`/lessons/${student.lesson_id}`}>Lesson Details</Link>
                                                 {classTime.students[classTime.students.length-1].id === student.id ? <br/> : <Divider/>}
-                                            </Link>
+                                            </div>
                                         )
                                     })}</Table.Cell>
                                     <Table.Cell>{classTime.contacts.map( contact => {

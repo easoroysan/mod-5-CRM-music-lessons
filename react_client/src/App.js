@@ -13,6 +13,7 @@ import Families from './containers/families';
 import FamilyPage from './containers/familyPage';
 import Clients from './containers/clients';
 import ContactPage from './containers/contactPage';
+import LessonPage from './containers/lessonPage';
 
 import Default from './containers/default';
 
@@ -27,13 +28,14 @@ class App extends React.Component{
         <Switch>
           <Route exact path="/" render={()=><Home/>}/>
           <Route exact path="/students" render={()=><Students/>} />
-          <Route path="/students" render={()=><StudentPage/>} />
+          <Route strict path="/students/" render={()=><StudentPage/>} />
           <Route exact path="/instructors" render={()=><Instructors/>} />
-          <Route path="/instructors" render={()=><InstructorPage/>} />
+          <Route strict path="/instructors/" render={()=><InstructorPage/>} />
           <Route exact path="/families" render={()=><Families/>} />
-          <Route path="/families" render={()=><FamilyPage/>} />
+          <Route strict path="/families/" render={()=><FamilyPage/>} />
           <Route exact path="/clients" render={()=><Clients/>} />
-          <Route path="/contacts" render={()=><ContactPage/>} />
+          <Route strict path="/contacts/" render={()=><ContactPage/>} />
+          <Route strict path="/lessons/" render={()=><LessonPage/>} />
           <Route component={()=><Default/>} />
         </Switch>
       </BrowserRouter>
@@ -53,7 +55,7 @@ class App extends React.Component{
     })
     .then(r=> r.json())
     .then(res =>{
-      if(res.error){
+      if(res.error && res.message === 'Authorization Error'){
         this.props.dispatch(authFail())
       }else{
         this.props.dispatch(authSuccess(res))

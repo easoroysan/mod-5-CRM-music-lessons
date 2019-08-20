@@ -10,6 +10,7 @@ import desiredStudent from "./desiredStudent";
 import desiredFamily from "./desiredFamily";
 import desiredContact from "./desiredContact";
 import desiredClassTimes from "./desiredClassTimes";
+import desiredLesson from "./desiredLesson";
 
 export default combineReducers({
   students,
@@ -22,5 +23,6 @@ export default combineReducers({
   desiredStudent,
   desiredFamily,
   desiredContact,
-  desiredClassTimes
+  desiredClassTimes,
+  desiredLesson
 });

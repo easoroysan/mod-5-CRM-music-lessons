@@ -4,7 +4,7 @@ import { Header, Icon, Form, Button, Divider, Message } from 'semantic-ui-react'
 import { fetchDesiredInstructor, updateDesiredInstructor } from '../actions/instructors';
 import { authFail } from '../actions/current_user';
 import { Link } from 'react-router-dom'
-import InstructorSchedule from './instructorSchedule'
+import InstructorSchedule from '../components/instructorSchedule'
 
 class InstructorPage extends React.Component{
 
