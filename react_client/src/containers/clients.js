@@ -36,7 +36,7 @@ class Clients extends React.Component{
                             // This line should change once unique ids are put in
                             <Table.Row key={!client.relation_to_students ? client.id : client.id+1000}>
                                 <Table.Cell>{<Link to={ client.relation_to_students ? `/contacts/${client.id}` : `/students/${client.id}` } >{client.first_name} {client.last_name}</Link>}</Table.Cell>
-                                <Table.Cell>{client.family.family_name}</Table.Cell>
+                                <Table.Cell>{<Link to={`/families/${client.family.id}`}>{client.family.family_name}</Link>}</Table.Cell>
                                 <Table.Cell>{client.relation_to_students ? "Contact: " : "Student"}{client.relation_to_students}</Table.Cell>
                                 <Table.Cell>{client.phone_number}</Table.Cell>
                                 <Table.Cell>{client.email}</Table.Cell>

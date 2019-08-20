@@ -46,7 +46,7 @@ class InstructorPage extends React.Component{
                 <Header as='h2' icon textAlign='center'>
                     <Icon name='microphone' />
                     <Header.Content>{this.state.old_instructor.first_name} {this.state.old_instructor.last_name}</Header.Content>
-                    <Link to='/instructors' ><Button>Return to Instructors</Button></Link>
+                    <Link to='/instructors' ><Button>Go to Instructors</Button></Link>
                     <Button onClick={()=> this.setState({ schedule: !this.state.schedule })}>{this.state.schedule ? 'Hide' : 'Show'} Schedule</Button>
                 </Header>
 

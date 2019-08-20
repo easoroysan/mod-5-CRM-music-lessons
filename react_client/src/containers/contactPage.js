@@ -44,7 +44,7 @@ class ContactPage extends React.Component{
                 <Header as='h2' icon textAlign='center'>
                     <Icon name='phone' />
                     <Header.Content>{this.state.old_contact.first_name} {this.state.old_contact.last_name}</Header.Content>
-                    <Link to={`/families/${family_id}`} ><Button>Return to Family Page</Button></Link>
+                    <Link to={`/families/${family_id}`} ><Button>Go to Family Page</Button></Link>
                 </Header>
 
                 <Divider/>

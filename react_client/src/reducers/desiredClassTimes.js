@@ -3,8 +3,8 @@ export default (state=[{
     school: {},
     students: [],
     contacts: [],
-    start_time: " T ",
-    end_time: " T ",
+    start_time: " T : ",
+    end_time: " T : ",
     lessons: []
 }],action)=>{
     switch(action.type){

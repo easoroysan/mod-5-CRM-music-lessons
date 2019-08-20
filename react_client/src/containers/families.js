@@ -32,14 +32,18 @@ class Families extends React.Component{
                             <Table.Row key={family.id}>
                                 <Table.Cell><Link to={`/families/${family.id}`} >{family.family_name}</Link></Table.Cell>
                                 <Table.Cell>{family.contacts.map( contact => (
-                                    family.contacts[contact.id] ?
-                                    `${contact.first_name} ${contact.last_name}, ` :
-                                    `${contact.first_name} ${contact.last_name}`
+                                    <Link to={`/contacts/${contact.id}`} key={contact.id} >{
+                                        family.contacts[contact.id] ?
+                                        `${contact.first_name} ${contact.last_name}, ` :
+                                        `${contact.first_name} ${contact.last_name}`
+                                    }</Link>
                                 ))}</Table.Cell>
                                 <Table.Cell>{family.students.map( student => (
-                                    family.students[student.id] ?
-                                    `${student.first_name} ${student.last_name}, ` :
-                                    `${student.first_name} ${student.last_name}`
+                                    <Link to={`/students/${student.id}`} key={student.id}>{
+                                        family.students[student.id] ?
+                                        `${student.first_name} ${student.last_name}, ` :
+                                        `${student.first_name} ${student.last_name}`
+                                    }</Link>
                                 ))}</Table.Cell>
                                 <Table.Cell>{family.school.name}</Table.Cell>
                                 <Table.Cell>{family.billing_total}</Table.Cell>

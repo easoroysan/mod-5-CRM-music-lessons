@@ -45,7 +45,7 @@ class FamilyPage extends React.Component{
                     <Icon name='group' />
                     <Header.Content>{this.state.old_family.family_name}</Header.Content>
                     <Header.Subheader>{this.props.family.school.name}</Header.Subheader>
-                    <Link to="/families"><Button>Return to Families</Button></Link>
+                    <Link to="/families"><Button>Go to Families</Button></Link>
                 </Header>
 
                 <Divider/>
@@ -106,7 +106,7 @@ class FamilyPage extends React.Component{
                                     let shortEnd = `${longEnd.split(":")[0]}:${longEnd.split(":")[1]}`
                                     let instructor = instructors.find( instructor => instructor.id === instructor_id)
                                     return (<div key={lesson.id}>
-                                        {day} {shortStart}-{shortEnd} | {lesson.instrument} | {instructor.first_name} {instructor.last_name}
+                                        <Link to={`/lessons/${lesson.id}`}>{day} {shortStart}-{shortEnd}</Link> | {lesson.instrument} | <Link to={`/instructors/${instructor.id}`}>{instructor.first_name} {instructor.last_name}</Link>
                                         <br/>
                                     </div>)
                                 })}</Table.Cell>
