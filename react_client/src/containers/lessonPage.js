@@ -12,7 +12,7 @@ class LessonPage extends React.Component{
         return(<div>
             <Header as='h2' icon textAlign='center'>
                 <Icon name='book' />
-                <Header.Content>{day} | {start_time}-{end_time} | {instrument}</Header.Content>
+                <Header.Content>{active ? null : "(Inactive)"} {day} | {start_time}-{end_time} | {instrument}</Header.Content>
                 <Header.Subheader>{instructor.first_name} {instructor.last_name} teaching {student.first_name} {student.last_name}</Header.Subheader>
                 <Link to={`/instructors/${instructor.id}`}><Button>Go to Instructor</Button></Link>
                 <Link to={`/students/${student.id}`}><Button>Go to Student</Button></Link>

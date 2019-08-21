@@ -112,7 +112,7 @@ class FamilyPage extends React.Component{
                                 <Table.Row key={student.id}>
                                     <Table.Cell><Link to={`/students/${student.id}`} >{student.first_name} {student.last_name}</Link></Table.Cell>
                                     <Table.Cell>{student.date_of_birth}</Table.Cell>
-                                    <Table.Cell>{lessons.filter( lesson => lesson.student_id===student.id ).map( lesson => {
+                                    <Table.Cell>{lessons.filter( lesson => lesson.student_id===student.id && lesson.active ).map( lesson => {
                                         let {day, start_time, end_time, instructor_id} = class_times.find( class_time => class_time.id === lesson.class_time_id)
                                         let longStart = start_time.split("T")[1]
                                         let shortStart = `${longStart.split(":")[0]}:${longStart.split(":")[1]}`

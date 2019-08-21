@@ -12,10 +12,8 @@ class NewContactForm extends React.Component{
 
     handleSubmit(info){
         let keys = ['first_name','last_name','relation_to_students','billing_address','phone_number','emergency_number','email']
-        let newContactInfo = {}
+        let newContactInfo = { family_id: this.props.family.id, school_id: this.props.family.school_id }
         keys.forEach( key => newContactInfo[key]=info[key].value )
-        newContactInfo.family_id = this.props.family.id
-        newContactInfo.school_id = this.props.family.school_id
 
         fetch('http://localhost:5000/contacts',{
             method: 'POST',

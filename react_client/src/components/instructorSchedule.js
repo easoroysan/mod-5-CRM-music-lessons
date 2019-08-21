@@ -1,20 +1,68 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Header, Table, Divider } from 'semantic-ui-react';
+import { Header, Table, Divider, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom'
-import { fetchDesiredClassTimes } from '../actions/class_times';
+import { fetchDesiredClassTimes, updateDesiredClassTime } from '../actions/class_times';
 import { authFail } from '../actions/current_user';
+import NewClassTimeForm from './newClassTimeForm';
 
 
 class InstructorSchedule extends React.Component{
 
+    state = {
+        active: true,
+        classForm: false
+    }
+
+    runFetch = (desiredTime) => {
+        fetch(`http://localhost:5000/class_times/${desiredTime.id}`,{
+            method:"PATCH",
+            headers: {
+            'Content-Type':'application/json',
+            'Authorization': localStorage.getItem('token')
+        },
+        body: JSON.stringify({ active: !desiredTime.active})
+        })
+        .then(r=>r.json())
+        .then(class_time =>{
+            if(class_time.error){
+                this.props.dispatch(authFail())
+            }else{
+                this.props.dispatch(updateDesiredClassTime(class_time))
+            }
+        })
+    }
+
+    handleActive = (id) =>{
+        let desiredTime = this.props.class_times.find( time => time.id === id)
+        if(desiredTime){
+            if( desiredTime.lessons.length !== 0){
+                let checker = window.confirm("Are you sure you want to set this class to Inactive? There is at least 1 lesson in the class time that will be deleted.")
+                if(checker){
+                    this.runFetch(desiredTime)
+                }
+            }else{
+                this.runFetch(desiredTime)
+            }
+        }
+    }
+
     render(){
+        let desiredTimes = []
+        this.state.active ?
+        desiredTimes = this.props.class_times.filter( time => time.active ) :
+        desiredTimes = this.props.class_times.filter( time => !time.active )
         return(
             <div>
                 <Divider/>
                 <Header as='h2' textAlign='center'>
-                    <Header.Content>Schedule</Header.Content>
+                    <Header.Content>Schedule</Header.Content><br/>
+                    <Button onClick={()=> this.setState({ active: !this.state.active })}>Show {this.state.active ? 'Inactive' : 'Active'} Class Times</Button>
+                    <Button onClick={()=> this.setState({ classForm: !this.state.classForm })}>{this.state.classForm ? 'Hide Form' : 'Add a Class Time'}</Button>
                 </Header>
+
+                {this.state.classForm ? <NewClassTimeForm/> : null}
+
                 <Table celled>
 
                     <Table.Header>
@@ -27,33 +75,51 @@ class InstructorSchedule extends React.Component{
                     </Table.Header>
 
                     <Table.Body>
-                        {this.props.class_times.map( classTime =>{
+                        {desiredTimes.map( classTime =>{
                             let {start_time, end_time} = classTime
                             let longStart = start_time.split("T")[1]
                             let shortStart = `${longStart.split(":")[0]}:${longStart.split(":")[1]}`
 
                             let longEnd = end_time.split("T")[1]
                             let shortEnd = `${longEnd.split(":")[0]}:${longEnd.split(":")[1]}`
+
+                            let desiredStudents = classTime.students.filter( student =>{
+                                let lesson = classTime.lessons.find( lesson => lesson.student_id === student.id)
+                                return lesson.active
+                            })
+
+                            let desiredContacts = classTime.contacts.filter( contact =>{
+                                let student = classTime.students.find( student => student.family_id === contact.family_id)
+                                let lesson = classTime.lessons.find( lesson => lesson.student_id === student.id)
+                                return lesson.active
+                            })
+
+                            let desiredLessons = classTime.lessons.filter( lesson => lesson.active)
+
                             return (
                                 <Table.Row key={classTime.id}>
-                                    <Table.Cell>{classTime.day} | {classTime.school.name} | {shortStart}-{shortEnd}</Table.Cell>
-                                    <Table.Cell>{classTime.students.map( student =>{
-
+                                    <Table.Cell>
+                                        {classTime.day} | {classTime.school.name} | {shortStart}-{shortEnd} <Button onClick={()=>this.handleActive(classTime.id)}>Set to {classTime.active ? 'Inactive' : 'Active'}</Button>
+                                    </Table.Cell>
+                                    <Table.Cell>{
+                                        desiredStudents.map( student =>{
+                                        let lesson = classTime.lessons.find( lesson => lesson.student_id === student.id)
                                         let {first_name,last_name} = student
+
                                         return(
                                             <div key={student.id}>
-                                                <Link to={`/students/${student.id}`}>{first_name} {last_name}</Link> | <Link to={`/lessons/${student.lesson_id}`}>Lesson Details</Link>
-                                                {classTime.students[classTime.students.length-1].id === student.id ? <br/> : <Divider/>}
-                                            </div>
+                                            <Link to={`/students/${student.id}`}>{first_name} {last_name}</Link> | <Link to={`/lessons/${lesson.id}`}>Lesson Details</Link>
+                                            {classTime.students[classTime.students.length-1].id === student.id ? <br/> : <Divider/>}
+                                        </div>
                                         )
                                     })}</Table.Cell>
-                                    <Table.Cell>{classTime.contacts.map( contact => {
+                                    <Table.Cell>{desiredContacts.map( contact => {
                                         let {first_name,last_name, phone_number, email} = contact
                                         return(
                                             <Link to={`/contacts/${contact.id}`} key={contact.id}>
                                                 {first_name} {last_name}
                                                 <br/>
-                                                {phone_number}
+                                                {phone_number}ß
                                                 <br/>
                                                 {email}
                                                 <br/>
@@ -61,7 +127,7 @@ class InstructorSchedule extends React.Component{
                                             </Link>
                                         )
                                     })}</Table.Cell>
-                                    <Table.Cell>{classTime.lessons.map( lesson => {
+                                    <Table.Cell>{desiredLessons.map( lesson => {
                                         return(
                                             <div key={lesson.id}>
                                                 {lesson.instructor_notes}

@@ -12,10 +12,8 @@ class NewStudentForm extends React.Component{
 
     handleSubmit(info){
         let keys = ['first_name','last_name','date_of_birth','phone_number','misc_notes', 'medical_notes', 'billing_notes']
-        let newStudentInfo = {}
+        let newStudentInfo = { family_id: this.props.family.id, school_id: this.props.family.school_id }
         keys.forEach( key => newStudentInfo[key]=info[key].value )
-        newStudentInfo.family_id = this.props.family.id
-        newStudentInfo.school_id = this.props.family.school_id
 
         fetch('http://localhost:5000/students',{
             method: 'POST',
