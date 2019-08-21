@@ -25,7 +25,12 @@ class FamiliesController < ApplicationController
     end
 
     def create
-        render plain: 'Hello'
+        family = Family.create(allowed_params)
+        
+        #need to change this once I can pull school info from front end
+        family.update({school_id: 1})
+        
+        render json: family, methods: [:school, :students, :contacts, :lessons, :class_times, :instructors]
     end
 
     def update

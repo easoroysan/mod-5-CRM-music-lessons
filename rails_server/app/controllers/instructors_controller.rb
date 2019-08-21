@@ -19,7 +19,13 @@ class InstructorsController < ApplicationController
     end
 
     def create
-        render plain: 'Hello'
+        instructor = Instructor.create(allowed_params)
+
+        #Temporary lines since front end can't pull schools yet
+        InstructorSchool.create( instructor: instructor, school_id: 1 )
+        InstructorSchool.create( instructor: instructor, school_id: 2 )
+
+        render json: instructor, methods: [:schools]
     end
 
     def update
@@ -52,7 +58,8 @@ class InstructorsController < ApplicationController
             :billing_address,
             :pay_rate,
             :biography,
-            :misc_notes
+            :misc_notes,
+            :active
         )
     end
 

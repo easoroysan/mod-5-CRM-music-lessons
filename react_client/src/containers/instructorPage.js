@@ -39,7 +39,8 @@ class InstructorPage extends React.Component{
     }
 
     render(){
-        let {first_name,last_name, instrument_1, instrument_2, instrument_3, phone_number, emergency_number, email, date_of_birth, billing_address, pay_rate, biography, misc_notes} = this.props.instructor
+        let {first_name,last_name, instrument_1, instrument_2, instrument_3, phone_number, emergency_number, email, date_of_birth, billing_address, pay_rate, active, biography, misc_notes} = this.props.instructor
+        let schoolOptions = this.props.currentUser.schools.map( school => ({key:school.id, value:school.id, text:school.name}))
 
         return(
             <div>
@@ -58,9 +59,17 @@ class InstructorPage extends React.Component{
                         <Form.Input fluid label='Last name' value={last_name} onChange={(e)=>this.handleChange('last_name',e.target.value)}/>
                         <Form.Input fluid label='Date of birth' onFocus={ e => e.target.type='date'} onBlur={ e => e.target.type='text'} value={date_of_birth} onChange={(e)=>this.handleChange('date_of_birth',e.target.value)}/>
                     </Form.Group>
+                    <Form.Input fluid label='Billing Address' value={billing_address} onChange={(e)=>this.handleChange('billing_address',e.target.value)}/>
                     <Form.Group widths='equal'>
-                        <Form.Input fluid label='Billing Address' value={billing_address} onChange={(e)=>this.handleChange('billing_address',e.target.value)}/>
+                        <Form.Select
+                            id='schools'
+                            required 
+                            multiple
+                            options={schoolOptions}
+                            label="Schools (can't use this yet)"
+                        />
                         <Form.Input fluid label='Pay Rate' type="number" value={pay_rate} onChange={(e)=>this.handleChange('pay_rate',e.target.value)}/>
+                        <Form.Input fluid label='Active (change to true or false for answers)' type="number" value={active ? 1 : 0} onChange={(e)=>this.handleChange('active',e.target.value)}/>
                     </Form.Group>
                     <Form.Group widths='equal'>
                         <Form.Input fluid label='Phone Number' type='text' value={phone_number} onChange={(e)=>this.handleChange('phone_number',e.target.value)}/>
@@ -99,4 +108,4 @@ class InstructorPage extends React.Component{
     }
 }
 
-export default connect(state => ({ instructor: state.desiredInstructor }))(InstructorPage);
+export default connect(state => ({ instructor: state.desiredInstructor, currentUser: state.currentUser }))(InstructorPage);

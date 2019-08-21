@@ -24,7 +24,8 @@ class ContactsController < ApplicationController
     end
 
     def create
-        render plain: 'Hello'
+        contact = Contact.create(allowed_params)
+        render json: contact, methods: [:school, :family]
     end
 
     def update
@@ -51,7 +52,9 @@ class ContactsController < ApplicationController
             :phone_number,
             :emergency_number,
             :email,
-            :billing_address
+            :billing_address,
+            :family_id,
+            :school_id
         )
     end
 

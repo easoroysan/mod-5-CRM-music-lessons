@@ -24,7 +24,8 @@ class StudentsController < ApplicationController
     end
 
     def create
-        render plain: 'Hello'
+        student = Student.create(allowed_params)
+        render json: student, methods: [:school, :family, :class_times, :lessons]
     end
 
     def update
@@ -52,7 +53,9 @@ class StudentsController < ApplicationController
             :date_of_birth,
             :billing_notes,
             :medical_notes,
-            :misc_notes
+            :misc_notes,
+            :family_id,
+            :school_id
         )
     end
 

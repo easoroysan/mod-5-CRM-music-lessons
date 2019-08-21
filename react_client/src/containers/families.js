@@ -2,11 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchFamilies } from '../actions/families';
 import { authFail } from '../actions/current_user';
-import { Header, Icon, Table } from 'semantic-ui-react';
-import { Link } from 'react-router-dom'
+import { Header, Icon, Table, Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import NewFamilyForm from '../components/newFamilyForm';
 
 
 class Families extends React.Component{
+
+    state={
+        newForm: false
+    }
 
     render(){
         return(
@@ -14,7 +19,11 @@ class Families extends React.Component{
                 <Header as='h2' icon textAlign='center'>
                     <Icon name='group' />
                     <Header.Content>Families</Header.Content>
+                    <Button onClick={()=> this.setState({ newForm: !this.state.newForm })}>{this.state.newForm ? 'Hide' : 'Show'} New Family Form</Button>
                 </Header>
+
+                {this.state.newForm ? <NewFamilyForm/> : null}
+
                 <Table celled>
 
                     <Table.Header>
@@ -33,16 +42,16 @@ class Families extends React.Component{
                                 <Table.Cell><Link to={`/families/${family.id}`} >{family.family_name}</Link></Table.Cell>
                                 <Table.Cell>{family.contacts.map( contact => (
                                     <Link to={`/contacts/${contact.id}`} key={contact.id} >{
-                                        family.contacts[contact.id] ?
-                                        `${contact.first_name} ${contact.last_name}, ` :
-                                        `${contact.first_name} ${contact.last_name}`
+                                        family.contacts[family.contacts.length - 1].id === contact.id ?
+                                        `${contact.first_name} ${contact.last_name}` :
+                                        `${contact.first_name} ${contact.last_name}, `
                                     }</Link>
                                 ))}</Table.Cell>
                                 <Table.Cell>{family.students.map( student => (
                                     <Link to={`/students/${student.id}`} key={student.id}>{
-                                        family.students[student.id] ?
-                                        `${student.first_name} ${student.last_name}, ` :
-                                        `${student.first_name} ${student.last_name}`
+                                        family.students[family.students.length - 1].id === student.id ?
+                                        `${student.first_name} ${student.last_name}` :
+                                        `${student.first_name} ${student.last_name}, `
                                     }</Link>
                                 ))}</Table.Cell>
                                 <Table.Cell>{family.school.name}</Table.Cell>
