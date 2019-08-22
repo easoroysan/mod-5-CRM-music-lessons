@@ -96,7 +96,7 @@ class LessonPage extends React.Component{
                             this.handleChange('active',d.value)
                         }}
                     />
-                    <Form.Input fluid label='Instrument' value={instrument} onChange={(e)=>this.handleChange('instrument',e.target.value)}/>
+                    <Form.Input fluid required label='Instrument' value={instrument} onChange={(e)=>this.handleChange('instrument',e.target.value)}/>
                 </Form.Group>
                 <Form.TextArea label='Instructor Notes' value={instructor_notes} onChange={(e)=>this.handleChange('instructor_notes',e.target.value)}></Form.TextArea>
                 <Form.TextArea label='Miscellaneous Notes' value={misc_notes} onChange={(e)=>this.handleChange('misc_notes',e.target.value)}></Form.TextArea>
@@ -176,6 +176,20 @@ class LessonPage extends React.Component{
             lesson.error ? this.props.dispatch(authFail()) : this.props.dispatch(fetchDesiredLesson(lesson))
             this.setState({ old_lesson: lesson})
         })
+    }
+
+    componentWillUnmount(){
+
+        this.props.dispatch(fetchDesiredLesson({
+            class_time: { start_time: "" },
+            student: {},
+            instructor: {},
+            attendances: [],
+            school: {},
+            instrument: "",
+            instructor_notes: "",
+            misc_notes: ""
+        }))
     }
 }
 

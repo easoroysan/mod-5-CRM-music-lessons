@@ -31,11 +31,9 @@ class InstructorsController < ApplicationController
         instructor = Instructor.find(params[:id])
         if (instructor.schools & @current_user.schools).present?
 
-            instructor.update(allowed_params)
+            
             testing_ids = instructor.schools.map{ |each_school| each_school[:id] }
-
             params[:schools].each do |school|
-                
                 connection = InstructorSchool.where(["school_id = :school_id and instructor_id = :instructor_id", { school_id: school[:id],instructor_id: params[:id] }])
                 if !testing_ids.include?(school[:id])
                     InstructorSchool.create( instructor_id: instructor[:id], school_id: school[:id] )
@@ -55,6 +53,8 @@ class InstructorsController < ApplicationController
                     end
                 end
             end
+
+            instructor.update(allowed_params)
             if !instructor.active
                 ClassTime.all.where(["instructor_id = :instructor_id", { instructor_id: params[:id] }]).each do |class_time|
                     class_time.update( active: false)

@@ -79,7 +79,7 @@ class LoginForm extends React.Component{
         <br/><br/>
         <Container text>
           <Header as='h2'>How can I get started?</Header>
-          <p>Simply send an email to easo.applications@gmail.com and Roysan will keep direct contact with you to answer any questions you may have and set up an account for you.</p>
+          <p>Simply send an email to easo.roysan@gmail.com and Roysan will keep direct contact with you to answer any questions you may have and set up an account for you.</p>
         </Container>
       </div>
     )
