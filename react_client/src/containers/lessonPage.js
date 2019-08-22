@@ -179,7 +179,6 @@ class LessonPage extends React.Component{
     }
 
     componentWillUnmount(){
-
         this.props.dispatch(fetchDesiredLesson({
             class_time: { start_time: "" },
             student: {},

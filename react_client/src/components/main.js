@@ -85,6 +85,19 @@ class MainPage extends React.Component{
         )
     }
 
+    componentWillMount(){
+        this.props.dispatch(fetchDesiredLesson({
+            class_time: { start_time: "" },
+            student: {},
+            instructor: {},
+            attendances: [],
+            school: {},
+            instrument: "",
+            instructor_notes: "",
+            misc_notes: ""
+        }))
+    }
+
     componentDidMount(){
         let date = new Date()
         let dayNames = [
