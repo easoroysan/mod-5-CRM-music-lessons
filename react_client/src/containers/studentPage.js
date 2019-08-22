@@ -60,7 +60,7 @@ class StudentPage extends React.Component{
                     <Form.Group widths='equal'>
                         <Form.Input fluid label='First name' value={first_name} onChange={(e)=>this.handleChange('first_name',e.target.value)}/>
                         <Form.Input fluid label='Last name' value={last_name} onChange={(e)=>this.handleChange('last_name',e.target.value)}/>
-                        <Form.Input fluid label='Date of birth' onFocus={ e => e.target.type='date'} onBlur={ e => e.target.type='text'} value={date_of_birth} onChange={(e)=>this.handleChange('date_of_birth',e.target.value)}/>
+                        <Form.Input fluid label='Date of birth' type='date' value={date_of_birth} onChange={(e)=>this.handleChange('date_of_birth',e.target.value)}/>
                     </Form.Group>
                     <Form.Group widths='equal'>
                         <Form.Input fluid label='Phone Number' type='text' value={phone_number} onChange={(e)=>this.handleChange('phone_number',e.target.value)}/>

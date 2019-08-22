@@ -3,21 +3,52 @@ import { connect } from 'react-redux';
 import { fetchStudents } from '../actions/students';
 import { fetchContacts } from '../actions/contacts';
 import { authFail } from '../actions/current_user';
-import { Header, Icon, Table } from 'semantic-ui-react'
+import { Header, Icon, Table, Search } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-
+import debounce from 'lodash.debounce'
 
 class Clients extends React.Component{
 
+    state={
+        searchQuery: "",
+        isLoading: false
+    }
+
+    setSearchQuery = debounce((query) => {
+        this.setState({ searchQuery: query, isLoading: false })
+    }, 500)
+
     render(){
         let organizedClients = this.props.clients.sort( (a,b)=> a.last_name > b.last_name ? 1 : a.last_name < b.last_name ? -1 : 0 )
-
+        if(this.state.searchQuery !== ""){
+            let searchTerm = this.state.searchQuery.toUpperCase()
+            organizedClients = organizedClients.filter( client =>(
+                client.first_name.toUpperCase().includes(searchTerm) || 
+                client.last_name.toUpperCase().includes(searchTerm) ||
+                client.phone_number.toUpperCase().includes(searchTerm) ||
+                client.email.toUpperCase().includes(searchTerm) ||
+                client.family.family_name.toUpperCase().includes(searchTerm)
+            ))
+        }
         return(
             <div>
                 <Header as='h2' icon textAlign='center'>
                     <Icon name='universal access' />
                     <Header.Content>Clients</Header.Content>
                 </Header>
+
+                <Search
+                    open={false}
+                    loading={this.state.isLoading}
+                    size='small'
+                    style={{ marginLeft: '10px' }}
+                    placeholder='Name, Number, or Email'
+                    onSearchChange={(e)=>{
+                        this.setState({ isLoading: true })
+                        this.setSearchQuery(e.target.value)
+                    }}
+                />
+                
                 <Table celled>
 
                     <Table.Header>

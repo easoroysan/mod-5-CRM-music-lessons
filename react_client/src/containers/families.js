@@ -2,18 +2,34 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchFamilies } from '../actions/families';
 import { authFail } from '../actions/current_user';
-import { Header, Icon, Table, Button } from 'semantic-ui-react';
+import { Header, Icon, Table, Button, Search } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import NewFamilyForm from '../components/newFamilyForm';
+import debounce from 'lodash.debounce'
 
 
 class Families extends React.Component{
 
     state={
-        newForm: false
+        newForm: false,
+        searchQuery: "",
+        isLoading: false
     }
 
+    setSearchQuery = debounce((query) => {
+        this.setState({ searchQuery: query, isLoading: false })
+    }, 500)
+
     render(){
+
+        let desiredFamiles = this.props.families
+        if(this.state.searchQuery !== ""){
+            let searchTerm = this.state.searchQuery.toUpperCase()
+            desiredFamiles = this.props.families.filter( family =>(
+                family.family_name.toUpperCase().includes(searchTerm)
+            ))
+        }
+
         return(
             <div>
                 <Header as='h2' icon textAlign='center'>
@@ -23,6 +39,18 @@ class Families extends React.Component{
                 </Header>
 
                 {this.state.newForm ? <NewFamilyForm/> : null}
+
+                <Search
+                    open={false}
+                    loading={this.state.isLoading}
+                    size='small'
+                    style={{ marginLeft: '10px' }}
+                    placeholder='Family Name'
+                    onSearchChange={(e)=>{
+                        this.setState({ isLoading: true })
+                        this.setSearchQuery(e.target.value)
+                    }}
+                />
 
                 <Table celled>
 
@@ -37,7 +65,7 @@ class Families extends React.Component{
                     </Table.Header>
 
                     <Table.Body>
-                        {this.props.families.map( family =>(
+                        {desiredFamiles.map( family =>(
                             <Table.Row key={family.id}>
                                 <Table.Cell><Link to={`/families/${family.id}`} >{family.family_name}</Link></Table.Cell>
                                 <Table.Cell>{family.contacts.map( contact => (

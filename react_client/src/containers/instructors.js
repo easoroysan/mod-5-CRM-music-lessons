@@ -2,17 +2,39 @@ import React from 'react'
 import { connect } from 'react-redux';
 import { fetchInstructors } from '../actions/instructors'
 import { authFail } from '../actions/current_user';
-import { Header, Icon, Table, Button } from 'semantic-ui-react';
+import { Header, Icon, Table, Button, Search } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import NewInstructorForm from '../components/newInstructorForm';
+import debounce from 'lodash.debounce'
 
 
 class Instructors extends React.Component{
 
     state={
-        newForm: false
+        newForm: false,
+        searchQuery: "",
+        isLoading: false
     }
+
+    setSearchQuery = debounce((query) => {
+        this.setState({ searchQuery: query, isLoading: false })
+    }, 500)
+
     render(){
+
+        let desiredInstructors = this.props.instructors
+        if(this.state.searchQuery !== ""){
+            let searchTerm = this.state.searchQuery.toUpperCase()
+            desiredInstructors = this.props.instructors.filter( instructor =>(
+                instructor.first_name.toUpperCase().includes(searchTerm) || 
+                instructor.last_name.toUpperCase().includes(searchTerm) ||
+                instructor.instrument_1.toUpperCase().includes(searchTerm) ||
+                instructor.instrument_2.toUpperCase().includes(searchTerm) ||
+                instructor.instrument_3.toUpperCase().includes(searchTerm)
+            ))
+        }
+
+
         return(
             <div>
                 <Header as='h2' icon textAlign='center'>
@@ -20,6 +42,22 @@ class Instructors extends React.Component{
                     <Header.Content>Instructors</Header.Content>
                     <Button onClick={()=> this.setState({ newForm: !this.state.newForm })}>{this.state.newForm ? 'Return to Instructors List' : 'Add Instructor'}</Button>
                 </Header>
+
+                {
+                    this.state.newForm ? 
+                    null : 
+                    <Search
+                        open={false}
+                        loading={this.state.isLoading}
+                        size='small'
+                        style={{ marginLeft: '10px'}}
+                        placeholder='Name or Instrument'
+                        onSearchChange={(e)=>{
+                            this.setState({ isLoading: true })
+                            this.setSearchQuery(e.target.value)
+                        }}
+                    />
+                }
 
                 {
                     this.state.newForm ?
@@ -42,7 +80,7 @@ class Instructors extends React.Component{
                         </Table.Header>
 
                         <Table.Body>
-                            {this.props.instructors.map( instructor =>(
+                            {desiredInstructors.map( instructor =>(
                                 <Table.Row key={instructor.id}>
                                     <Table.Cell><Link to={`/instructors/${instructor.id}`} >{instructor.first_name} {instructor.last_name}</Link></Table.Cell>
                                     <Table.Cell>{instructor.schools.map( school=> (
