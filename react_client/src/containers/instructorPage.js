@@ -97,7 +97,7 @@ class InstructorPage extends React.Component{
                                 { key: 2, value: false, text: "Inactive" }
                             ]}
                             value={active}
-                            label="Active"
+                            label="Status"
                             onChange={(e,d)=>{
                                 this.handleChange('active',d.value)
                             }}
