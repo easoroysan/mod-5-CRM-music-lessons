@@ -53,7 +53,7 @@ class NewInstructorForm extends React.Component{
                     <Form.Group widths='equal'>
                         <Form.Input id='first_name' required fluid label='First name'/>
                         <Form.Input id='last_name' required fluid label='Last name'/>
-                        <Form.Input id='date_of_birth' fluid label='Date of birth' type='date'/>
+                        <Form.Input id='date_of_birth' defaultValue='2000-01-01' required fluid label='Date of birth' type='date'/>
                     </Form.Group>
                     <Form.Group widths='equal'>
                         <Form.Input id='billing_address' fluid label='Billing Address' />
@@ -66,7 +66,7 @@ class NewInstructorForm extends React.Component{
                             options={schoolOptions}
                             label='Schools'
                         />
-                        <Form.Input id='pay_rate' fluid label='Pay Rate' type="number"/>
+                        <Form.Input id='pay_rate' defaultValue={0} fluid label='Pay Rate' type="number"/>
                     </Form.Group>
                     <Form.Group widths='equal'>
                         <Form.Input id='phone_number' required fluid label='Phone Number' type='text'/>

@@ -36,7 +36,7 @@ class InstructorSchedule extends React.Component{
     handleActive = (id) =>{
         let desiredTime = this.props.class_times.find( time => time.id === id)
         if(desiredTime){
-            if( desiredTime.lessons.length !== 0){
+            if(desiredTime.active && desiredTime.lessons.length !== 0 && desiredTime.lessons.some( lesson => lesson.active)){
                 let checker = window.confirm("Are you sure you want to set this class to Inactive? There is at least 1 lesson in the class time that will be deleted.")
                 if(checker){
                     this.runFetch(desiredTime)

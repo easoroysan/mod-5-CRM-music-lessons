@@ -16,6 +16,9 @@ class InstructorPage extends React.Component{
 
     handleChange = (key,info) => this.props.dispatch(updateDesiredInstructor(key,info))
     handleSubmit = () => {
+        // if(this.old_instructor.active && !this.props.instructor.active){
+        //     confirm
+        // }
         fetch(`http://localhost:5000/instructors/${this.props.instructor.id}`,{
             method:"PATCH",
             headers: {
@@ -61,7 +64,7 @@ class InstructorPage extends React.Component{
                     <Form.Group widths='equal'>
                         <Form.Input fluid label='First name' value={first_name} onChange={(e)=>this.handleChange('first_name',e.target.value)}/>
                         <Form.Input fluid label='Last name' value={last_name} onChange={(e)=>this.handleChange('last_name',e.target.value)}/>
-                        <Form.Input fluid label='Date of birth' onFocus={ e => e.target.type='date'} onBlur={ e => e.target.type='text'} value={date_of_birth} onChange={(e)=>this.handleChange('date_of_birth',e.target.value)}/>
+                        <Form.Input fluid label='Date of birth' type='date' value={date_of_birth} onChange={(e)=>this.handleChange('date_of_birth',e.target.value)}/>
                     </Form.Group>
                     <Form.Input fluid label='Billing Address' value={billing_address} onChange={(e)=>this.handleChange('billing_address',e.target.value)}/>
                     <Form.Group widths='equal'>

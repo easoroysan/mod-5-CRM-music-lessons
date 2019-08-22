@@ -81,7 +81,9 @@ class NewLessonForm extends React.Component{
     }
 
     render(){
-        let instructorOptions = this.props.instructors.filter( instructor => instructor.active )
+        let instructorOptions = this.props.instructors.filter( instructor =>(
+            instructor.active && instructor.class_times.length > 0 && instructor.class_times.some( class_time => class_time.active )
+        ))
         .map( instructor => ({ key: instructor.id, value: instructor.id, text: `${instructor.first_name} ${instructor.last_name}`}))
 
         instructorOptions = [{ key: 0, value: 0, text: ""},...instructorOptions]

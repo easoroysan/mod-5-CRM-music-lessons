@@ -33,6 +33,16 @@ class InstructorsController < ApplicationController
         instructor = Instructor.find(params[:id])
         if (instructor.schools & @current_user.schools).present?
             instructor.update(allowed_params)
+            if !instructor.active
+                ClassTime.all.where(["instructor_id = :instructor_id", { instructor_id: params[:id] }]).each do |class_time|
+                    class_time.update( active: false)
+                    if class_time.lessons.length > 0
+                        class_time.lessons.each do |lesson|
+                            lesson.update(active: false)
+                        end
+                    end
+                end
+            end
             render json: instructor, methods: [:schools, :class_times]
         else
             render json: {message: 'this instructor does not exist or you do not have access to this instructor'}

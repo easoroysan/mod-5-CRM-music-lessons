@@ -33,6 +33,7 @@ class Instructors extends React.Component{
                                 <Table.HeaderCell>Name</Table.HeaderCell>
                                 <Table.HeaderCell>Schools</Table.HeaderCell>
                                 <Table.HeaderCell>Active</Table.HeaderCell>
+                                <Table.HeaderCell>Instruments</Table.HeaderCell>
                                 <Table.HeaderCell>Phone Number</Table.HeaderCell>
                                 <Table.HeaderCell>Emergancy Number</Table.HeaderCell>
                                 <Table.HeaderCell>Email</Table.HeaderCell>
@@ -52,6 +53,11 @@ class Instructors extends React.Component{
                                             )
                                     )}</Table.Cell>
                                     <Table.Cell>{instructor.active ? "Active": "Inactive"}</Table.Cell>
+                                    <Table.Cell>
+                                        {instructor.instrument_1}<br/>
+                                        {instructor.instrument_2 ? instructor.instrument_2 : null}<br/>
+                                        {instructor.instrument_3 ? instructor.instrument_3 : null}
+                                    </Table.Cell>
                                     <Table.Cell>{instructor.phone_number}</Table.Cell>
                                     <Table.Cell>{instructor.emergency_number}</Table.Cell>
                                     <Table.Cell>{instructor.email}</Table.Cell>
