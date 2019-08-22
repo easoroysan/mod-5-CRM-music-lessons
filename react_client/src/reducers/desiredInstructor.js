@@ -12,7 +12,8 @@ export default (state={
     pay_rate: "",
     biography: "",
     misc_notes: "",
-    class_times: []
+    class_times: [],
+    schools: []
 },action)=>{
     switch(action.type){
         case("FETCH_DESIRED_INSTRUCTOR"):

@@ -20,8 +20,6 @@ class InstructorsController < ApplicationController
 
     def create
         instructor = Instructor.create(allowed_params)
-
-        #Temporary lines since front end can't pull schools yet
         params[:schools].each do | school_id |
             InstructorSchool.create( instructor: instructor, school_id: school_id )
         end
@@ -32,7 +30,31 @@ class InstructorsController < ApplicationController
     def update
         instructor = Instructor.find(params[:id])
         if (instructor.schools & @current_user.schools).present?
+
             instructor.update(allowed_params)
+            testing_ids = instructor.schools.map{ |each_school| each_school[:id] }
+
+            params[:schools].each do |school|
+                
+                connection = InstructorSchool.where(["school_id = :school_id and instructor_id = :instructor_id", { school_id: school[:id],instructor_id: params[:id] }])
+                if !testing_ids.include?(school[:id])
+                    InstructorSchool.create( instructor_id: instructor[:id], school_id: school[:id] )
+                end
+            end
+            all_connections = InstructorSchool.where(["instructor_id = :instructor_id", { instructor_id: params[:id] }])
+            school_ids = params[:schools].map do |school|
+                school[:id]
+            end
+            all_connections.each do |connection|
+                if !school_ids.include?(connection.school_id)
+                    lessonChecker = instructor.lessons.select do |lesson|
+                        lesson[:school_id] == connection.school_id
+                    end
+                    if lessonChecker.length <= 0
+                        connection.destroy
+                    end
+                end
+            end
             if !instructor.active
                 ClassTime.all.where(["instructor_id = :instructor_id", { instructor_id: params[:id] }]).each do |class_time|
                     class_time.update( active: false)

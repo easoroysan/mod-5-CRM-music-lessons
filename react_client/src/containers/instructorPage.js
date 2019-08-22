@@ -14,11 +14,7 @@ class InstructorPage extends React.Component{
         schedule: false
     }
 
-    handleChange = (key,info) => this.props.dispatch(updateDesiredInstructor(key,info))
-    handleSubmit = () => {
-        // if(this.old_instructor.active && !this.props.instructor.active){
-        //     confirm
-        // }
+    runFetch = () =>{
         fetch(`http://localhost:5000/instructors/${this.props.instructor.id}`,{
             method:"PATCH",
             headers: {
@@ -41,12 +37,24 @@ class InstructorPage extends React.Component{
         })
     }
 
+    handleChange = (key,info) => this.props.dispatch(updateDesiredInstructor(key,info))
+    handleSubmit = (info) => {
+        if(this.state.old_instructor.active && !this.props.instructor.active){
+            let checker = window.confirm("Are you sure you want to set this Instructor to Inactive? All class times and lessons associated with this instructor will be set to inactive.")
+            if(checker){
+                this.runFetch()
+            }
+        }else{
+            this.runFetch()
+        }
+    }
+
     componentWillUnmount(){
         clearInterval(this.intervalID)
     }
 
     render(){
-        let {first_name,last_name, instrument_1, instrument_2, instrument_3, phone_number, emergency_number, email, date_of_birth, billing_address, pay_rate, active, biography, misc_notes} = this.props.instructor
+        let {first_name,last_name, instrument_1, instrument_2, instrument_3, phone_number, emergency_number, email, date_of_birth, billing_address, pay_rate, active, biography, misc_notes, schools} = this.props.instructor
         let schoolOptions = this.props.currentUser.schools.map( school => ({key:school.id, value:school.id, text:school.name}))
 
         return(
@@ -60,37 +68,44 @@ class InstructorPage extends React.Component{
 
                 {this.state.schedule ? <InstructorSchedule /> : <Divider/>}
 
-                <Form success style={{margin: '10px'}} onSubmit={()=>this.handleSubmit}>
+                <Form success style={{margin: '10px'}} onSubmit={(e)=> this.handleSubmit(e)}>
                     <Form.Group widths='equal'>
-                        <Form.Input fluid label='First name' value={first_name} onChange={(e)=>this.handleChange('first_name',e.target.value)}/>
-                        <Form.Input fluid label='Last name' value={last_name} onChange={(e)=>this.handleChange('last_name',e.target.value)}/>
-                        <Form.Input fluid label='Date of birth' type='date' value={date_of_birth} onChange={(e)=>this.handleChange('date_of_birth',e.target.value)}/>
+                        <Form.Input required fluid label='First name' value={first_name} onChange={(e)=>this.handleChange('first_name',e.target.value)}/>
+                        <Form.Input required fluid label='Last name' value={last_name} onChange={(e)=>this.handleChange('last_name',e.target.value)}/>
+                        <Form.Input required fluid label='Date of birth' type='date' value={date_of_birth} onChange={(e)=>this.handleChange('date_of_birth',e.target.value)}/>
                     </Form.Group>
                     <Form.Input fluid label='Billing Address' value={billing_address} onChange={(e)=>this.handleChange('billing_address',e.target.value)}/>
                     <Form.Group widths='equal'>
-                        <Form.Select
+                        {/* Need to find a way for instructors with lessons at that school to not be able to leave school or auto disable all those lessons */}
+                        <Form.Dropdown
                             id='schools'
                             required 
                             multiple
+                            selection
                             options={schoolOptions}
-                            label="Schools (can't use this yet)"
+                            value={schools.map( school => school.id)}
+                            label="Schools"
+                            onChange={(e,d)=>{
+                                let desiredSchools = this.props.currentUser.schools.filter( school => d.value.includes(school.id))
+                                this.handleChange('schools',desiredSchools)
+                            }}
                         />
                         <Form.Input fluid label='Pay Rate' type="number" value={pay_rate} onChange={(e)=>this.handleChange('pay_rate',e.target.value)}/>
-                        <Form.Input fluid label='Active (change to true or false for answers)' type="number" value={active ? 1 : 0} onChange={(e)=>this.handleChange('active',e.target.value)}/>
+                        <Form.Input required fluid label='Active (change to true or false for answers)' type="number" value={active ? 1 : 0} onChange={(e)=>this.handleChange('active',e.target.value)}/>
                     </Form.Group>
                     <Form.Group widths='equal'>
-                        <Form.Input fluid label='Phone Number' type='text' value={phone_number} onChange={(e)=>this.handleChange('phone_number',e.target.value)}/>
+                        <Form.Input required fluid label='Phone Number' type='text' value={phone_number} onChange={(e)=>this.handleChange('phone_number',e.target.value)}/>
                         <Form.Input fluid label='Emergency Number' type='tel' value={emergency_number} onChange={(e)=>this.handleChange('emergency_number',e.target.value)}/>
-                        <Form.Input fluid label='Email' type='email' value={email} onChange={(e)=>this.handleChange('email',e.target.value)}/>
+                        <Form.Input required fluid label='Email' type='email' value={email} onChange={(e)=>this.handleChange('email',e.target.value)}/>
                     </Form.Group>
                     <Form.Group widths='equal'>
-                        <Form.Input fluid label='Instrument 1' value={instrument_1} onChange={(e)=>this.handleChange('instrument_1',e.target.value)}/>
+                        <Form.Input required fluid label='Instrument 1' value={instrument_1} onChange={(e)=>this.handleChange('instrument_1',e.target.value)}/>
                         <Form.Input fluid label='Instrument 2' value={instrument_2} onChange={(e)=>this.handleChange('instrument_2',e.target.value)}/>
                         <Form.Input fluid label='Instrument 3' value={instrument_3} onChange={(e)=>this.handleChange('instrument_3',e.target.value)}/>
                     </Form.Group>
                     <Form.TextArea label='Biography' value={biography} onChange={(e)=>this.handleChange('biography',e.target.value)}></Form.TextArea>
                     <Form.TextArea label='Miscellaneous Notes' value={misc_notes} onChange={(e)=>this.handleChange('misc_notes',e.target.value)}></Form.TextArea>
-                    <Button type='submit' onClick={this.handleSubmit}>Save Changes</Button>
+                    <Button type='submit'>Save Changes</Button>
                     <Button onClick={()=> this.props.dispatch(fetchDesiredInstructor(this.state.old_instructor))}>Revert Changes</Button>
                     {this.state.success ? <Message success header='Changes have been saved' /> : null}
                 </Form>

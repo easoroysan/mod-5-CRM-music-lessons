@@ -24,7 +24,6 @@ class AttendancesController < ApplicationController
 
     def destroy
         attendance = Attendance.find(params[:id])
-
     end
 
     private
