@@ -43,7 +43,7 @@ class NewLessonForm extends React.Component{
             }else{
                 this.props.dispatch(addDesiredLesson(lesson))
                 this.setState({ submitted: true })
-                setInterval(() => {
+                this.intervalID = setInterval(() => {
                     this.setState({
                         submitted: false
                     })
@@ -52,8 +52,39 @@ class NewLessonForm extends React.Component{
         })
     }
 
+    componentWillUnmount(){
+        clearInterval(this.intervalID)
+    }
+
+    instructorSelect = (name) => {
+        if(name === ""){
+            this.setState({ instructorChosen: false })
+        }else{
+            let selectedInstructor = this.props.instructors.find( instructor => `${instructor.first_name} ${instructor.last_name}`=== name )
+            fetch(`http://localhost:5000/instructors/${selectedInstructor.id}`,{
+                method:"GET",
+                headers: {
+                    'Content-Type':'application/json',
+                    'Authorization': localStorage.getItem('token')
+                }
+            })
+            .then(r=> r.json())
+            .then(instructor => {
+                if(instructor.error){
+                    this.props.dispatch(authFail())
+                }else{
+                    this.props.dispatch(fetchDesiredInstructor( instructor ))
+                    this.setState({ instructorChosen: true })
+                }
+            })
+        }
+    }
+
     render(){
-        let instructorOptions = this.props.instructors.map( instructor => ({ key: instructor.id, value: instructor.id, text: `${instructor.first_name} ${instructor.last_name}`}))
+        let instructorOptions = this.props.instructors.filter( instructor => instructor.active )
+        .map( instructor => ({ key: instructor.id, value: instructor.id, text: `${instructor.first_name} ${instructor.last_name}`}))
+
+        instructorOptions = [{ key: 0, value: 0, text: ""},...instructorOptions]
         let { instrument_1, instrument_2, instrument_3, class_times } = this.props.selectedInstructor
 
         let classTimeOptions = class_times.map(class_time => {
@@ -87,7 +118,9 @@ class NewLessonForm extends React.Component{
                         options={instructorOptions}
                         label='Instructor'
                         onChange={(e)=>{
-                            this.instructorSelect(e.target.children[0].innerText)
+                            if(e.target.children.length > 0){
+                                this.instructorSelect(e.target.children[0].innerText)
+                            }
                         }}
                     />
                     {
@@ -151,25 +184,6 @@ class NewLessonForm extends React.Component{
         })
     }
 
-    instructorSelect = (name) => {
-        let selectedInstructor = this.props.instructors.find( instructor => `${instructor.first_name} ${instructor.last_name}`=== name )
-        fetch(`http://localhost:5000/instructors/${selectedInstructor.id}`,{
-            method:"GET",
-            headers: {
-                'Content-Type':'application/json',
-                'Authorization': localStorage.getItem('token')
-            }
-        })
-        .then(r=> r.json())
-        .then(instructor => {
-            if(instructor.error){
-                this.props.dispatch(authFail())
-            }else{
-                this.props.dispatch(fetchDesiredInstructor( instructor ))
-                this.setState({ instructorChosen: true })
-            }
-        })
-    }
 }
 
 export default connect(state => ({ currentUser: state.currentUser, student: state.desiredStudent, instructors: state.instructors, selectedInstructor: state.desiredInstructor }))(NewLessonForm);

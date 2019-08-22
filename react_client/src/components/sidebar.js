@@ -11,7 +11,8 @@ class SidebarClass extends React.Component {
         instructorButton: {background: 'black'},
         studentButton: {background: 'black'},
         familyButton: {background: 'black'},
-        clientButton: {background: 'black'}
+        clientButton: {background: 'black'},
+        logoutButton: {background: 'black'}
     }
 
     handleHideClick = () => this.setState({ visible: false })
@@ -89,6 +90,18 @@ class SidebarClass extends React.Component {
                                 Clients
                             </Menu.Item>
                         </Link>
+                        <Menu.Item
+                            style={this.state.logoutButton}
+                            onClick={()=>{
+                                localStorage.setItem('token',"logged out")
+                                window.location.reload()
+                            }}
+                            onMouseEnter={()=> this.setState({ logoutButton: {background:'gray'}})}
+                            onMouseLeave={()=> this.setState({ logoutButton: {background:'black'}})}
+                        >
+                            <Icon name='log out' />
+                            Logout
+                        </Menu.Item>
                     </Sidebar>
                 </div>
             )

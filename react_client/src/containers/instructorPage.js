@@ -30,12 +30,16 @@ class InstructorPage extends React.Component{
                 success: true,
                 old_instructor: instructor
             })
-            setInterval(() => {
+            this.intervalID = setInterval(() => {
                 this.setState({
                     success: false
                 })
             }, 1000);
         })
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.intervalID)
     }
 
     render(){

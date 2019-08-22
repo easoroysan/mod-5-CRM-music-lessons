@@ -41,13 +41,17 @@ class NewClassTimeForm extends React.Component{
             }else{
                 this.props.dispatch(addDesiredClassTime(class_time))
                 this.setState({ submitted: true })
-                setInterval(() => {
+                this.intervalID = setInterval(() => {
                     this.setState({
                         submitted: false
                     })
                 }, 2000);
             }
         })
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.intervalID)
     }
 
     render(){

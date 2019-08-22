@@ -30,13 +30,17 @@ class NewContactForm extends React.Component{
             }else{
                 this.props.dispatch(updateDesiredFamily('contacts',[...this.props.family.contacts, contact]))
                 this.setState({ submitted: true })
-                setInterval(() => {
+                this.intervalID = setInterval(() => {
                     this.setState({
                         submitted: false
                     })
                 }, 2000);
             }
         })
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.intervalID)
     }
 
     render(){

@@ -28,12 +28,16 @@ class ContactPage extends React.Component{
                 success: true,
                 old_contact: contact
             })
-            setInterval(() => {
+            this.intervalID = setInterval(() => {
                 this.setState({
                     success: false
                 })
             }, 1000);
         })
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.intervalID)
     }
 
     render(){

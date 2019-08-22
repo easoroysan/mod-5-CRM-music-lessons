@@ -30,12 +30,16 @@ class LessonPage extends React.Component{
                 success: true,
                 old_lesson: lesson
             })
-            setInterval(() => {
+            this.intervalID = setInterval(() => {
                 this.setState({
                     success: false
                 })
             }, 1000);
         })
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.intervalID)
     }
 
     handleAttendanceSubmit(info,id){

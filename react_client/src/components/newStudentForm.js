@@ -30,13 +30,17 @@ class NewStudentForm extends React.Component{
             }else{
                 this.props.dispatch(updateDesiredFamily('students',[...this.props.family.students, student]))
                 this.setState({ submitted: true })
-                setInterval(() => {
+                this.intervalID = setInterval(() => {
                     this.setState({
                         submitted: false
                     })
                 }, 2000);
             }
         })
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.intervalID)
     }
 
     render(){

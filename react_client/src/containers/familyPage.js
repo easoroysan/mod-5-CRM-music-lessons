@@ -32,12 +32,16 @@ class FamilyPage extends React.Component{
                 success: true,
                 old_family: family
             })
-            setInterval(() => {
+            this.intervalID = setInterval(() => {
                 this.setState({
                     success: false
                 })
             }, 1000);
         })
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.intervalID)
     }
 
     render(){
