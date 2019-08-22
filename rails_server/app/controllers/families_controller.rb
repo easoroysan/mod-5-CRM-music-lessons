@@ -26,10 +26,6 @@ class FamiliesController < ApplicationController
 
     def create
         family = Family.create(allowed_params)
-        
-        #need to change this once I can pull school info from front end
-        family.update({school_id: 1})
-        
         render json: family, methods: [:school, :students, :contacts, :lessons, :class_times, :instructors]
     end
 
@@ -52,7 +48,8 @@ class FamiliesController < ApplicationController
     def allowed_params
         params.permit(
             :family_name,
-            :misc_notes
+            :misc_notes,
+            :school_id
         )
     end
 

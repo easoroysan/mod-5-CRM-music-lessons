@@ -6,13 +6,13 @@ class InstructorsController < ApplicationController
 
         ordered_instructors = user_instructors.sort_by(&:last_name)
         
-        render json: ordered_instructors, methods: [:schools]
+        render json: ordered_instructors, methods: [:schools, :class_times]
     end
 
     def show
         instructor = Instructor.find(params[:id])
         if (instructor.schools & @current_user.schools).present?
-            render json: instructor, methods: [:schools]
+            render json: instructor, methods: [:schools, :class_times]
         else
             render json: {message: 'this instructor does not exist or you do not have access to this instructor'}
         end
@@ -22,17 +22,18 @@ class InstructorsController < ApplicationController
         instructor = Instructor.create(allowed_params)
 
         #Temporary lines since front end can't pull schools yet
-        InstructorSchool.create( instructor: instructor, school_id: 1 )
-        InstructorSchool.create( instructor: instructor, school_id: 2 )
-
-        render json: instructor, methods: [:schools]
+        params[:schools].each do | school_id |
+            InstructorSchool.create( instructor: instructor, school_id: school_id )
+        end
+        
+        render json: instructor, methods: [:schools, :class_times]
     end
 
     def update
         instructor = Instructor.find(params[:id])
         if (instructor.schools & @current_user.schools).present?
             instructor.update(allowed_params)
-            render json: instructor, methods: [:schools]
+            render json: instructor, methods: [:schools, :class_times]
         else
             render json: {message: 'this instructor does not exist or you do not have access to this instructor'}
         end

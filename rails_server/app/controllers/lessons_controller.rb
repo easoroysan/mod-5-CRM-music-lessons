@@ -10,7 +10,7 @@ class LessonsController < ApplicationController
             end
         end
 
-        render json: lessons, methods: [:school, :class_time, :student, :instructor]
+        render json: lessons, methods: [:school, :class_time, :student, :instructor, :attendances]
     end
 
     def show
@@ -22,14 +22,14 @@ class LessonsController < ApplicationController
                     lessons << lesson
                 end
             end
-            render json: lessons, methods: [:school, :class_time, :student, :instructor]
+            render json: lessons, methods: [:school, :class_time, :student, :instructor, :attendances]
         elsif params[:id].split('_')[0] == "day"
             desired_day = params[:id].split('_')[1]
 
             lessons = Lesson.all.select do |lesson|
                 lesson.class_time.day === desired_day && @current_user.schools.include?(lesson.school)
             end
-            render json: lessons, methods: [:school, :class_time, :student, :instructor]
+            render json: lessons, methods: [:school, :class_time, :student, :instructor, :attendances]
         else
             lesson = Lesson.find(params[:id])
             if @current_user.schools.include?(lesson.school)
@@ -41,19 +41,35 @@ class LessonsController < ApplicationController
     end
 
     def create
-        render plain: 'Hello'
-    end
-
-    def edit
-        render plain: 'Hello'
+        lesson = Lesson.create(allowed_params)
+        render json: lesson, methods: [:school, :class_time, :student, :instructor, :attendances]
     end
 
     def update
-        render plain: 'Hello'
+        lesson = Lesson.find(params[:id])
+        if @current_user.schools.include?(lesson.school)
+            lesson.update(allowed_params)
+            render json: lesson, methods: [:school, :class_time, :student, :instructor, :attendances]
+        else
+            render json: {message: 'this lesson does not exist or you do not have access to this lesson'}
+        end
     end
 
     def destroy
         render plain: 'Hello'
+    end
+
+    private
+
+    def allowed_params
+        params.permit(
+            :school_id,
+            :class_time_id,
+            :active,
+            :instructor_notes,
+            :misc_notes,
+            :instrument
+        )
     end
 
 end

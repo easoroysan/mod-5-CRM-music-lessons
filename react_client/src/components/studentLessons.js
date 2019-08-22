@@ -4,6 +4,7 @@ import { Header, Table, Divider, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom'
 import { fetchLessons } from '../actions/lessons';
 import { authFail } from '../actions/current_user';
+import NewLessonForm from './newLessonForm';
 
 
 class StudentLessons extends React.Component{
@@ -21,6 +22,8 @@ class StudentLessons extends React.Component{
                     <Button onClick={()=> this.setState({ addLessonForm: !this.state.addLessonForm })}>{this.state.addLessonForm ? 'Hide Form' : 'Add a Lesson'}</Button>
                 </Header>
 
+                {this.state.addLessonForm ? <NewLessonForm/> : null}
+
                 <Table celled>
 
                     <Table.Header>
@@ -37,7 +40,7 @@ class StudentLessons extends React.Component{
                             let {day, start_time, end_time} = lesson.class_time
                             return (
                                 <Table.Row key={lesson.id}>
-                                    <Table.Cell><Link to={`/lessons/${lesson.id}`}>{day} | {start_time}-{end_time}</Link></Table.Cell>
+                                    <Table.Cell><Link to={`/lessons/${lesson.id}`}>{day} | {start_time}-{end_time} | {lesson.instrument}</Link></Table.Cell>
                                     <Table.Cell>{lesson.active ? "Active" : "Inactive"}</Table.Cell>
                                     <Table.Cell>
                                         <Link to={`/instructors/${lesson.instructor.id}`}>

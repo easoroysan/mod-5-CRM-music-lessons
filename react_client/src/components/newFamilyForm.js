@@ -12,7 +12,10 @@ class NewFamilyForm extends React.Component{
     }
 
     handleSubmit(info){
-        let familyInfo = { family_name: info.family_name.value, misc_notes: "", billing_total: 0 }
+        let schoolInfo = info.children[0].children[0].children[1].innerText
+        let school_id = this.props.currentUser.schools.find( school => school.name === schoolInfo ).id
+
+        let familyInfo = { family_name: info.family_name.value, school_id, misc_notes: "", billing_total: 0 }
 
         fetch('http://localhost:5000/families',{
             method: 'POST',
@@ -39,7 +42,6 @@ class NewFamilyForm extends React.Component{
             <Form success style={{margin: '10px'}} onSubmit={(e)=>this.handleSubmit(e.target)}>
                     
                 <Form.Group widths='equal'>
-                    {/* Can't get schools on submission */}
                     <Form.Select
                         id='schools'
                         required 

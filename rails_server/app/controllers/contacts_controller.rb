@@ -29,7 +29,7 @@ class ContactsController < ApplicationController
     end
 
     def update
-        contact = contact.find(params[:id])
+        contact = Contact.find(params[:id])
         if @current_user.schools.include?(contact.school)
             contact.update(allowed_params)
             render json: contact, methods: [:school, :family]

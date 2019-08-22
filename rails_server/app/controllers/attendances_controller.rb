@@ -10,19 +10,34 @@ class AttendancesController < ApplicationController
     end
 
     def create
-        render plain: 'Hello'
-    end
-
-    def edit
-        render plain: 'Hello'
+        attendance = Attendance.create(allowed_params)
+        lesson = Lesson.find(attendance.lesson_id)
+        render json: lesson, methods: [:school, :class_time, :student, :instructor, :attendances]
     end
 
     def update
-        render plain: 'Hello'
+        attendance = Attendance.find(params[:id])
+        attendance.update(allowed_params)
+        lesson = Lesson.find(attendance.lesson_id)
+        render json: lesson, methods: [:school, :class_time, :student, :instructor, :attendances]
     end
 
     def destroy
-        render plain: 'Hello'
+        attendance = Attendance.find(params[:id])
+
+    end
+
+    private
+
+    def allowed_params
+        params.permit(
+            :school_id,
+            :lesson_id,
+            :date,
+            :status,
+            :make_up,
+            :cancelled_date
+        )
     end
 
 end

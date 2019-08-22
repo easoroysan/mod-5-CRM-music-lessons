@@ -19,7 +19,7 @@ class Families extends React.Component{
                 <Header as='h2' icon textAlign='center'>
                     <Icon name='group' />
                     <Header.Content>Families</Header.Content>
-                    <Button onClick={()=> this.setState({ newForm: !this.state.newForm })}>{this.state.newForm ? 'Hide' : 'Show'} New Family Form</Button>
+                    <Button onClick={()=> this.setState({ newForm: !this.state.newForm })}>{this.state.newForm ? 'Hide Family Form' : 'Add a Family'}</Button>
                 </Header>
 
                 {this.state.newForm ? <NewFamilyForm/> : null}

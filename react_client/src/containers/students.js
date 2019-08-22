@@ -31,7 +31,7 @@ class Students extends React.Component{
                         {this.props.students.map( student =>(
                             <Table.Row key={student.id}>
                                 <Table.Cell><Link to={`/students/${student.id}`} >{student.first_name} {student.last_name}</Link></Table.Cell>
-                                <Table.Cell>{student.family.family_name}</Table.Cell>
+                                <Table.Cell><Link to={`/families/${student.family_id}`} >{student.family.family_name}</Link></Table.Cell>
                                 <Table.Cell>{student.phone_number}</Table.Cell>
                                 <Table.Cell>{student.email}</Table.Cell>
                                 <Table.Cell>{student.date_of_birth}</Table.Cell>

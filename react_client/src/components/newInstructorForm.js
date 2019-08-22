@@ -14,10 +14,18 @@ class NewInstructorForm extends React.Component{
 
     handleSubmit(info){
         let keys = ['first_name','last_name','date_of_birth','billing_address','pay_rate','phone_number','emergency_number','email','instrument_1','instrument_2','instrument_3','biography','misc_notes']
-        let newInstructorInfo = { active: true }
+
+        // Jank to get school ids
+        let schoolInfo = info.children[2].children[0].children[1]
+        schoolInfo = Array.from(schoolInfo.children).map( child => child.innerText )
+        schoolInfo.pop()
+        schoolInfo = schoolInfo.filter( school => school !== "" )
+        let schools = schoolInfo.map( desiredSchool => (
+            this.props.currentUser.schools.find( school => school.name === desiredSchool ).id
+        ))
+
+        let newInstructorInfo = { active: true , schools }
         keys.forEach( key => newInstructorInfo[key]=info[key].value )
-        console.log(newInstructorInfo)
-        // console.log(info.schools)
 
         fetch('http://localhost:5000/instructors',{
             method: 'POST',
@@ -45,16 +53,15 @@ class NewInstructorForm extends React.Component{
                     <Form.Group widths='equal'>
                         <Form.Input id='first_name' required fluid label='First name'/>
                         <Form.Input id='last_name' required fluid label='Last name'/>
-                        <Form.Input id='date_of_birth' required fluid label='Date of birth' type='date'/>
+                        <Form.Input id='date_of_birth' fluid label='Date of birth' type='date'/>
                     </Form.Group>
                     <Form.Group widths='equal'>
-                        <Form.Input id='billing_address' required fluid label='Billing Address' />
+                        <Form.Input id='billing_address' fluid label='Billing Address' />
                     </Form.Group>
                     <Form.Group widths='equal'>
-                        {/* Can't get schools on submission */}
                         <Form.Select
                             id='schools'
-                            required 
+                            required
                             multiple
                             options={schoolOptions}
                             label='Schools'

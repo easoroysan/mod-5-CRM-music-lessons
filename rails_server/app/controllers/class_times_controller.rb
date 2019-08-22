@@ -20,7 +20,7 @@ class ClassTimesController < ApplicationController
 
     def create
         class_time = ClassTime.create(allowed_params)
-        render json: class_times, methods: [:school, :lessons, :students, :instructor, :contacts]
+        render json: class_time, methods: [:school, :lessons, :students, :instructor, :contacts]
     end
 
     def update
