@@ -76,9 +76,7 @@ class InstructorPage extends React.Component{
                     </Form.Group>
                     <Form.Input fluid label='Billing Address' value={billing_address} onChange={(e)=>this.handleChange('billing_address',e.target.value)}/>
                     <Form.Group widths='equal'>
-                        {/* Need to find a way for instructors with lessons at that school to not be able to leave school or auto disable all those lessons */}
                         <Form.Dropdown
-                            id='schools'
                             required 
                             multiple
                             selection
@@ -91,7 +89,19 @@ class InstructorPage extends React.Component{
                             }}
                         />
                         <Form.Input fluid label='Pay Rate' type="number" value={pay_rate} onChange={(e)=>this.handleChange('pay_rate',e.target.value)}/>
-                        <Form.Input required fluid label='Active (change to true or false for answers)' type="number" value={active ? 1 : 0} onChange={(e)=>this.handleChange('active',e.target.value)}/>
+                        <Form.Dropdown
+                            required 
+                            selection
+                            options={[
+                                { key: 1, value: true, text: "Active" },
+                                { key: 2, value: false, text: "Inactive" }
+                            ]}
+                            value={active}
+                            label="Active"
+                            onChange={(e,d)=>{
+                                this.handleChange('active',d.value)
+                            }}
+                        />
                     </Form.Group>
                     <Form.Group widths='equal'>
                         <Form.Input required fluid label='Phone Number' type='text' value={phone_number} onChange={(e)=>this.handleChange('phone_number',e.target.value)}/>

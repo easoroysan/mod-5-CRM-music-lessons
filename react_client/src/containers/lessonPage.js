@@ -83,7 +83,19 @@ class LessonPage extends React.Component{
             <Divider/>
             <Form success style={{margin: '10px'}} onSubmit={()=>this.handleSubmit}>
                 <Form.Group widths='equal'>
-                    <Form.Input fluid label='Status' type='number' value={active ? 1 : 0} onChange={(e)=>this.handleChange('active',e.target.value)}/>
+                    <Form.Dropdown
+                        required 
+                        selection
+                        options={[
+                            { key: 1, value: true, text: "Active" },
+                            { key: 2, value: false, text: "Inactive" }
+                        ]}
+                        value={active}
+                        label="Active"
+                        onChange={(e,d)=>{
+                            this.handleChange('active',d.value)
+                        }}
+                    />
                     <Form.Input fluid label='Instrument' value={instrument} onChange={(e)=>this.handleChange('instrument',e.target.value)}/>
                 </Form.Group>
                 <Form.TextArea label='Instructor Notes' value={instructor_notes} onChange={(e)=>this.handleChange('instructor_notes',e.target.value)}></Form.TextArea>

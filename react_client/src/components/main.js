@@ -50,7 +50,7 @@ class MainPage extends React.Component{
                             </Table.Header>
 
                             <Table.Body>
-                                {this.props.lessons.filter(lesson => lesson.school.name === school.name)
+                                {this.props.lessons.filter(lesson => lesson.school.name === school.name && lesson.active)
                                 .sort( (a,b) => a.instructor.last_name > b.instructor.last_name ? 1 : a.instructor.last_name < b.instructor.last_name ? -1 : 0)
                                 .map( lesson =>{
                                     let lastAttendance = {}
