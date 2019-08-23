@@ -89,7 +89,8 @@ class NewLessonForm extends React.Component{
         instructorOptions = [{ key: 0, value: 0, text: ""},...instructorOptions]
         let { instrument_1, instrument_2, instrument_3, class_times } = this.props.selectedInstructor
 
-        let classTimeOptions = class_times.map(class_time => {
+        let classTimeOptions = class_times.filter( time => time.active )
+        .map(class_time => {
 
             let longStart = class_time.start_time.split("T")[1]
             let shortStart = `${longStart.split(":")[0]}:${longStart.split(":")[1]}`

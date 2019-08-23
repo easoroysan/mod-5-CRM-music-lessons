@@ -15,6 +15,7 @@ class Students extends React.Component{
     }
 
     setSearchQuery = debounce((query) => {
+        console.log(query)
         this.setState({ searchQuery: query, isLoading: false })
     }, 500)
 
@@ -27,7 +28,6 @@ class Students extends React.Component{
                 student.first_name.toUpperCase().includes(searchTerm) || 
                 student.last_name.toUpperCase().includes(searchTerm) ||
                 student.phone_number.toUpperCase().includes(searchTerm) ||
-                student.email.toUpperCase().includes(searchTerm) ||
                 student.family.family_name.toUpperCase().includes(searchTerm)
             ))
         }
@@ -44,7 +44,7 @@ class Students extends React.Component{
                     loading={this.state.isLoading}
                     size='small'
                     style={{ marginLeft: '10px' }}
-                    placeholder='Name, Number, or Email'
+                    placeholder='Name or Phone Number'
                     onSearchChange={(e)=>{
                         this.setState({ isLoading: true })
                         this.setSearchQuery(e.target.value)
@@ -57,6 +57,7 @@ class Students extends React.Component{
                         <Table.Row>
                             <Table.HeaderCell>Name</Table.HeaderCell>
                             <Table.HeaderCell>Family Name</Table.HeaderCell>
+                            <Table.HeaderCell>School</Table.HeaderCell>
                             <Table.HeaderCell>Phone Number</Table.HeaderCell>
                             <Table.HeaderCell>Email</Table.HeaderCell>
                             <Table.HeaderCell>Date of Birth</Table.HeaderCell>
@@ -68,6 +69,7 @@ class Students extends React.Component{
                             <Table.Row key={student.id}>
                                 <Table.Cell><Link to={`/students/${student.id}`} >{student.first_name} {student.last_name}</Link></Table.Cell>
                                 <Table.Cell><Link to={`/families/${student.family_id}`} >{student.family.family_name}</Link></Table.Cell>
+                                <Table.Cell>{student.school.name}</Table.Cell>
                                 <Table.Cell>{student.phone_number}</Table.Cell>
                                 <Table.Cell>{student.email}</Table.Cell>
                                 <Table.Cell>{student.date_of_birth}</Table.Cell>

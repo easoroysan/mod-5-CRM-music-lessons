@@ -38,10 +38,6 @@ class LessonPage extends React.Component{
         })
     }
 
-    componentWillUnmount(){
-        clearInterval(this.intervalID)
-    }
-
     handleAttendanceSubmit(info,id){
         let keys = ['date','status','cancelled_date']
         let attendanceInfo = { make_up: parseInt(info.make_up.value) }
@@ -189,6 +185,7 @@ class LessonPage extends React.Component{
             instructor_notes: "",
             misc_notes: ""
         }))
+        clearInterval(this.intervalID)
     }
 }
 

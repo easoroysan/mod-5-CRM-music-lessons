@@ -90,18 +90,20 @@ class SidebarClass extends React.Component {
                                 Clients
                             </Menu.Item>
                         </Link>
-                        <Menu.Item
-                            style={this.state.logoutButton}
-                            onClick={()=>{
-                                localStorage.setItem('token',"logged out")
-                                window.location.reload()
-                            }}
-                            onMouseEnter={()=> this.setState({ logoutButton: {background:'gray'}})}
-                            onMouseLeave={()=> this.setState({ logoutButton: {background:'black'}})}
-                        >
-                            <Icon name='log out' />
-                            Logout
-                        </Menu.Item>
+                        <Link to="/" onClick={this.handleHideClick}>
+                            <Menu.Item
+                                style={this.state.logoutButton}
+                                onClick={()=>{
+                                    localStorage.setItem('token',"logged out")
+                                    window.location.reload()
+                                }}
+                                onMouseEnter={()=> this.setState({ logoutButton: {background:'gray'}})}
+                                onMouseLeave={()=> this.setState({ logoutButton: {background:'black'}})}
+                            >
+                                <Icon name='log out' />
+                                Logout
+                            </Menu.Item>
+                        </Link>
                     </Sidebar>
                 </div>
             )
