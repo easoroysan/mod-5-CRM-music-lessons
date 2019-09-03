@@ -110,6 +110,18 @@ class Instructors extends React.Component{
     }
 
     componentDidMount(){
+        this.props.initialFetch()
+    }
+}
+
+const mapStateToProps = state =>(
+    {
+        instructors: state.instructors
+    }
+)
+
+const mapDispatchToProps = {
+    initialFetch: ()=>dispatch=>{
         fetch('http://localhost:5000/instructors',{
             method:"GET",
             headers: {
@@ -119,9 +131,9 @@ class Instructors extends React.Component{
         })
         .then(r=> r.json())
         .then(instructors => {
-            instructors.error ? this.props.dispatch(authFail()) : this.props.dispatch(fetchInstructors(instructors))
+            instructors.error ? dispatch(authFail()) : dispatch(fetchInstructors(instructors))
         })
     }
 }
 
-export default connect(state => ({ instructors: state.instructors }))(Instructors);
+export default connect(mapStateToProps, mapDispatchToProps)(Instructors);

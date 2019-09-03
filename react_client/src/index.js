@@ -10,7 +10,6 @@ import rootReducer from './reducers/index'
 // thunk
 import ReduxThunk from 'redux-thunk'
 
-
 let middlewares = [ applyMiddleware(ReduxThunk) ]
 
 if(window.__REDUX_DEVTOOLS_EXTENSION__) {
@@ -26,7 +25,7 @@ const store = createStore(
 
 ReactDOM.render(
     <Provider store={store} >
-        <App />    
+        <App />
     </Provider>,
     document.getElementById('root')
 );
