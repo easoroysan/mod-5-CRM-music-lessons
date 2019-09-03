@@ -20,7 +20,7 @@ class ApplicationController < ActionController::API
                 #this means someone has the secret or user was deleted
                 render json: {
                     error:true,
-                    message: 'Authorization Error'
+                    message: 'This user no longer exists'
                 }
             end
         rescue
