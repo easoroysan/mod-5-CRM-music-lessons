@@ -7,7 +7,8 @@ import { fetchDesiredLesson, updateLessons } from '../actions/lessons';
 class NewAttendanceForm extends React.Component{
 
     state={
-        submitted: false
+        submitted: false,
+        make_up: false
     }
 
     handleSubmit(info){
@@ -15,7 +16,9 @@ class NewAttendanceForm extends React.Component{
         let attendanceInfo = { lesson_id: this.props.lesson.id, school_id: this.props.lesson.school_id }
         keys.forEach( key => {
             if(key === 'make_up'){
-                attendanceInfo[key]=parseInt(info[key].value)
+                attendanceInfo[key]=this.state.make_up
+            }else if(key === 'cancelled_date' && !this.state.make_up){
+                attendanceInfo[key]=null
             }else{
                 attendanceInfo[key]=info[key].value
             }
@@ -64,8 +67,24 @@ class NewAttendanceForm extends React.Component{
                     <Form.Input id='status' required fluid label='Status' />
                 </Form.Group>
                 <Form.Group widths='equal'>
-                    <Form.Input id='make_up' defaultValue={0} type='number' fluid label='Make-up Lesson' />
-                    <Form.Input id='cancelled_date' type='date' fluid label='Cancelled Date' />
+                    <Form.Dropdown
+                        selection
+                        options={[
+                            { key: 1, value: true, text: "True" },
+                            { key: 2, value: false, text: "False" }
+                        ]}
+                        value={this.state.make_up}
+                        label="Status"
+                        onChange={(e,d)=>{
+                            this.setState({ make_up: d.value })
+                        }}
+                    />
+                    {
+                        this.state.make_up ? 
+                        <Form.Input required id='cancelled_date' type='date' fluid label='Cancelled Date' />
+                        :
+                        null
+                    }
                 </Form.Group>
                 <Button type='submit'>Add Attendance</Button>
                 {this.state.submitted ? <Message success header='Attendance has been added' /> : null}

@@ -57,7 +57,7 @@ class MainPage extends React.Component{
                                     if(lesson.attendances.length > 0){
                                         lastAttendance = lesson.attendances[lesson.attendances.length-1]
                                     }
-                                    let { date, status, make_up } = lastAttendance
+                                    let { date, status, make_up, cancelled_date } = lastAttendance
                                     return(
                                         <Table.Row key={lesson.id}>
                                         <Table.Cell><Link to={`/instructors/${lesson.instructor.id}`} >{lesson.instructor.first_name} {lesson.instructor.last_name}</Link></Table.Cell>
@@ -73,7 +73,7 @@ class MainPage extends React.Component{
                                         </Table.Cell>
                                         <Table.Cell><Link to={`/students/${lesson.student.id}`} >{lesson.student.first_name} {lesson.student.last_name}</Link></Table.Cell>
                                         <Table.Cell>{lesson.instrument}</Table.Cell>
-                                        <Table.Cell>{lesson.attendances.length > 0 ? `${date} | ${status} | ${make_up ? "Was a" : "Was not a"} make-up` : null}</Table.Cell>
+                                        <Table.Cell>{lesson.attendances.length > 0 ? `${date} | ${status} | ${make_up ? `Make-up for lesson missed on ${cancelled_date}` : "Was not a make-up"}` : null}</Table.Cell>
                                         </Table.Row>
                                     )
                                 })}
