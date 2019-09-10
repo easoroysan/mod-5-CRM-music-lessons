@@ -1,5 +1,5 @@
 export default (state={
-    class_time: {},
+    class_time: { start_time: "" },
     student: {},
     instructor: {},
     attendances: [],

@@ -20,6 +20,10 @@ class Instructors extends React.Component{
         this.setState({ searchQuery: query, isLoading: false })
     }, 500)
 
+    componentDidMount(){
+        this.props.initialFetch()
+    }
+
     render(){
 
         let desiredInstructors = this.props.instructors
@@ -107,10 +111,6 @@ class Instructors extends React.Component{
                 }
             </div>
         )
-    }
-
-    componentDidMount(){
-        this.props.initialFetch()
     }
 }
 

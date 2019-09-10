@@ -62,10 +62,12 @@ class NewAttendanceForm extends React.Component{
                 <Form.Group widths='equal'>
                     <Form.Input id='date' type='date' defaultValue={today} required fluid label='Date' />
                     <Form.Input id='status' required fluid label='Status' />
+                </Form.Group>
+                <Form.Group widths='equal'>
                     <Form.Input id='make_up' defaultValue={0} type='number' fluid label='Make-up Lesson' />
                     <Form.Input id='cancelled_date' type='date' fluid label='Cancelled Date' />
-                    <Button type='submit'>Add Attendance</Button>
                 </Form.Group>
+                <Button type='submit'>Add Attendance</Button>
                 {this.state.submitted ? <Message success header='Attendance has been added' /> : null}
                 
             </Form>
