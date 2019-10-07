@@ -6,7 +6,9 @@ export default (state={
     school: {},
     instrument: "",
     instructor_notes: "",
-    misc_notes: ""
+    misc_notes: "",
+    submitted: false,
+    make_up: false
 },action)=>{
     switch(action.type){
         case("FETCH_DESIRED_LESSON"):
@@ -23,6 +25,10 @@ export default (state={
             }
         case("UPDATE_DESIRED_LESSON"):
             return {...state, [action.key]: action.value}
+        case("ATTENDANCE_ADDED"):
+            return {...state, submitted: action.value}
+        case("MAKE_UP_STATUS"):
+            return {...state, make_up: action.value}
         default:
             return state;
     }

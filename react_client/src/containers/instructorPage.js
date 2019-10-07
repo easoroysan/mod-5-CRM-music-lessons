@@ -55,7 +55,10 @@ class InstructorPage extends React.Component{
 
     render(){
         let {first_name,last_name, instrument_1, instrument_2, instrument_3, phone_number, emergency_number, email, date_of_birth, billing_address, pay_rate, active, biography, misc_notes, schools} = this.props.instructor
-        let schoolOptions = this.props.currentUser.schools.map( school => ({key:school.id, value:school.id, text:school.name}))
+        let schoolOptions = []
+        if(this.props.currentUser.authorized){
+            schoolOptions = this.props.currentUser.schools.map( school => ({key:school.id, value:school.id, text:school.name}))
+        }
 
         return(
             <div>

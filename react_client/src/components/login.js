@@ -6,22 +6,6 @@ import { authSuccess,authFail } from '../actions/current_user'
 
 class LoginForm extends React.Component{
 
-  handleSubmit = (username,password) => {
-    fetch('http://localhost:5000/login',{
-      method:'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        username,
-        password
-      })
-    })
-    .then(r => r.json())
-    .then(result => {
-      localStorage.setItem('token',result.token)
-      result.message === "Confirmed" ? this.props.dispatch(authSuccess({ ...result.current_user, schools: result.schools })) : this.props.dispatch(authFail())
-    })
-  }
-
   render(){
     return(
       <div>
@@ -38,7 +22,7 @@ class LoginForm extends React.Component{
             <Header as='h2' color='black' textAlign='center'>
               Log-in to your account
             </Header>
-            <Form size='large' onSubmit={e=> this.handleSubmit(e.target.username.value, e.target.password.value)}>
+            <Form size='large' onSubmit={e=> this.props.handleSubmit(e.target.username.value, e.target.password.value)}>
               <Segment>
                 <Form.Input
                   id="username"
@@ -86,4 +70,33 @@ class LoginForm extends React.Component{
   }
 }
 
-export default connect(state => ({ authorized: state.users }))(LoginForm);
+const mapStateToProps = state => (
+  {
+    authorized: state.users
+  }
+)
+
+const mapDispatchToProps = {
+  handleSubmit: (username,password) => dispatch =>{
+    fetch('http://localhost:5000/login',{
+      method:'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        username,
+        password
+      })
+    })
+    .then(r => r.json())
+    .then(result => {
+      localStorage.setItem('token',result.token)
+      if(result.message === "Confirmed"){
+        dispatch(authSuccess({ ...result.current_user, schools: result.schools }))
+      }else{
+        dispatch(authFail())
+        alert(result.message)
+      }
+    })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

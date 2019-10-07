@@ -3,8 +3,8 @@ class UsersController < ApplicationController
 
     def authenticate
         user = User.find_by(username: params[:username])
-        schools = user.schools.map { |school| School.find(school.id) }
         if user && user.authenticate(params[:password])
+            schools = user.schools.map { |school| School.find(school.id) }
             render json: {message: "Confirmed", token: user.auth_token, current_user: user, schools: schools }
         else
             render json: {message: "Incorrect username or password", token: "bWVzc2FnZSBmcm9tIG1hbmFnZW1lbnQ6.IGRpcyB0b2tlbiBiZSBmYWtlIDop"}

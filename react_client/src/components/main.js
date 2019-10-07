@@ -9,18 +9,9 @@ import NewAttendanceForm from './newAttendanceForm';
 
 class MainPage extends React.Component{
 
-    showForm = (lesson) => this.props.dispatch(fetchDesiredLesson(lesson))
-    hideForm = () => this.props.dispatch(fetchDesiredLesson({
-        class_time: { start_time: "" },
-        student: {},
-        instructor: {},
-        attendances: [],
-        school: {},
-        instrument: "",
-        instructor_notes: "",
-        misc_notes: ""
-    }))
-
+    componentDidMount(){
+        this.props.initialFetch()
+    }
 
     render(){
         return(
@@ -65,9 +56,9 @@ class MainPage extends React.Component{
                                             <Link to={`/lessons/${lesson.id}`}>{lesson.class_time.day} | {lesson.class_time.start_time}-{lesson.class_time.end_time}</Link>
                                             {
                                                 this.props.lesson_id !== lesson.id ?
-                                                <Button onClick={()=> this.showForm(lesson)}>Add an Attendance</Button>
+                                                <Button onClick={()=> this.props.showForm(lesson)}>Add an Attendance</Button>
                                                 :
-                                                <Button onClick={()=> this.hideForm()}>Hide Form</Button>
+                                                <Button onClick={()=> this.props.hideForm()}>Hide Form</Button>
                                             }
                                             {this.props.lesson_id===lesson.id ? <NewAttendanceForm/> : null}
                                         </Table.Cell>
@@ -85,7 +76,18 @@ class MainPage extends React.Component{
         )
     }
 
-    componentDidMount(){
+}
+
+const mapStateToProps = state =>(
+    {
+        currentUser: state.currentUser,
+        lessons: state.lessons,
+        lesson_id: state.desiredLesson.id
+    }
+)
+
+const mapDispatchToProps = {
+    initialFetch: ()=>dispatch=>{
         let date = new Date()
         let dayNames = [
             'Sunday',
@@ -104,10 +106,21 @@ class MainPage extends React.Component{
         })
         .then(r=> r.json())
         .then(lessons => {
-            lessons.error ? this.props.dispatch(authFail()) : this.props.dispatch(fetchLessons(lessons))
+            lessons.error ? dispatch(authFail()) : dispatch(fetchLessons(lessons))
         })
-    }
+    },
+    showForm: (lesson) => dispatch => dispatch(fetchDesiredLesson(lesson)),
+    hideForm: () => dispatch => dispatch(fetchDesiredLesson({
+        class_time: { start_time: "" },
+        student: {},
+        instructor: {},
+        attendances: [],
+        school: {},
+        instrument: "",
+        instructor_notes: "",
+        misc_notes: ""
+    }))
 }
 
-export default connect(state => ({ currentUser: state.currentUser, lessons: state.lessons, lesson_id: state.desiredLesson.id }))(MainPage)
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage)
 

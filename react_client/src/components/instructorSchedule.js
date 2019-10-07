@@ -146,7 +146,21 @@ class InstructorSchedule extends React.Component{
     }
 
     componentDidMount(){
-        fetch(`http://localhost:5000/class_times/${this.props.instructor_id}`,{
+        this.props.initialFetch(this.props.instructor_id)
+    }
+
+}
+
+const mapStateToProps = state =>(
+    {
+        class_times: state.desiredClassTimes,
+        instructor_id: state.desiredInstructor.id
+    }
+)
+
+const mapDispatchToProps = {
+    initialFetch: (instructor_id)=>dispatch=>{
+        fetch(`http://localhost:5000/class_times/${instructor_id}`,{
             method:"GET",
             headers: {
                 'Content-Type':'application/json',
@@ -155,11 +169,9 @@ class InstructorSchedule extends React.Component{
         })
         .then(r=> r.json())
         .then(class_times => {
-            class_times.error ? this.props.dispatch(authFail()) : this.props.dispatch(fetchDesiredClassTimes(class_times))
+            class_times.error ? dispatch(authFail()) : dispatch(fetchDesiredClassTimes(class_times))
         })
     }
-
 }
 
-
-export default connect(state => ({ class_times: state.desiredClassTimes, instructor_id: state.desiredInstructor.id }))(InstructorSchedule);
+export default connect(mapStateToProps, mapDispatchToProps)(InstructorSchedule);

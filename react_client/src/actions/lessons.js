@@ -17,3 +17,11 @@ export function addDesiredLesson(lesson){
 export function updateDesiredLesson(key,value){
     return {type: "UPDATE_DESIRED_LESSON", key, value}
 }
+
+export function confirmAttendanceAdded(value){
+    return {type: "ATTENDANCE_ADDED", value}
+}
+
+export function confirmMakeUpStatus(value){
+    return {type: "MAKE_UP_STATUS", value}
+}
