@@ -13,13 +13,16 @@ export default (state={
     biography: "",
     misc_notes: "",
     class_times: [],
-    schools: []
+    schools: [],
+    activeSchedule: true
 },action)=>{
     switch(action.type){
         case("FETCH_DESIRED_INSTRUCTOR"):
             return action.instructor
         case("INSTRUCTOR_ONCHANGE"):
             return {...state, [action.key]: action.value}
+        case("SCHEDULE_ONCHANGE"):
+            return {...state, activeSchedule: action.value}
         default:
             return state;
     }

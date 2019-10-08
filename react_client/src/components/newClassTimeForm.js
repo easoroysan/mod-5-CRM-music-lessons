@@ -7,24 +7,23 @@ import { addDesiredClassTime } from '../actions/class_times';
 class NewClassTimeForm extends React.Component{
 
     state={
-        submitted: false
+        submitted: false,
+        school_id: null,
+        day: null
     }
 
     handleSubmit(info){
-
-        let schoolInfo = info.children[0].children[0].children[1].innerText
-        let school_id = this.props.currentUser.schools.find( school => school.name === schoolInfo ).id
-
-        let day = info.children[0].children[1].children[1].innerText
 
         let classTimeInfo = {
             instructor_id: this.props.instructor.id,
             start_time: info.start_time.value,
             end_time: info.end_time.value,
             active: true,
-            day,
-            school_id
+            day: this.state.day,
+            school_id: this.state.school_id
         }
+
+        console.log(classTimeInfo)
 
         fetch('http://localhost:5000/class_times',{
             method: 'POST',
@@ -41,17 +40,8 @@ class NewClassTimeForm extends React.Component{
             }else{
                 this.props.dispatch(addDesiredClassTime(class_time))
                 this.setState({ submitted: true })
-                this.intervalID = setInterval(() => {
-                    this.setState({
-                        submitted: false
-                    })
-                }, 2000);
             }
         })
-    }
-
-    componentWillUnmount(){
-        clearInterval(this.intervalID)
     }
 
     render(){
@@ -69,12 +59,18 @@ class NewClassTimeForm extends React.Component{
                         required 
                         options={schoolOptions}
                         label='Schools'
+                        onChange={(e,d)=>{
+                            this.setState({ school_id: d.value })
+                        }}
                     />
                     <Form.Select
                         id='day'
                         required 
                         options={dayOptions}
                         label='Day'
+                        onChange={(e,d)=>{
+                            this.setState({ day: d.value })
+                        }}
                     />
                     <Form.Input id='start_time' required type='time' fluid label='Start Time' />
                     <Form.Input id='end_time' required type='time' fluid label='End Time' />

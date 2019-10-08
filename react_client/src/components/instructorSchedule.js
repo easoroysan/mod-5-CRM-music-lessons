@@ -14,37 +14,22 @@ class InstructorSchedule extends React.Component{
         classForm: false
     }
 
-    runFetch = (desiredTime) => {
-        fetch(`http://localhost:5000/class_times/${desiredTime.id}`,{
-            method:"PATCH",
-            headers: {
-            'Content-Type':'application/json',
-            'Authorization': localStorage.getItem('token')
-        },
-        body: JSON.stringify({ active: !desiredTime.active})
-        })
-        .then(r=>r.json())
-        .then(class_time =>{
-            if(class_time.error){
-                this.props.dispatch(authFail())
-            }else{
-                this.props.dispatch(updateDesiredClassTime(class_time))
-            }
-        })
-    }
-
     handleActive = (id) =>{
         let desiredTime = this.props.class_times.find( time => time.id === id)
         if(desiredTime){
             if(desiredTime.active && desiredTime.lessons.length !== 0 && desiredTime.lessons.some( lesson => lesson.active)){
-                let checker = window.confirm("Are you sure you want to set this class to Inactive? There is at least 1 lesson in the class. All lessons in this class time will be set to inactive.")
+                let checker = window.confirm("Are you sure you want to set this class to Inactive? There is at least 1 lesson in the class. If this time is set to inative, all lessons in this time will be set to inactive.")
                 if(checker){
-                    this.runFetch(desiredTime)
+                    this.props.runFetch(desiredTime)
                 }
             }else{
-                this.runFetch(desiredTime)
+                this.props.runFetch(desiredTime)
             }
         }
+    }
+
+    componentDidMount(){
+        this.props.initialFetch(this.props.instructor_id)
     }
 
     render(){
@@ -145,10 +130,6 @@ class InstructorSchedule extends React.Component{
         )
     }
 
-    componentDidMount(){
-        this.props.initialFetch(this.props.instructor_id)
-    }
-
 }
 
 const mapStateToProps = state =>(
@@ -170,6 +151,24 @@ const mapDispatchToProps = {
         .then(r=> r.json())
         .then(class_times => {
             class_times.error ? dispatch(authFail()) : dispatch(fetchDesiredClassTimes(class_times))
+        })
+    },
+    runFetch: (desiredTime) => dispatch => {
+        fetch(`http://localhost:5000/class_times/${desiredTime.id}`,{
+            method:"PATCH",
+            headers: {
+            'Content-Type':'application/json',
+            'Authorization': localStorage.getItem('token')
+        },
+        body: JSON.stringify({ active: !desiredTime.active})
+        })
+        .then(r=>r.json())
+        .then(class_time =>{
+            if(class_time.error){
+                dispatch(authFail())
+            }else{
+                dispatch(updateDesiredClassTime(class_time))
+            }
         })
     }
 }
