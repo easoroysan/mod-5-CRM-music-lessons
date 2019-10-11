@@ -6,9 +6,7 @@ export default (state={
     school: {},
     instrument: "",
     instructor_notes: "",
-    misc_notes: "",
-    submitted: false,
-    make_up: false
+    misc_notes: ""
 },action)=>{
     switch(action.type){
         case("FETCH_DESIRED_LESSON"):

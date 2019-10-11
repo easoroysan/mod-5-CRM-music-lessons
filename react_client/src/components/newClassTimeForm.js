@@ -23,8 +23,6 @@ class NewClassTimeForm extends React.Component{
             school_id: this.state.school_id
         }
 
-        console.log(classTimeInfo)
-
         fetch('http://localhost:5000/class_times',{
             method: 'POST',
             headers: {
@@ -84,4 +82,12 @@ class NewClassTimeForm extends React.Component{
     }
 }
 
-export default connect(state => ({ currentUser: state.currentUser, instructor: state.desiredInstructor }))(NewClassTimeForm);
+const mapStateToProps = state => (
+    {
+        currentUser: state.currentUser,
+        instructor: state.desiredInstructor
+    }
+)
+
+
+export default connect(mapStateToProps)(NewClassTimeForm);

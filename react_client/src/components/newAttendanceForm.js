@@ -11,8 +11,46 @@ class NewAttendanceForm extends React.Component{
         makeUpStatus: false
     }
 
+    handleSubmit(info){
+        let make_up = this.state.makeUpStatus
+        let keys = ['date','status','make_up','cancelled_date']
+        let attendanceInfo = { lesson_id: this.props.lesson.id, school_id: this.props.lesson.school_id }
+        keys.forEach( key => {
+            if(key === 'make_up'){
+                attendanceInfo[key]=make_up
+            }else if(key === 'cancelled_date' && !make_up){
+                attendanceInfo[key]=null
+            }else{
+                attendanceInfo[key]=info[key].value
+            }
+        })
+        fetch('http://localhost:5000/attendances',{
+            method: 'POST',
+            headers: {
+                'Content-Type':'application/json',
+                'Authorization': localStorage.getItem('token')
+            },
+            body: JSON.stringify(attendanceInfo)
+        })
+        .then(r=>r.json())
+        .then(lesson =>{
+            if(lesson.error){
+                this.props.dispatch(authFail())
+            }else{
+                this.setState({ submitted: true })
+                this.props.dispatch(fetchDesiredLesson(lesson))
+                this.props.dispatch(updateLessons(lesson))
+                this.submitInterval = setInterval( ()=>this.setState({submitted: false}),3000)
+            }
+        })
+    }
+
     componentDidMount(){
-        this.props.initialLaunch(this.props.lesson)
+        fetchDesiredLesson(this.props.lesson)
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.submitInterval)
     }
 
     render(){
@@ -25,11 +63,7 @@ class NewAttendanceForm extends React.Component{
             <Form
                 success
                 style={{margin: '10px'}}
-                onSubmit={(e)=>{
-                    this.props.handleSubmit(e.target, this.props.lesson, this.state.makeUpStatus)
-                    // check submission and see if theres a way to show submission after server responds
-                    this.setState({ submitted: true })
-                }}
+                onSubmit={ (e)=>this.handleSubmit(e.target) }
             >
                     
                 <Form.Group widths='equal'>
@@ -70,38 +104,4 @@ const mapStateToProps = state =>(
     }
 )
 
-const mapDispatchToProps = {
-    initialLaunch: (lesson) => fetchDesiredLesson(lesson),
-    handleSubmit: (info, lesson, make_up) => dispatch => {
-        let keys = ['date','status','make_up','cancelled_date']
-        let attendanceInfo = { lesson_id: lesson.id, school_id: lesson.school_id }
-        keys.forEach( key => {
-            if(key === 'make_up'){
-                attendanceInfo[key]=make_up
-            }else if(key === 'cancelled_date' && !make_up){
-                attendanceInfo[key]=null
-            }else{
-                attendanceInfo[key]=info[key].value
-            }
-        })
-        fetch('http://localhost:5000/attendances',{
-            method: 'POST',
-            headers: {
-                'Content-Type':'application/json',
-                'Authorization': localStorage.getItem('token')
-            },
-            body: JSON.stringify(attendanceInfo)
-        })
-        .then(r=>r.json())
-        .then(lesson =>{
-            if(lesson.error){
-                dispatch(authFail())
-            }else{
-                dispatch(fetchDesiredLesson(lesson))
-                dispatch(updateLessons(lesson))
-            }
-        })
-    }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(NewAttendanceForm);
+export default connect(mapStateToProps)(NewAttendanceForm);

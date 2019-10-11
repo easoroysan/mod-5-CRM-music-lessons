@@ -64,7 +64,7 @@ class MainPage extends React.Component{
                                         </Table.Cell>
                                         <Table.Cell><Link to={`/students/${lesson.student.id}`} >{lesson.student.first_name} {lesson.student.last_name}</Link></Table.Cell>
                                         <Table.Cell>{lesson.instrument}</Table.Cell>
-                                        <Table.Cell>{lesson.attendances.length > 0 ? `${date} | ${status} | ${make_up ? `Make-up for lesson missed on ${cancelled_date}` : "Was not a make-up"}` : null}</Table.Cell>
+                                        <Table.Cell>{lesson.attendances.length > 0 ? `${date} | ${status} ${make_up ? `| Make-up for lesson missed on ${cancelled_date}` : ""}` : null}</Table.Cell>
                                         </Table.Row>
                                     )
                                 })}
