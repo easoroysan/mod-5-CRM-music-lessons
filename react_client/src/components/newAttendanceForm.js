@@ -40,7 +40,9 @@ class NewAttendanceForm extends React.Component{
                 this.setState({ submitted: true })
                 this.props.dispatch(fetchDesiredLesson(lesson))
                 this.props.dispatch(updateLessons(lesson))
-                this.submitInterval = setInterval( ()=>this.setState({submitted: false}),3000)
+                this.intervalID = setInterval( ()=>(
+                    this.setState({ submitted: false })
+                ),3000)
             }
         })
     }
@@ -50,7 +52,7 @@ class NewAttendanceForm extends React.Component{
     }
 
     componentWillUnmount(){
-        clearInterval(this.submitInterval)
+        clearInterval(this.intervalID)
     }
 
     render(){

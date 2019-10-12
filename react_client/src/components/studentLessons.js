@@ -74,5 +74,12 @@ class StudentLessons extends React.Component{
 
 }
 
+const mapStateToProps = state =>(
+    {
+        lessons: state.lessons,
+        student_id: state.desiredStudent.id
+    }
+)
 
-export default connect(state => ({ lessons: state.lessons, student_id: state.desiredStudent.id }))(StudentLessons);
+
+export default connect(mapStateToProps)(StudentLessons);

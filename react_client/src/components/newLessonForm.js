@@ -9,7 +9,8 @@ class NewLessonForm extends React.Component{
 
     state={
         submitted: false,
-        instructorChosen: false
+        instructorChosen: false,
+        class_id: ""
     }
 
     handleSubmit(info){
@@ -189,4 +190,13 @@ class NewLessonForm extends React.Component{
 
 }
 
-export default connect(state => ({ currentUser: state.currentUser, student: state.desiredStudent, instructors: state.instructors, selectedInstructor: state.desiredInstructor }))(NewLessonForm);
+const mapStateToProps = state =>(
+    {
+        currentUser: state.currentUser,
+        student: state.desiredStudent,
+        instructors: state.instructors,
+        selectedInstructor: state.desiredInstructor
+    }
+)
+
+export default connect(mapStateToProps)(NewLessonForm);

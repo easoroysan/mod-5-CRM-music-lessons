@@ -38,8 +38,15 @@ class NewClassTimeForm extends React.Component{
             }else{
                 this.props.dispatch(addDesiredClassTime(class_time))
                 this.setState({ submitted: true })
+                this.intervalID = setInterval( ()=>(
+                    this.setState({ submitted: false })
+                ),3000)
             }
         })
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.intervalID)
     }
 
     render(){
@@ -54,8 +61,9 @@ class NewClassTimeForm extends React.Component{
                 <Form.Group widths='equal'>
                     <Form.Select
                         id='school'
-                        required 
+                        required
                         options={schoolOptions}
+                        value={this.state.school_id}
                         label='Schools'
                         onChange={(e,d)=>{
                             this.setState({ school_id: d.value })
@@ -65,6 +73,7 @@ class NewClassTimeForm extends React.Component{
                         id='day'
                         required 
                         options={dayOptions}
+                        value={this.state.day}
                         label='Day'
                         onChange={(e,d)=>{
                             this.setState({ day: d.value })

@@ -114,4 +114,10 @@ class SidebarClass extends React.Component {
     }
 }
 
-export default connect(state => ({ currentUser: state.currentUser }))(SidebarClass);
+const mapStateToProps = state =>(
+    {
+        currentUser: state.currentUser
+    }
+)
+
+export default connect(mapStateToProps)(SidebarClass);

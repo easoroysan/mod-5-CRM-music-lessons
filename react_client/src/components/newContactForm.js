@@ -31,10 +31,8 @@ class NewContactForm extends React.Component{
                 this.props.dispatch(updateDesiredFamily('contacts',[...this.props.family.contacts, contact]))
                 this.setState({ submitted: true })
                 this.intervalID = setInterval(() => {
-                    this.setState({
-                        submitted: false
-                    })
-                }, 2000);
+                    this.setState({ submitted: false })
+                }, 3000)
             }
         })
     }
@@ -68,4 +66,11 @@ class NewContactForm extends React.Component{
     }
 }
 
-export default connect(state => ({ currentUser: state.currentUser, family: state.desiredFamily }))(NewContactForm);
+const mapStateToProps = state => (
+    {
+        currentUser: state.currentUser,
+        family: state.desiredFamily
+    }
+)
+
+export default connect(mapStateToProps)(NewContactForm);

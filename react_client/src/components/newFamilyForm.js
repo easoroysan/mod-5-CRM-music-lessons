@@ -8,14 +8,18 @@ class NewFamilyForm extends React.Component{
 
     state={
         submitted: false,
-        family_id: ""
+        family_id: "",
+        school_id: ""
     }
 
     handleSubmit(info){
-        let schoolInfo = info.children[0].children[0].children[1].innerText
-        let school_id = this.props.currentUser.schools.find( school => school.name === schoolInfo ).id
 
-        let familyInfo = { family_name: info.family_name.value, school_id, misc_notes: "", billing_total: 0 }
+        let familyInfo = {
+            family_name: info.family_name.value,
+            school_id: this.state.school_id,
+            misc_notes: "",
+            billing_total: 0
+        }
 
         fetch('http://localhost:5000/families',{
             method: 'POST',
@@ -44,11 +48,13 @@ class NewFamilyForm extends React.Component{
                 <Form.Group widths='equal'>
                     <Form.Select
                         id='schools'
-                        required 
+                        required
                         options={schoolOptions}
+                        value={this.state.school_id}
                         label='Schools'
+                        onChange={ (e,d) => this.setState({ school_id: d.value })}
                     />
-                    <Form.Input id='family_name' fluid label='Family Name' />
+                    <Form.Input id='family_name' required fluid label='Family Name' />
                 </Form.Group>
                 
                 <Button type='submit'>Add Family</Button>
@@ -57,4 +63,10 @@ class NewFamilyForm extends React.Component{
     }
 }
 
-export default connect(state => ({ currentUser: state.currentUser }))(NewFamilyForm);
+const mapStateToProps = state =>(
+    {
+        currentUser: state.currentUser
+    }
+)
+
+export default connect(mapStateToProps)(NewFamilyForm);

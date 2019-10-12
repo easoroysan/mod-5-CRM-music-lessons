@@ -7,24 +7,28 @@ import { authFail } from '../actions/current_user';
 class NewInstructorForm extends React.Component{
 
     state={
-        schools: [],
+        school_ids: [],
         submitted: false,
         instructor_id: ""
     }
 
     handleSubmit(info){
-        let keys = ['first_name','last_name','date_of_birth','billing_address','pay_rate','phone_number','emergency_number','email','instrument_1','instrument_2','instrument_3','biography','misc_notes']
+        let keys = [
+            'first_name',
+            'last_name',
+            'date_of_birth',
+            'billing_address',
+            'pay_rate',
+            'phone_number',
+            'emergency_number',
+            'email','instrument_1',
+            'instrument_2',
+            'instrument_3',
+            'biography',
+            'misc_notes'
+        ]
 
-        // Jank to get school ids
-        let schoolInfo = info.children[2].children[0].children[1]
-        schoolInfo = Array.from(schoolInfo.children).map( child => child.innerText )
-        schoolInfo.pop()
-        schoolInfo = schoolInfo.filter( school => school !== "" )
-        let schools = schoolInfo.map( desiredSchool => (
-            this.props.currentUser.schools.find( school => school.name === desiredSchool ).id
-        ))
-
-        let newInstructorInfo = { active: true , schools }
+        let newInstructorInfo = { active: true , schools: this.state.school_ids }
         keys.forEach( key => newInstructorInfo[key]=info[key].value )
 
         fetch('http://localhost:5000/instructors',{
@@ -37,7 +41,12 @@ class NewInstructorForm extends React.Component{
         })
         .then(r=>r.json())
         .then(instructor =>{
-            instructor.error ? this.props.dispatch(authFail()) : this.setState({ submitted: true, instructor_id: instructor.id })
+            if(instructor.error){
+                this.props.dispatch(authFail())
+            }else{
+                alert("The instructor has been added. Confirm to redirect to the instructor's information")
+                this.setState({ submitted: true, instructor_id: instructor.id })
+            }
         })
     }
 
@@ -63,8 +72,10 @@ class NewInstructorForm extends React.Component{
                             id='schools'
                             required
                             multiple
+                            value={this.state.school_ids}
                             options={schoolOptions}
                             label='Schools'
+                            onChange={ (e,d) => this.setState({ school_ids: d.value }) }
                         />
                         <Form.Input id='pay_rate' defaultValue={0} fluid label='Pay Rate' type="number"/>
                     </Form.Group>
@@ -86,4 +97,10 @@ class NewInstructorForm extends React.Component{
     }
 }
 
-export default connect(state => ({ currentUser: state.currentUser }))(NewInstructorForm);
+const mapStateToProps = state =>(
+    {
+        currentUser: state.currentUser
+    }
+)
+
+export default connect(mapStateToProps)(NewInstructorForm);

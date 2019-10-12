@@ -68,4 +68,10 @@ class NewStudentForm extends React.Component{
     }
 }
 
-export default connect(state => ({ currentUser: state.currentUser, family: state.desiredFamily }))(NewStudentForm);
+const mapStateToProps = state =>(
+    {
+        currentUser: state.currentUser,
+        family: state.desiredFamily
+    }
+)
+export default connect(mapStateToProps)(NewStudentForm);
