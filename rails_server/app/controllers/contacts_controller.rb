@@ -48,7 +48,7 @@ class ContactsController < ApplicationController
         params.permit(
             :first_name,
             :last_name,
-            :relation_to_student,
+            :relation_to_students,
             :phone_number,
             :emergency_number,
             :email,
