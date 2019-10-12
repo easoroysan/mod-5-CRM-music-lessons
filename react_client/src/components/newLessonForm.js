@@ -10,59 +10,71 @@ class NewLessonForm extends React.Component{
     state={
         submitted: false,
         instructorChosen: false,
-        class_id: ""
+        instructor_id: null,
+        class_id: null,
+        instrument: null
     }
 
     handleSubmit(info){
 
-        let textInfoClass = info.children[0].children[2].children[1].children[1].innerText
-        let class_id = textInfoClass.split(" | ")[2].split(":")[1]
+        if(this.state.instrument === null){
+            alert("Please select an instrument")
+        }else if(this.state.class_id === null){
+            alert("Please select a class time")
+        }else{
 
-        let instrument = info.children[0].children[1].children[1].children[0].innerText
+            let class_time_id = this.state.class_id
+            let instrument = this.state.instrument
 
-        let lessonInfo = {
-            class_time_id: parseInt(class_id),
-            school_id: this.props.student.school_id,
-            instrument,
-            active: true,
-            instructor_notes: info.instructor_notes.value,
-            misc_notes: info.misc_notes.value
-        }
-
-        fetch('http://localhost:5000/lessons',{
-            method: 'POST',
-            headers: {
-                'Content-Type':'application/json',
-                'Authorization': localStorage.getItem('token')
-            },
-            body: JSON.stringify(lessonInfo)
-        })
-        .then(r=>r.json())
-        .then(lesson =>{
-            if(lesson.error){
-                this.props.dispatch(authFail())
-            }else{
-                this.props.dispatch(addDesiredLesson(lesson))
-                this.setState({ submitted: true })
-                this.intervalID = setInterval(() => {
-                    this.setState({
-                        submitted: false
-                    })
-                }, 2000);
+            let lessonInfo = {
+                class_time_id,
+                student_id: this.props.student.id,
+                school_id: this.props.student.school_id,
+                instrument,
+                active: true,
+                instructor_notes: info.instructor_notes.value,
+                misc_notes: info.misc_notes.value
             }
-        })
+
+            console.log(lessonInfo)
+            
+            fetch('http://localhost:5000/lessons',{
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                    'Authorization': localStorage.getItem('token')
+                },
+                body: JSON.stringify(lessonInfo)
+            })
+            .then(r=>r.json())
+            .then(lesson =>{
+                console.log(lesson)
+                if(lesson.error){
+                    this.props.dispatch(authFail())
+                }else{
+                    this.props.dispatch(addDesiredLesson(lesson))
+                    this.setState({
+                        submitted: true,
+                        instructorChosen: false,
+                        instructor_id: null
+                    })
+                    this.intervalID = setInterval(() => {
+                        this.setState({
+                            submitted: false
+                        })
+                    }, 2000);
+                }
+            })
+        }
     }
 
     componentWillUnmount(){
         clearInterval(this.intervalID)
     }
 
-    instructorSelect = (name) => {
-        if(name === ""){
-            this.setState({ instructorChosen: false })
-        }else{
-            let selectedInstructor = this.props.instructors.find( instructor => `${instructor.first_name} ${instructor.last_name}`=== name )
-            fetch(`http://localhost:5000/instructors/${selectedInstructor.id}`,{
+    instructorSelect = (id) => {
+        if(id !== null){
+            fetch(`http://localhost:5000/instructors/${id}`,{
                 method:"GET",
                 headers: {
                     'Content-Type':'application/json',
@@ -87,7 +99,6 @@ class NewLessonForm extends React.Component{
         ))
         .map( instructor => ({ key: instructor.id, value: instructor.id, text: `${instructor.first_name} ${instructor.last_name}`}))
 
-        instructorOptions = [{ key: 0, value: 0, text: ""},...instructorOptions]
         let { instrument_1, instrument_2, instrument_3, class_times } = this.props.selectedInstructor
 
         let classTimeOptions = class_times.filter( time => time.active )
@@ -102,7 +113,7 @@ class NewLessonForm extends React.Component{
             return {
                 key: class_time.id,
                 value: class_time.id,
-                text: `${class_time.day} | ${shortStart}-${shortEnd} | ID:${class_time.id}`
+                text: `${class_time.day} | ${shortStart}-${shortEnd}`
             }
         })
 
@@ -120,11 +131,11 @@ class NewLessonForm extends React.Component{
                         search
                         required 
                         options={instructorOptions}
+                        value={this.state.instructor_id}
                         label='Instructor'
-                        onChange={(e)=>{
-                            if(e.target.children.length > 0){
-                                this.instructorSelect(e.target.children[0].innerText)
-                            }
+                        onChange={(e,d)=>{
+                            this.setState({instructor_id: d.value})
+                            this.instructorSelect(d.value)
                         }}
                     />
                     {
@@ -133,7 +144,11 @@ class NewLessonForm extends React.Component{
                             id='instrument'
                             required 
                             options={instrumentOptions}
+                            value={this.state.instrument}
                             label='Instrument'
+                            onChange={(e,d)=>{
+                                this.setState({instrument: d.value})
+                            }}
                         /> :
                         null
                     }
@@ -144,7 +159,11 @@ class NewLessonForm extends React.Component{
                             search
                             required
                             options={classTimeOptions}
+                            value={this.state.class_id}
                             label='Class Time'
+                            onChange={(e,d)=>{
+                                this.setState({class_id: d.value})
+                            }}
                         /> :
                         null
                     }
@@ -157,10 +176,10 @@ class NewLessonForm extends React.Component{
                         <Form.TextArea id='misc_notes' label='Miscellaneous Notes' ></Form.TextArea>
 
                         <Button type='submit'>Add Lesson</Button>
-                        {this.state.submitted ? <Message success header='Lesson has been added' /> : null}
                     </div>
                     :null
                 }
+                {this.state.submitted ? <Message success header='Lesson has been added' /> : null}
             </Form>
             <Divider />
         </div>)

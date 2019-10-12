@@ -68,7 +68,8 @@ class LessonsController < ApplicationController
             :active,
             :instructor_notes,
             :misc_notes,
-            :instrument
+            :instrument,
+            :student_id
         )
     end
 
