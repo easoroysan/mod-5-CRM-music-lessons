@@ -80,14 +80,14 @@ class SidebarClass extends React.Component {
                                 Families
                             </Menu.Item>
                         </Link>
-                        <Link to="/clients" onClick={this.handleHideClick}>
+                        <Link to="/contacts" onClick={this.handleHideClick}>
                             <Menu.Item
                                 style={this.state.clientButton}
                                 onMouseEnter={()=> this.setState({ clientButton: {background:'gray'}})}
                                 onMouseLeave={()=> this.setState({ clientButton: {background:'black'}})}
                             >
-                                <Icon name='universal access' />
-                                Clients
+                                <Icon name='phone' />
+                                Contacts
                             </Menu.Item>
                         </Link>
                         <Link to="/" onClick={()=>{
@@ -109,6 +109,9 @@ class SidebarClass extends React.Component {
             )
         }
         else{
+            //only have the bottom information when there is an error, not when just logging out
+            localStorage.setItem('token',"logged out")
+            alert(`Error:(Put error message here)\nPlease log in again. If the problem persists, please contact support for help.`)
             return <Redirect to='/' />
         }
     }

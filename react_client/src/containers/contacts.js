@@ -1,13 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchStudents } from '../actions/students';
 import { fetchContacts } from '../actions/contacts';
 import { authFail } from '../actions/current_user';
 import { Header, Icon, Table, Search } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import debounce from 'lodash.debounce'
 
-class Clients extends React.Component{
+class Contacts extends React.Component{
 
     state={
         searchQuery: "",
@@ -19,10 +18,10 @@ class Clients extends React.Component{
     }, 500)
 
     render(){
-        let organizedClients = this.props.clients.sort( (a,b)=> a.last_name > b.last_name ? 1 : a.last_name < b.last_name ? -1 : 0 )
+        let organizedContacts = this.props.contacts.sort( (a,b)=> a.last_name > b.last_name ? 1 : a.last_name < b.last_name ? -1 : 0 )
         if(this.state.searchQuery !== ""){
             let searchTerm = this.state.searchQuery.toUpperCase()
-            organizedClients = organizedClients.filter( client =>(
+            organizedContacts = organizedContacts.filter( client =>(
                 client.first_name.toUpperCase().includes(searchTerm) || 
                 client.last_name.toUpperCase().includes(searchTerm) ||
                 client.phone_number.toUpperCase().includes(searchTerm) ||
@@ -33,8 +32,8 @@ class Clients extends React.Component{
         return(
             <div>
                 <Header as='h2' icon textAlign='center'>
-                    <Icon name='universal access' />
-                    <Header.Content>Clients</Header.Content>
+                    <Icon name='phone' />
+                    <Header.Content>Contacts</Header.Content>
                 </Header>
 
                 <Search
@@ -55,7 +54,7 @@ class Clients extends React.Component{
                         <Table.Row>
                             <Table.HeaderCell>Name</Table.HeaderCell>
                             <Table.HeaderCell>Family Name</Table.HeaderCell>
-                            <Table.HeaderCell>Type</Table.HeaderCell>
+                            <Table.HeaderCell>Relation To Students</Table.HeaderCell>
                             <Table.HeaderCell>Phone Number</Table.HeaderCell>
                             <Table.HeaderCell>Email</Table.HeaderCell>
                             <Table.HeaderCell>School</Table.HeaderCell>
@@ -63,15 +62,15 @@ class Clients extends React.Component{
                     </Table.Header>
 
                     <Table.Body>
-                        {organizedClients.map( client =>(
+                        {organizedContacts.map( contact =>(
                             // This line should change once unique ids are put in
-                            <Table.Row key={!client.relation_to_students ? client.id : client.id+1000}>
-                                <Table.Cell>{<Link to={ client.relation_to_students ? `/contacts/${client.id}` : `/students/${client.id}` } >{client.first_name} {client.last_name}</Link>}</Table.Cell>
-                                <Table.Cell>{<Link to={`/families/${client.family.id}`}>{client.family.family_name}</Link>}</Table.Cell>
-                                <Table.Cell>{client.relation_to_students ? "Contact: " : "Student"}{client.relation_to_students}</Table.Cell>
-                                <Table.Cell>{client.phone_number}</Table.Cell>
-                                <Table.Cell>{client.email}</Table.Cell>
-                                <Table.Cell>{client.school.name}</Table.Cell>
+                            <Table.Row key={contact.id}>
+                                <Table.Cell>{<Link to={`/contacts/${contact.id}`}>{contact.first_name} {contact.last_name}</Link>}</Table.Cell>
+                                <Table.Cell>{<Link to={`/families/${contact.family.id}`}>{contact.family.family_name}</Link>}</Table.Cell>
+                                <Table.Cell>{contact.relation_to_students}</Table.Cell>
+                                <Table.Cell>{contact.phone_number}</Table.Cell>
+                                <Table.Cell>{contact.email}</Table.Cell>
+                                <Table.Cell>{contact.school.name}</Table.Cell>
                             </Table.Row>
                         ))}
                     </Table.Body>
@@ -81,18 +80,6 @@ class Clients extends React.Component{
     }
 
     componentDidMount(){
-        fetch('http://localhost:5000/students',{
-            method:"GET",
-            headers: {
-                'Content-Type':'application/json',
-                'Authorization': localStorage.getItem('token')
-            }
-        })
-        .then(r=> r.json())
-        .then(students => {
-            students.error ? this.props.dispatch(authFail()) : this.props.dispatch(fetchStudents(students))
-        })
-
         fetch('http://localhost:5000/contacts',{
             method:"GET",
             headers: {
@@ -107,4 +94,4 @@ class Clients extends React.Component{
     }
 }
 
-export default connect(state => ({ clients: [...state.students,...state.contacts] }))(Clients);
+export default connect(state => ({ contacts: state.contacts }))(Contacts);
