@@ -13,41 +13,45 @@ class NewInstructorForm extends React.Component{
     }
 
     handleSubmit(info){
-        let keys = [
-            'first_name',
-            'last_name',
-            'date_of_birth',
-            'billing_address',
-            'pay_rate',
-            'phone_number',
-            'emergency_number',
-            'email','instrument_1',
-            'instrument_2',
-            'instrument_3',
-            'biography',
-            'misc_notes'
-        ]
-
-        let newInstructorInfo = { active: true , schools: this.state.school_ids }
-        keys.forEach( key => newInstructorInfo[key]=info[key].value )
-
-        fetch('http://localhost:5000/instructors',{
-            method: 'POST',
-            headers: {
-                'Content-Type':'application/json',
-                'Authorization': localStorage.getItem('token')
-            },
-            body: JSON.stringify(newInstructorInfo)
-        })
-        .then(r=>r.json())
-        .then(instructor =>{
-            if(instructor.error){
-                this.props.dispatch(authFail())
-            }else{
-                alert("The instructor has been added. Confirm to redirect to the instructor's information")
-                this.setState({ submitted: true, instructor_id: instructor.id })
-            }
-        })
+        if(this.state.school_ids.length <= 0){
+            alert("Please select at least one school")
+        }else{
+            let keys = [
+                'first_name',
+                'last_name',
+                'date_of_birth',
+                'billing_address',
+                'pay_rate',
+                'phone_number',
+                'emergency_number',
+                'email','instrument_1',
+                'instrument_2',
+                'instrument_3',
+                'biography',
+                'misc_notes'
+            ]
+            
+            let newInstructorInfo = { active: true , schools: this.state.school_ids }
+            keys.forEach( key => newInstructorInfo[key]=info[key].value )
+            
+            fetch('http://localhost:5000/instructors',{
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                    'Authorization': localStorage.getItem('token')
+                },
+                body: JSON.stringify(newInstructorInfo)
+            })
+            .then(r=>r.json())
+            .then(instructor =>{
+                if(instructor.error){
+                    this.props.dispatch(authFail())
+                }else{
+                    alert("The instructor has been added. Confirm to redirect to the instructor's information")
+                    this.setState({ submitted: true, instructor_id: instructor.id })
+                }
+            })
+        }
     }
 
     render(){

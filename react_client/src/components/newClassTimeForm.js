@@ -14,35 +14,42 @@ class NewClassTimeForm extends React.Component{
 
     handleSubmit(info){
 
-        let classTimeInfo = {
-            instructor_id: this.props.instructor.id,
-            start_time: info.start_time.value,
-            end_time: info.end_time.value,
-            active: true,
-            day: this.state.day,
-            school_id: this.state.school_id
-        }
+        if(!this.state.school_id){
+            alert("Please select a school")
+        }else if(!this.state.day){
+            alert("Please select a day")
+        }else{
 
-        fetch('http://localhost:5000/class_times',{
-            method: 'POST',
-            headers: {
-                'Content-Type':'application/json',
-                'Authorization': localStorage.getItem('token')
-            },
-            body: JSON.stringify(classTimeInfo)
-        })
-        .then(r=>r.json())
-        .then(class_time =>{
-            if(class_time.error){
-                this.props.dispatch(authFail())
-            }else{
-                this.props.dispatch(addDesiredClassTime(class_time))
-                this.setState({ submitted: true })
-                this.intervalID = setInterval( ()=>(
-                    this.setState({ submitted: false })
-                ),3000)
+            let classTimeInfo = {
+                instructor_id: this.props.instructor.id,
+                start_time: info.start_time.value,
+                end_time: info.end_time.value,
+                active: true,
+                day: this.state.day,
+                school_id: this.state.school_id
             }
-        })
+            
+            fetch('http://localhost:5000/class_times',{
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                    'Authorization': localStorage.getItem('token')
+                },
+                body: JSON.stringify(classTimeInfo)
+            })
+            .then(r=>r.json())
+            .then(class_time =>{
+                if(class_time.error){
+                    this.props.dispatch(authFail())
+                }else{
+                    this.props.dispatch(addDesiredClassTime(class_time))
+                    this.setState({ submitted: true })
+                    this.intervalID = setInterval( ()=>(
+                        this.setState({ submitted: false })
+                    ),3000)
+                }
+            })
+        }
     }
 
     componentWillUnmount(){

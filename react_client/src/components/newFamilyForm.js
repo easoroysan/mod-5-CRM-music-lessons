@@ -9,32 +9,37 @@ class NewFamilyForm extends React.Component{
     state={
         submitted: false,
         family_id: "",
-        school_id: ""
+        school_id: null
     }
 
     handleSubmit(info){
 
-        let familyInfo = {
-            family_name: info.family_name.value,
-            school_id: this.state.school_id,
-            misc_notes: "",
-            billing_total: 0
-        }
+        if(!this.state.school_id){
+            alert("Please select a school")
+        }else{
 
-        fetch('http://localhost:5000/families',{
-            method: 'POST',
-            headers: {
+            let familyInfo = {
+                family_name: info.family_name.value,
+                school_id: this.state.school_id,
+                misc_notes: "",
+                billing_total: 0
+            }
+            
+            fetch('http://localhost:5000/families',{
+                method: 'POST',
+                headers: {
                 'Content-Type':'application/json',
                 'Authorization': localStorage.getItem('token')
-            },
-            body: JSON.stringify(familyInfo)
-        })
-        .then(r=>r.json())
-        .then(family =>{
-            family.error ? this.props.dispatch(authFail()) : this.setState({ submitted: true, family_id: family.id })
-        })
+                },
+                body: JSON.stringify(familyInfo)
+            })
+            .then(r=>r.json())
+            .then(family =>{
+                family.error ? this.props.dispatch(authFail()) : this.setState({ submitted: true, family_id: family.id })
+            })
+        }
     }
-
+    
     render(){
 
         let schoolOptions = this.props.currentUser.schools.map( school => ({key:school.id, value:school.id, text:school.name}))

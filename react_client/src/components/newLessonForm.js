@@ -17,9 +17,9 @@ class NewLessonForm extends React.Component{
 
     handleSubmit(info){
 
-        if(this.state.instrument === null){
+        if(!this.state.instrument){
             alert("Please select an instrument")
-        }else if(this.state.class_id === null){
+        }else if(!this.state.class_id){
             alert("Please select a class time")
         }else{
 
