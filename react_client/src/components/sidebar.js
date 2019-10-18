@@ -111,7 +111,7 @@ class SidebarClass extends React.Component {
         else{
             //only have the bottom information when there is an error, not when just logging out
             localStorage.setItem('token',"logged out")
-            alert(`Error:(Put error message here)\nPlease log in again. If the problem persists, please contact support for help.`)
+            // alert(`Error:(Put error message here)\nPlease log in again. If the problem persists, please contact support for help.`)
             return <Redirect to='/' />
         }
     }
