@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Form, Button, Message } from 'semantic-ui-react';
 import { authFail } from '../actions/current_user';
 import { fetchDesiredLesson, updateLessons } from '../actions/lessons';
+import { fetchURL } from '../actions/variables';
 
 class NewAttendanceForm extends React.Component{
 

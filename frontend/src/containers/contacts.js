@@ -5,6 +5,7 @@ import { authFail } from '../actions/current_user';
 import { Header, Icon, Table, Search } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import debounce from 'lodash.debounce'
+import { fetchURL } from '../actions/variables';
 
 class Contacts extends React.Component{
 

@@ -6,7 +6,7 @@ import { Header, Icon, Table, Button, Search } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import NewFamilyForm from '../components/newFamilyForm';
 import debounce from 'lodash.debounce'
-
+import { fetchURL } from '../actions/variables';
 
 class Families extends React.Component{
 

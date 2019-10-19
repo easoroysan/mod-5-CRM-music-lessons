@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Form, Button, Divider, Message } from 'semantic-ui-react';
 import { authFail } from '../actions/current_user';
 import { addDesiredClassTime } from '../actions/class_times';
+import { fetchURL } from '../actions/variables';
 
 class NewClassTimeForm extends React.Component{
 

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { fetchLessons } from '../actions/lessons';
 import { authFail } from '../actions/current_user';
 import NewLessonForm from './newLessonForm';
+import { fetchURL } from '../actions/variables';
 
 
 class StudentLessons extends React.Component{

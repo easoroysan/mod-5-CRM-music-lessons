@@ -5,6 +5,7 @@ import { fetchDesiredInstructor, updateDesiredInstructor } from '../actions/inst
 import { authFail } from '../actions/current_user';
 import { Link } from 'react-router-dom'
 import InstructorSchedule from '../components/instructorSchedule'
+import { fetchURL } from '../actions/variables';
 
 class InstructorPage extends React.Component{
 

@@ -5,6 +5,7 @@ import { authFail } from '../actions/current_user';
 import { Header, Icon, Form, Button, Divider, Message, Table } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import NewAttendanceForm from '../components/newAttendanceForm';
+import { fetchURL } from '../actions/variables';
 
 class LessonPage extends React.Component{
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Form, Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom'
 import { authFail } from '../actions/current_user';
+import { fetchURL } from '../actions/variables';
 
 class NewFamilyForm extends React.Component{
 

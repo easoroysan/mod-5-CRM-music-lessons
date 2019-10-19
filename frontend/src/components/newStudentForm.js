@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Form, Button, Message, Divider } from 'semantic-ui-react';
 import { authFail } from '../actions/current_user';
 import { updateDesiredFamily } from '../actions/families';
+import { fetchURL } from '../actions/variables';
 
 class NewStudentForm extends React.Component{
 

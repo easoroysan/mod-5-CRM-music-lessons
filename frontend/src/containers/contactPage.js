@@ -4,6 +4,7 @@ import { Header, Icon, Form, Button, Divider, Message } from 'semantic-ui-react'
 import { fetchDesiredContact, updateDesiredContact } from '../actions/contacts';
 import { authFail } from '../actions/current_user';
 import { Link } from 'react-router-dom'
+import { fetchURL } from '../actions/variables';
 
 class ContactPage extends React.Component{
 

@@ -5,6 +5,7 @@ import { fetchDesiredStudent, updateDesiredStudent } from '../actions/students';
 import { authFail } from '../actions/current_user';
 import { Link } from 'react-router-dom';
 import StudentLessons from '../components/studentLessons';
+import { fetchURL } from '../actions/variables';
 
 class StudentPage extends React.Component{
 

@@ -6,6 +6,7 @@ import { authFail } from '../actions/current_user';
 import { Link } from 'react-router-dom';
 import NewContactForm from '../components/newContactForm';
 import NewStudentForm from '../components/newStudentForm';
+import { fetchURL } from '../actions/variables';
 
 class FamilyPage extends React.Component{
 

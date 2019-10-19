@@ -5,6 +5,7 @@ import { fetchLessons, fetchDesiredLesson } from '../actions/lessons';
 import { authFail } from '../actions/current_user';
 import { Link } from 'react-router-dom'
 import NewAttendanceForm from './newAttendanceForm';
+import { fetchURL } from '../actions/variables';
 
 
 class MainPage extends React.Component{

@@ -6,6 +6,7 @@ import { Header, Icon, Table, Button, Search } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import NewInstructorForm from '../components/newInstructorForm';
 import debounce from 'lodash.debounce'
+import { fetchURL } from '../actions/variables';
 
 
 class Instructors extends React.Component{

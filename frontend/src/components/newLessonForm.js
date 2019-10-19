@@ -4,6 +4,7 @@ import { Form, Button, Divider, Message } from 'semantic-ui-react';
 import { authFail } from '../actions/current_user';
 import { fetchInstructors, fetchDesiredInstructor } from '../actions/instructors';
 import { addDesiredLesson } from '../actions/lessons';
+import { fetchURL } from '../actions/variables';
 
 class NewLessonForm extends React.Component{
 
