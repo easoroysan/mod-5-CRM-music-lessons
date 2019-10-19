@@ -15,7 +15,7 @@ class InstructorPage extends React.Component{
     }
 
     runFetch = () =>{
-        fetch(`http://localhost:5000/instructors/${this.props.instructor.id}`,{
+        fetch(`${fetchURL}/instructors/${this.props.instructor.id}`,{
             method:"PATCH",
             headers: {
                 'Content-Type':'application/json',
@@ -128,7 +128,7 @@ class InstructorPage extends React.Component{
 
     componentDidMount(){
         let id = window.location.href.split("/").pop()
-        fetch(`http://localhost:5000/instructors/${id}`,{
+        fetch(`${fetchURL}/instructors/${id}`,{
             method:"GET",
             headers: {
                 'Content-Type':'application/json',

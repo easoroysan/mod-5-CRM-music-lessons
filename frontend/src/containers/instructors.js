@@ -122,7 +122,7 @@ const mapStateToProps = state =>(
 
 const mapDispatchToProps = {
     initialFetch: ()=>dispatch=>{
-        fetch('http://localhost:5000/instructors',{
+        fetch(`${fetchURL}/instructors`,{
             method:"GET",
             headers: {
                 'Content-Type':'application/json',

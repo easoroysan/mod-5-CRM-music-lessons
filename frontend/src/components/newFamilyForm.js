@@ -25,7 +25,7 @@ class NewFamilyForm extends React.Component{
                 billing_total: 0
             }
             
-            fetch('http://localhost:5000/families',{
+            fetch(`${fetchURL}/families`,{
                 method: 'POST',
                 headers: {
                 'Content-Type':'application/json',

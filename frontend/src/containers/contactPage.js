@@ -14,7 +14,7 @@ class ContactPage extends React.Component{
 
     handleChange = (key,info) => this.props.dispatch(updateDesiredContact(key,info))
     handleSubmit = () => {
-        fetch(`http://localhost:5000/contacts/${this.props.contact.id}`,{
+        fetch(`${fetchURL}/contacts/${this.props.contact.id}`,{
             method:"PATCH",
             headers: {
                 'Content-Type':'application/json',
@@ -77,7 +77,7 @@ class ContactPage extends React.Component{
 
     componentDidMount(){
         let id = window.location.href.split("/").pop()
-        fetch(`http://localhost:5000/contacts/${id}`,{
+        fetch(`${fetchURL}/contacts/${id}`,{
             method:"GET",
             headers: {
                 'Content-Type':'application/json',

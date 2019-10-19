@@ -16,7 +16,7 @@ class LessonPage extends React.Component{
 
     handleChange = (key,info) => this.props.dispatch(updateDesiredLesson(key,info))
     handleSubmit = () => {
-        fetch(`http://localhost:5000/lessons/${this.props.lesson.id}`,{
+        fetch(`${fetchURL}/lessons/${this.props.lesson.id}`,{
             method:"PATCH",
             headers: {
                 'Content-Type':'application/json',
@@ -43,7 +43,7 @@ class LessonPage extends React.Component{
         let attendanceInfo = { make_up: parseInt(info.make_up.value) }
         keys.forEach( key => attendanceInfo[key]=info[key].value )
 
-        fetch(`http://localhost:5000/attendances/${id}`,{
+        fetch(`${fetchURL}/attendances/${id}`,{
             method: 'PATCH',
             headers: {
                 'Content-Type':'application/json',
@@ -160,7 +160,7 @@ class LessonPage extends React.Component{
 
     componentDidMount(){
         let id = window.location.href.split("/").pop()
-        fetch(`http://localhost:5000/lessons/${id}`,{
+        fetch(`${fetchURL}/lessons/${id}`,{
             method:"GET",
             headers: {
                 'Content-Type':'application/json',

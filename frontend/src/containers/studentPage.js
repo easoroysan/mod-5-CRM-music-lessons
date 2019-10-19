@@ -16,7 +16,7 @@ class StudentPage extends React.Component{
 
     handleChange = (key,info) => this.props.dispatch(updateDesiredStudent(key,info))
     handleSubmit = () => {
-        fetch(`http://localhost:5000/students/${this.props.student.id}`,{
+        fetch(`${fetchURL}/students/${this.props.student.id}`,{
             method:"PATCH",
             headers: {
                 'Content-Type':'application/json',
@@ -79,7 +79,7 @@ class StudentPage extends React.Component{
 
     componentDidMount(){
         let id = window.location.href.split("/").pop()
-        fetch(`http://localhost:5000/students/${id}`,{
+        fetch(`${fetchURL}/students/${id}`,{
             method:"GET",
             headers: {
                 'Content-Type':'application/json',

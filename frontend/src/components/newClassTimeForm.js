@@ -29,7 +29,7 @@ class NewClassTimeForm extends React.Component{
                 school_id: this.state.school_id
             }
             
-            fetch('http://localhost:5000/class_times',{
+            fetch(`${fetchURL}/class_times`,{
                 method: 'POST',
                 headers: {
                     'Content-Type':'application/json',

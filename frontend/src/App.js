@@ -16,6 +16,7 @@ import ContactPage from './containers/contactPage';
 import LessonPage from './containers/lessonPage';
 
 import Default from './containers/default';
+import { fetchURL } from './actions/variables';
 
 
 
@@ -43,7 +44,7 @@ class App extends React.Component{
   }
 
   componentDidMount(){
-    fetch('http://localhost:5000/authorize',{
+    fetch(`${fetchURL}/authorize`,{
       method:'POST',
       headers: {
           'Content-Type':'application/json',

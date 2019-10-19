@@ -14,4 +14,8 @@ Rails.application.routes.draw do
   post '/login', to: 'users#authenticate'
   post '/authorize', to: 'application#check_authorization'
 
+  get '*path', to: "application#react_app", constraints: ->(request) do
+    !request.xhr? && request.format.html?
+  end
+
 end

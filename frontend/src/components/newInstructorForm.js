@@ -34,7 +34,7 @@ class NewInstructorForm extends React.Component{
             let newInstructorInfo = { active: true , schools: this.state.school_ids }
             keys.forEach( key => newInstructorInfo[key]=info[key].value )
             
-            fetch('http://localhost:5000/instructors',{
+            fetch(`${fetchURL}/instructors`,{
                 method: 'POST',
                 headers: {
                     'Content-Type':'application/json',

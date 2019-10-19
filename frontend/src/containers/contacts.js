@@ -80,7 +80,7 @@ class Contacts extends React.Component{
     }
 
     componentDidMount(){
-        fetch('http://localhost:5000/contacts',{
+        fetch(`${fetchURL}/contacts`,{
             method:"GET",
             headers: {
                 'Content-Type':'application/json',

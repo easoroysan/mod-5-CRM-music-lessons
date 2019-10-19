@@ -93,7 +93,7 @@ class Families extends React.Component{
     }
 
     componentDidMount(){
-        fetch('http://localhost:5000/families',{
+        fetch(`${fetchURL}/families`,{
             method:"GET",
             headers: {
                 'Content-Type':'application/json',

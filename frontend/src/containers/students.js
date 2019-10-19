@@ -82,7 +82,7 @@ class Students extends React.Component{
     }
 
     componentDidMount(){
-        fetch('http://localhost:5000/students',{
+        fetch(`${fetchURL}/students`,{
             method:"GET",
             headers: {
                 'Content-Type':'application/json',

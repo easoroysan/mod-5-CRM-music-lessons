@@ -38,7 +38,7 @@ class NewLessonForm extends React.Component{
 
             console.log(lessonInfo)
             
-            fetch('http://localhost:5000/lessons',{
+            fetch(`${fetchURL}/lessons`,{
                 method: 'POST',
                 headers: {
                     'Content-Type':'application/json',
@@ -74,7 +74,7 @@ class NewLessonForm extends React.Component{
 
     instructorSelect = (id) => {
         if(id !== null){
-            fetch(`http://localhost:5000/instructors/${id}`,{
+            fetch(`${fetchURL}/instructors/${id}`,{
                 method:"GET",
                 headers: {
                     'Content-Type':'application/json',
@@ -186,7 +186,7 @@ class NewLessonForm extends React.Component{
     }
 
     componentDidMount(){
-        fetch('http://localhost:5000/instructors',{
+        fetch(`${fetchURL}/instructors`,{
             method:"GET",
             headers: {
                 'Content-Type':'application/json',

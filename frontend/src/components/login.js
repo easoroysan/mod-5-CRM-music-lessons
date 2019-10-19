@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Form, Grid, Header, Segment, Icon, Divider, Container } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 import { authSuccess,authFail } from '../actions/current_user'
+import { fetchURL } from '../actions/variables';
 
 
 class LoginForm extends React.Component{
@@ -78,7 +79,7 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = {
   handleSubmit: (username,password) => dispatch =>{
-    fetch('http://localhost:5000/login',{
+    fetch(`${fetchURL}/login`,{
       method:'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({

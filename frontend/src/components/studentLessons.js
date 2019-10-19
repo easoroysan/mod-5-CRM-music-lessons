@@ -59,7 +59,7 @@ class StudentLessons extends React.Component{
     }
 
     componentDidMount(){
-        fetch(`http://localhost:5000/lessons/student_${this.props.student_id}`,{
+        fetch(`${fetchURL}/lessons/student_${this.props.student_id}`,{
             method:"GET",
             headers: {
                 'Content-Type':'application/json',

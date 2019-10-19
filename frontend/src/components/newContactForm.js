@@ -15,7 +15,7 @@ class NewContactForm extends React.Component{
         let newContactInfo = { family_id: this.props.family.id, school_id: this.props.family.school_id }
         keys.forEach( key => newContactInfo[key]=info[key].value )
 
-        fetch('http://localhost:5000/contacts',{
+        fetch(`${fetchURL}/contacts`,{
             method: 'POST',
             headers: {
                 'Content-Type':'application/json',

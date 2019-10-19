@@ -18,7 +18,7 @@ class FamilyPage extends React.Component{
 
     handleChange = (key,info) => this.props.dispatch(updateDesiredFamily(key,info))
     handleSubmit = () => {
-        fetch(`http://localhost:5000/families/${this.props.family.id}`,{
+        fetch(`${fetchURL}/families/${this.props.family.id}`,{
             method:"PATCH",
             headers: {
                 'Content-Type':'application/json',
@@ -152,7 +152,7 @@ class FamilyPage extends React.Component{
 
     componentDidMount(){
         let id = window.location.href.split("/").pop()
-        fetch(`http://localhost:5000/families/${id}`,{
+        fetch(`${fetchURL}/families/${id}`,{
             method:"GET",
             headers: {
                 'Content-Type':'application/json',

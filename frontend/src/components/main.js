@@ -97,7 +97,7 @@ const mapDispatchToProps = {
             'Thursday',
             'Friday'
         ]
-        fetch(`http://localhost:5000/lessons/day_${dayNames[date.getDay()]}`,{
+        fetch(`${fetchURL}/lessons/day_${dayNames[date.getDay()]}`,{
             method:"GET",
             headers: {
                 'Content-Type':'application/json',

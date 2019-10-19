@@ -24,7 +24,7 @@ class NewAttendanceForm extends React.Component{
                 attendanceInfo[key]=info[key].value
             }
         })
-        fetch('http://localhost:5000/attendances',{
+        fetch(`${fetchURL}/attendances`,{
             method: 'POST',
             headers: {
                 'Content-Type':'application/json',

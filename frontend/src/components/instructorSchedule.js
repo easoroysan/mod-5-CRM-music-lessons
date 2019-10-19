@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { fetchDesiredClassTimes, updateDesiredClassTime } from '../actions/class_times';
 import { authFail } from '../actions/current_user';
 import NewClassTimeForm from './newClassTimeForm';
+import { fetchURL } from '../actions/variables';
 
 
 class InstructorSchedule extends React.Component{
@@ -141,7 +142,7 @@ const mapStateToProps = state =>(
 
 const mapDispatchToProps = {
     initialFetch: (instructor_id)=>dispatch=>{
-        fetch(`http://localhost:5000/class_times/${instructor_id}`,{
+        fetch(`${fetchURL}/class_times/${instructor_id}`,{
             method:"GET",
             headers: {
                 'Content-Type':'application/json',
@@ -154,7 +155,7 @@ const mapDispatchToProps = {
         })
     },
     runFetch: (desiredTime) => dispatch => {
-        fetch(`http://localhost:5000/class_times/${desiredTime.id}`,{
+        fetch(`${fetchURL}/class_times/${desiredTime.id}`,{
             method:"PATCH",
             headers: {
             'Content-Type':'application/json',
