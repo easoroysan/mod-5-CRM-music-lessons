@@ -83,5 +83,5 @@ end
     end
 
     instructor = Instructor.all.select{ |instructor| instructor.schools.include?(river_oaks) }.sample
-    Lesson.create({active:true, student: student, class_time: instructor.class_times.sample, instrument: instructor.instrument_1, school: river_oaks, price: 100})
+    Lesson.create({active:true, student: student, class_time: instructor.class_times.sample, misc_notes: "", instructor_notes: "",instrument: instructor.instrument_1, school: river_oaks, price: 100})
 end
