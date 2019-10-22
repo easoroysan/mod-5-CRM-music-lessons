@@ -13,9 +13,9 @@ roy = User.create({ first_name: "Roysan", last_name: "Easo", username: "roysan",
 UserSchool.create({school: rrml, user: roy})
 UserSchool.create({school: river_oaks, user: roy})
 
-skiles = User.create({ first_name: "Skiles", last_name: "Kelley", username: "skilesk", password: "123", email: "skilesk.example@gmail.com", permissions:"all"})
-UserSchool.create({school: rrml, user: skiles})
-UserSchool.create({school: river_oaks, user: skiles})
+guest = User.create({ first_name: "Guest", last_name: "of Honor", username: "guest", password: "123", email: "guest.example@gmail.com", permissions:"all"})
+UserSchool.create({school: rrml, user: guest})
+UserSchool.create({school: river_oaks, user: guest})
 
 10.times do |num|
     Faker::Config.locale = 'en-US'
