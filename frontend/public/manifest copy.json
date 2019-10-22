@@ -1,6 +1,6 @@
 {
-  "short_name": "Easo Scheduler",
-  "name": "Easo's Music Lessons Scheduler",
+  "short_name": "Lessons Organizer",
+  "name": "Easo's Music Lessons Organizer",
   "icons": [
     {
       "src": "music-organizer.ico",

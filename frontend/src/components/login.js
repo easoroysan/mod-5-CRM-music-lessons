@@ -12,7 +12,7 @@ class LoginForm extends React.Component{
       <div>
         <Header as='h2' icon textAlign='center'>
           <Icon name='music' circular />
-          <Header.Content>Welcome to Easo's Music Lessons Scheduler</Header.Content>
+          <Header.Content>Welcome to Easo's Music Lessons Organizer</Header.Content>
           <Header.Subheader>A new and personalized application for music schools</Header.Subheader>
         </Header>
 
@@ -53,8 +53,8 @@ class LoginForm extends React.Component{
         <Divider/>
 
         <Container text>
-          <Header as='h2'>What is Easo's Music Lessons Scheduler?</Header>
-          <p>Easo Scheduler is an application developed by Roysan Easo. This application is primarily used to organize students for a music school and keep track of information such as lessons, attendance, and so on. It is also designed to make the enrollment process easier by doing things like automatically sending emails upon enrollment. Because it is in the early development stages, Roysan is able to add or change features to accomodate users upon request.</p>
+          <Header as='h2'>What is Easo's Music Lessons Organizer?</Header>
+          <p>This is an application developed by Roysan Easo. This application is primarily used to organize students for a music school and keep track of information such as lessons, attendance, and so on. It is also designed to make the enrollment process easier by doing things like automatically sending emails upon enrollment. Because it is in the early development stages, Roysan is able to add or change features to accomodate users upon request.</p>
         </Container>
         <br/><br/>
         <Container text>
