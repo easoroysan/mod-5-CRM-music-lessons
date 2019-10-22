@@ -24,7 +24,7 @@ module RailsServer
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'localhost:3000', /https*:\/\/.*?bloopist\.com/
+        origins 'http://www.musiclessonsorganizer.com/', /https*:\/\/.*?bloopist\.com/
         resource '*', :headers => :any, :methods => :any
       end
     end
