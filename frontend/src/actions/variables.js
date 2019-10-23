@@ -1,1 +1,1 @@
-export const fetchURL = "http://35.223.24.126/api"
+export const fetchURL = "http://35.226.153.122//api"
